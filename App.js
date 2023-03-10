@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 import React, {
   useState,
   useContext,
@@ -41,6 +41,7 @@ import Nosavecard from './src/components/app/user/screens/Nosavecard';
 import Shop from './src/components/app/shop/screens/Shop';
 import Explore from './src/components/app/shop/screens/Explore';
 import Fruit from './src/components/app/shop/screens/Fruit';
+import 'react-native-gesture-handler';
 
 // const App = () => {
 //   return (
