@@ -40,6 +40,7 @@ const App = () => {
       backgroundColor: 'white',
     }}>
       <Nosavecard/>
+    {/* test clone */}
     </View>
   );
 };
