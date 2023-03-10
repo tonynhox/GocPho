@@ -26,6 +26,12 @@ import OrderFailed from './src/components/app/cart/screens/OrderFailed';
 import OrderAccepted from './src/components/app/cart/screens/OrderAccepted';
 import Payment from './src/components/app/cart/screens/Payment';
 
+import Mycards1 from './src/components/app/user/screens/Mycards1';
+import EditProfile from './src/components/app/user/screens/EditProfile';
+import ChangePassword from './src/components/app/user/screens/ChangePassword';
+import Newcard from './src/components/app/user/screens/Newcard';
+import Nosavecard from './src/components/app/user/screens/Nosavecard';
+
 const App = () => {
   return (
     <View
@@ -33,7 +39,7 @@ const App = () => {
       flex: 1,
       backgroundColor: 'white',
     }}>
-      <Payment/>
+      <Nosavecard/>
     </View>
   );
 };
