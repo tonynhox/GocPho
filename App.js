@@ -1,10 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react';
 
-import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen'
-import AccountScreen from './src/components/app/user/screens/AccountScreen'
-import ProfileScreen from './src/components/app/user/screens/ProfileScreen'
-import OrderScreen from './src/components/app/shop/screens/OrderScreen'
+import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen';
+import AccountScreen from './src/components/app/user/screens/AccountScreen';
+import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
+import OrderScreen from './src/components/app/shop/screens/OrderScreen';
 
 import SignCode from './src/components/app/user/screens/SignCode';
 import SignIn from './src/components/app/user/screens/LogIn';
@@ -32,16 +38,155 @@ import ChangePassword from './src/components/app/user/screens/ChangePassword';
 import Newcard from './src/components/app/user/screens/Newcard';
 import Nosavecard from './src/components/app/user/screens/Nosavecard';
 
+import Shop from './src/components/app/shop/screens/Shop';
+import Explore from './src/components/app/shop/screens/Explore';
+import Fruit from './src/components/app/shop/screens/Fruit';
+
+// const App = () => {
+//   return (
+//     <View
+//     style={{
+//       flex: 1,
+//       backgroundColor: 'white',
+//     }}>
+//       <Nosavecard/>
+//     {/* test clone */}
+//     </View>
+//   );
+// };
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
+const Screens = [
+  {screen: 'ManHinh1', title: 'Màn hình 1', active: true},
+  {screen: 'ManHinh2'},
+];
+
+const ManHinh1 = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Màn hình 1</Text>
+      <Button
+        title="Go to ManHinh2"
+        onPress={() => navigation.navigate(Screens[1].screen)}
+      />
+    </View>
+  );
+};
+const ManHinh2 = props => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Màn hình 2</Text>
+      <Button
+        title="Go to ManHinh1"
+        onPress={() => props.navigation.navigate('ManHinh1')}
+      />
+    </View>
+  );
+};
+const ManHinh3 = props => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Màn hình 3</Text>
+      <Button
+        title="Go to ManHinh4"
+        onPress={() => props.navigation.navigate('ManHinh4')}
+      />
+    </View>
+  );
+};
+const ManHinh4 = props => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Màn hình 4</Text>
+      <Button
+        title="Go to ManHinh5"
+        onPress={() => props.navigation.navigate('ManHinh5')}
+      />
+    </View>
+  );
+};
+const ManHinh5 = props => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Màn hình 5</Text>
+      <Button
+        title="Go to ManHinh3"
+        onPress={() =>
+          props.navigation.navigate('Main1', {
+            screen: 'ManHinh2',
+            params: {id: 10},
+          })
+        }
+      />
+    </View>
+  );
+};
+
+const Navigations = {
+  Tabs: [
+    {component: Shop, name: 'Shop', options: {}},
+    {component: Explore, name: 'Explore', options: {}},
+    {component: Cart, name: 'Cart', options: {}},
+    {component: FavoriteScreen, name: 'Favorite', options: {}},
+    {component: AccountScreen, name: 'Account', options: {}},
+  ],
+  Stack: [
+    {component: ManHinh3, name: 'ManHinh3', options: {}},
+    {component: ManHinh4, name: 'ManHinh4', options: {}},
+    {component: ManHinh5, name: 'ManHinh5', options: {}},
+  ],
+};
+
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const Main = createStackNavigator();
+const BottomTabsNavigation = () => {
+  return (
+    <Tab.Navigator>
+      {Navigations.Tabs.map((item, index) => {
+        return (
+          <Tab.Screen
+            key={index}
+            name={item.name}
+            component={item.component}
+            options={item.options}
+          />
+        );
+      })}
+    </Tab.Navigator>
+  );
+};
+const StackNavigation = () => {
+  return (
+    <Stack.Navigator>
+      {Navigations.Stack.map((item, index) => {
+        return (
+          <Stack.Screen
+            initialParams={{id: 20}}
+            key={index}
+            name={item.name}
+            component={item.component}
+            options={item.options}
+          />
+        );
+      })}
+    </Stack.Navigator>
+  );
+};
+
 const App = () => {
   return (
-    <View
-    style={{
-      flex: 1,
-      backgroundColor: 'white',
-    }}>
-      <Nosavecard/>
-    {/* test clone */}
-    </View>
+    <NavigationContainer>
+      <Main.Navigator initialRouteName="Main1">
+        <Main.Screen name="Main1" component={StackNavigation} />
+        <Main.Screen name="Main2" component={BottomTabsNavigation} />
+      </Main.Navigator>
+    </NavigationContainer>
   );
 };
 
