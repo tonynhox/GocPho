@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen'
-import AccountScreen from './src/components/app/user/screens/AccountScreen'
-import ProfileScreen from './src/components/app/user/screens/ProfileScreen'
-import OrderScreen from './src/components/app/shop/screens/OrderScreen'
+import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen';
+import AccountScreen from './src/components/app/user/screens/AccountScreen';
+import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
+import OrderScreen from './src/components/app/shop/screens/OrderScreen';
 
 import SignCode from './src/components/app/user/screens/SignCode';
 import SignIn from './src/components/app/user/screens/LogIn';
@@ -32,15 +32,25 @@ import ChangePassword from './src/components/app/user/screens/ChangePassword';
 import Newcard from './src/components/app/user/screens/Newcard';
 import Nosavecard from './src/components/app/user/screens/Nosavecard';
 
+import Shop from './src/components/app/shop/screens/Shop';
+import Explore from './src/components/app/shop/screens/Explore';
+
+// Redux Toolkit
+import {store} from './src/redux-toolkit/store';
+import {Provider} from 'react-redux';
+import ExploreRedux from './src/components/app/shop/screens/ExploreRedux';
+
 const App = () => {
   return (
-    <View
-    style={{
-      flex: 1,
-      backgroundColor: 'white',
-    }}>
-      <Nosavecard/>
-    </View>
+    <Provider store={store}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
+        <ExploreRedux />
+      </View>
+    </Provider>
   );
 };
 
