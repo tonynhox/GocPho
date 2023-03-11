@@ -20,21 +20,21 @@ import {
 const ExploreRedux = () => {
   const itemList = useSelector(itemSelector);
 
-//   const Item = {_key: 0, _id: 0, image: '', _background: '', _name: ''};
+  const Item = {_key: 0, _id: 0, image: '', _background: '', _name: ''};
 
-//   const dataRedux = [
-//     itemList.map(item => {
-//       return (
-//         <Item
-//           _key={item._id}
-//           _id={item._id}
-//           image={item.image}
-//           _background={item._background}
-//           _name={item._name}
-//         />
-//       );
-//     }),
-//   ];
+  const dataRedux = [
+    itemList.map(item => {
+      return (
+        <Item
+          _key={item._id}
+          _id={item._id}
+          image={item.image}
+          _background={item._background}
+          _name={item._name}
+        />
+      );
+    }),
+  ];
 // Đổ dữ liệu từ selector ra array data
 
 //   console.log("Data length:" , dataRedux.length)
