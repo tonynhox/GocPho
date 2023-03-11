@@ -35,6 +35,8 @@ const Shop = (props) => {
         // const item= props;
         const { __id, image, price, kg } = item;
         return (
+            <TouchableOpacity onPress={()=> navigation.navigate("Mango")}>
+
             <View style={[Styles.boxShadown, Styles.cardPopular]}>
                 <View style={{ margin: 10 }}>
                     <View style={Styles.imgPop}>
@@ -51,6 +53,7 @@ const Shop = (props) => {
 
                 </View>
             </View>
+            </TouchableOpacity>
         );
     }
 

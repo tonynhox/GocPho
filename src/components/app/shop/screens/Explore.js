@@ -9,6 +9,7 @@ const Explore = (props) => {
         const { _name, image, _background, _id } = item;
         return (
             <TouchableOpacity
+            onPress={() => navigation.navigate("Fruit")}
                 style={Styles.card}
             // onPress={() => navigation.navigate('Detail', {id: _id}
             //     )}
