@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View ,Image} from 'react-native'
 import React from 'react'
 
-const Nosavecard = () => {
+const Nosavecard = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
         <Text style={styles.title}>My Cards</Text>

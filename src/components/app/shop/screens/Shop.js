@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, Touchabl
 import React from 'react'
 
 
-const Shop = () => {
-
+const Shop = (props) => {
+    const { navigation } = props;
     const renderItem = ({ item }) => {
         // const item= props;
         const { _name, image, _background, _id } = item;

@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
-const ProfileScreen = () => {
+const ProfileScreen = (props) => {
+    const { navigation } = props;
     return (
         <View style={styles.container}>
             <Image

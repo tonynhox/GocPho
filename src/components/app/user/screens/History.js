@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 
-const History = () => {
+const History = (props) => {
+  const { navigation } = props;
   return (
     <View style = {[styles.container]}>
       {/* Item 1 */}

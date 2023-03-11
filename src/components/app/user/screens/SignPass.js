@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import React from 'react';
 
-const SignPass = () => {
+const SignPass = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
       {/* Back Arrow */}

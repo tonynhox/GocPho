@@ -1,7 +1,8 @@
 import { View, Text, Image, StyleSheet, TextInput, Pressable } from 'react-native'
 import React from 'react'
 
-const NewsAddress = () => {
+const NewsAddress = (props) => {
+    const { navigation } = props;
     return (
         <View style={NewsAddressS.container}>
             <View>

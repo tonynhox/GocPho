@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native'
 import React from 'react'
 
-const Mycards1 = () => {
+const Mycards1 = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Cards</Text>

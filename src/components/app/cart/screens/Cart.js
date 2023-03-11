@@ -69,7 +69,8 @@ const data = [
   },
 ];
 
-const Cart = () => {
+const Cart = (props) => {
+  const { navigation } = props;
   const Item = ({item}) => {
     return (
       <View style={styles.itemContainer}>
@@ -122,7 +123,7 @@ const Cart = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={() => navigation.navigate('Payment')}>
         <Text style={styles.signUpInsideButton}>CheckOut</Text>
       </Pressable>
     </View>

@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image,Pressable} from 'react-native'
 import React from 'react'
 
-const OrderAccepted = () => {
+const OrderAccepted = (props) => {
+    const { navigation } = props;
     return (
         <View style={[styles.container]}>
             <Image source={require('../../../../media/images/OrderAccepted.png')} style={[styles.imgOrderAccepted]}/>

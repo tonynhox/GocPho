@@ -1,7 +1,8 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
-const Itemes = () => {
+const Itemes = (props) => {
+    const { navigation } = props;
     return (
         <View style={ItemesS.container}>
             <View>
