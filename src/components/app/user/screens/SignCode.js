@@ -58,7 +58,7 @@ const SignCode = (props) => {
         </View>
       </View>
 
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("Login")}>
         <Text style={styles.signUpInsideButton}>Sign Up</Text>
       </Pressable>
     </View>

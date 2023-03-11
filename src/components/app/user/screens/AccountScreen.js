@@ -43,15 +43,15 @@ const AccountScreen = (props) => {
                     </View>
                 </TouchableOpacity>
 
-<TouchableOpacity onPress={()=> navigation.navigate("Payment")}>
-                <View style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconPayment.png')}
-                        style={{ width: 32, height: 40 }}
-                    />
-                    <Text style={styles.textAccount}>Payment</Text>
-                    
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("Payment")}>
+                    <View style={styles.bodyAccount}>
+                        <Image
+                            source={require('../../../../media/images/iconPayment.png')}
+                            style={{ width: 32, height: 40 }}
+                        />
+                        <Text style={styles.textAccount}>Payment</Text>
+
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>

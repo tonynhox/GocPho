@@ -35,7 +35,7 @@ const Shop = (props) => {
         // const item= props;
         const { __id, image, price, kg } = item;
         return (
-            <TouchableOpacity onPress={() => navigation.navigate("Mango")}>
+            <Pressable onPress={() => navigation.navigate("Mango")}>
 
                 <View style={[Styles.boxShadown, Styles.cardPopular]}>
                     <View style={{ margin: 10 }}>
@@ -53,7 +53,7 @@ const Shop = (props) => {
 
                     </View>
                 </View>
-            </TouchableOpacity>
+            </Pressable>
         );
     }
 
@@ -89,7 +89,7 @@ const Shop = (props) => {
             </View>
 
             <View style={[{ marginTop: 53.17 }, Styles.type]}>
-                <Text style={Styles.txtType}>Categories</Text>
+                <Text style={Styles.txtType}>Popular deals</Text>
                 <Pressable style={Styles.seeAll}><Text style={Styles.txtSeeAll}>See All</Text></Pressable>
             </View>
 

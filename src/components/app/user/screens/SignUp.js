@@ -48,14 +48,14 @@ const SignUp = (props) => {
         We need to verify you. We will send you a one time verification code.{' '}
       </Text>
 
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("SignPass")}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 
       {/* Already have an account? */}
       <View style={styles.alreadyHaveAccount}>
         <Text style={[styles.already, {color:'#7F4E1D'}]}>Already have an account? </Text>
-        <Text style={[styles.already,{color:'#FF5E00'}]}>Login</Text>
+        <Text onPress={()=> navigation.navigate("Login")} style={[styles.already,{color:'#FF5E00'}]}>Login</Text>
       </View>
     </View>
   );

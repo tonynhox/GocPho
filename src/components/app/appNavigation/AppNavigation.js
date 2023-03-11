@@ -9,7 +9,8 @@ const AppNavigation = () => {
     const {isLogin} = useContext(UserContext);
   return (
     <NavigationContainer>
-        {isLogin ? <MainNavigation /> : <UserNavigation />}
+        {/* {isLogin ? <MainNavigation /> : <UserNavigation />} */}
+        {isLogin ? <UserNavigation /> : <MainNavigation />}
     </NavigationContainer>
   )
 }

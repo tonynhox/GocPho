@@ -9,7 +9,7 @@ const ProfileScreen = (props) => {
                 source={require('../../../../media/images/Arrow.png')}
             />
             <View style={styles.header}>
-                <Text style={styles.textHeader}>Edit Profile</Text>
+                <Text style={styles.textHeader}>Profile</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.bodyAccount}>
@@ -17,7 +17,7 @@ const ProfileScreen = (props) => {
                         source={require('../../../../media/images/iconAccount.png')}
                         style={{width: 20, height: 24}}
                     />
-                    <Text style={styles.textAccount}>Change Password</Text>
+                    <Text style={styles.textAccount}>Edit Profile</Text>
                 </View>
 
                 <View style={styles.bodyAccount}>
@@ -25,7 +25,7 @@ const ProfileScreen = (props) => {
                         source={require('../../../../media/images/iconKey.png')}
                         style={{width: 24, height: 24}}
                     />
-                    <Text style={styles.textAccount}>My Cards</Text>
+                    <Text style={styles.textAccount}>Change Password</Text>
                 </View>
 
                 <View style={styles.bodyAccount}>
@@ -33,7 +33,7 @@ const ProfileScreen = (props) => {
                         source={require('../../../../media/images/iconCard.png')}
                         style={{width: 24, height: 21}}
                     />
-                    <Text style={styles.textAccount}>Notifications</Text>
+                    <Text style={styles.textAccount}>My Cards</Text>
                 </View>
 
                 <Text style={styles.textBody}>App Settings</Text>
@@ -43,7 +43,7 @@ const ProfileScreen = (props) => {
                         source={require('../../../../media/images/iconNotification.png')}
                         style={{width: 20, height: 24}}
                     />
-                    <Text style={styles.textAccount}>Language</Text>
+                    <Text style={styles.textAccount}>Notifications</Text>
                 </View>
 
                 <View style={styles.bodyAccount}>
@@ -51,7 +51,7 @@ const ProfileScreen = (props) => {
                         source={require('../../../../media/images/iconLanguage.png')}
                         style={{width: 24, height: 24}}
                     />
-                    <Text style={styles.textAccount}>Payment</Text>
+                    <Text style={styles.textAccount}>Language</Text>
                 </View>
 
                 <View style={styles.bodyAccount}>

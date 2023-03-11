@@ -69,7 +69,7 @@ const SignPass = (props) => {
         />
       </View>
 
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("SignCode")}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
     </View>

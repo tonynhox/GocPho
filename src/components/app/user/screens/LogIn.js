@@ -58,7 +58,7 @@ const LogIn = (props) => {
         <Text style={styles.forgotPassword}>Forgot Password</Text>
       </View>
 
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={()=> navigation.goBack()}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 
@@ -67,7 +67,7 @@ const LogIn = (props) => {
         <Text style={[styles.already, {color: '#7F4E1D'}]}>
           Already have an account?{' '}
         </Text>
-        <Text style={[styles.already, {color: '#FF5E00'}]}>Login</Text>
+        <Text style={[styles.already, {color: '#FF5E00'}]}>Sign Up</Text>
       </View>
     </View>
   );

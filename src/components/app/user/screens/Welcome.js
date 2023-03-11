@@ -17,12 +17,12 @@ const Welcome = (props) => {
       </View>
 
       {/* Sign Up */}
-      <Pressable style={styles.btnSignUp}>
+      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("SignUp")}>
         <Text style={styles.signUpInsideButton}>Sign Up</Text>
       </Pressable>
 
       {/* Sign In */}
-      <Pressable style={styles.btnSignIn}>
+      <Pressable style={styles.btnSignIn} onPress={()=> navigation.navigate("Login")}>
         <Text style={styles.signInInsideButton}>Sign In</Text>
       </Pressable>
     </View>

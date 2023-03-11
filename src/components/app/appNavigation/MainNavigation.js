@@ -18,6 +18,8 @@ import EditProfile from '../user/screens/EditProfile'
 import ProfileScreen from '../user/screens/ProfileScreen'
 import OrderScreen from '../shop/screens/OrderScreen'
 import Address from '../user/screens/Address'
+import ChangePassword from '../user/screens/ChangePassword'
+import Mycards1 from '../user/screens/Mycards1'
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -63,9 +65,14 @@ const MainNavigation = () => {
        </Stack.Navigator>
     )
   }
-
-
-
+  const SettingNavigation = () => {
+    return (
+      <Stack.Navigator screenOptions={{headerShown: false}}> 
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="MyCard" component={Mycards1} />
+       </Stack.Navigator>
+    )
+  }
 
 
   return (
