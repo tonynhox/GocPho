@@ -17,7 +17,6 @@ const Shop = (props) => {
                     <ImageBackground style={Styles.imgCardBackground} source={_background}>
                         <Image
                             source={image}
-                            style={{ width: 66, height: 83 }}
                         >
                         </Image>
                     </ImageBackground>
@@ -39,7 +38,7 @@ const Shop = (props) => {
             <View style={[Styles.boxShadown, Styles.cardPopular]}>
                 <View style={{ margin: 10 }}>
                     <View style={Styles.imgPop}>
-                        <Image source={require('../../../../media/images/apple.png')} />
+                        <Image source={require('../../../../media/images/banana.png')} />
                     </View>
                     <View style={{ height: '40%', position: 'relative' }}>
                         <Text style={Styles.txtNamePop}>Red Apple</Text>

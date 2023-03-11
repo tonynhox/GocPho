@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
+    backgroundColor:'white',
     padding: 20,
   },
 });
