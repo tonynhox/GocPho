@@ -17,7 +17,6 @@ const Explore = (props) => {
                     <ImageBackground style={Styles.imgCardBackground} source={_background}>
                         <Image
                             source={image}
-                            style={{ width: 66, height: 83 }}
                         >
                         </Image>
                     </ImageBackground>
@@ -91,12 +90,14 @@ const Styles = StyleSheet.create({
     },
 
     imgCard: {
+        
     },
     card: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 29,
+
     },
     listCate: {
-        marginTop: 29,
         height: '100%', 
         
 
@@ -179,134 +180,134 @@ var data =
         },
         {
             "_id": "4",
-            "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_name": "Fish",
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "5",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "6",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "7",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "8",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "9",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "10",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "11",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "12",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "13",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "14",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "15",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "16",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "17",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "18",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "19",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "20",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "21",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "22",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "23",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "24",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
         {
             "_id": "25",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/pink.png"),
             "image": require("../../../../media/images/fish.png")
         },
     ]
