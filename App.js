@@ -31,7 +31,8 @@ import EditProfile from './src/components/app/user/screens/EditProfile';
 import ChangePassword from './src/components/app/user/screens/ChangePassword';
 import Newcard from './src/components/app/user/screens/Newcard';
 import Nosavecard from './src/components/app/user/screens/Nosavecard';
-
+import Fruit from './src/components/app/shop/screens/Fruit';
+import Explore from './src/components/app/shop/screens/Explore';
 const App = () => {
   return (
     <View
@@ -39,7 +40,7 @@ const App = () => {
       flex: 1,
       backgroundColor: 'white',
     }}>
-      <Nosavecard/>
+      <Explore/>
     </View>
   );
 };

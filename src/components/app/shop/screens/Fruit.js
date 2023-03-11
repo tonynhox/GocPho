@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
 import React from 'react'
+import MasonryList from '@react-native-seoul/masonry-list';
+
+const Fruit = () => {
 
 
-const Friut = () => {
 
-
-
-    const renderItemPopular = ({ item, index }) => {
+    const renderItemPopular = ({ item, i,index }) => {
         // const item= props;
         const { __id, image, price, kg } = item;
-        if (index == 1) {
+        console.log(i);
+        if (i == 1) {
             return (
                 <Image style={{
                     marginHorizontal: 8,
@@ -60,7 +61,7 @@ const Friut = () => {
                 <Image style={Styles.imgSearch} source={require('../../../../media/images/icSearch.png')} />
             </View>
 
-            <FlatList
+            <MasonryList
                 style={{ marginTop: 34 }}
                 data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
                 renderItem={renderItemPopular}//gọi từ biến trên
@@ -76,7 +77,7 @@ const Friut = () => {
     )
 }
 
-export default Friut
+export default Fruit
 const Styles = StyleSheet.create({
     imgAdd: {
         position: 'absolute',
@@ -199,7 +200,7 @@ var data =
         {
             "_id": "4",
             "_name": "Fruits",
-            "_background": require("../../../../media/images/violet.png"),
+            "_background": require("../../../../media/images/red.png"),
             "image": require("../../../../media/images/fish.png")
         },
     ]
