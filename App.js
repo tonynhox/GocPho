@@ -1,56 +1,41 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react';
+import 'react-native-gesture-handler';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen';
-import AccountScreen from './src/components/app/user/screens/AccountScreen';
-import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
-import OrderScreen from './src/components/app/shop/screens/OrderScreen';
-
-import SignCode from './src/components/app/user/screens/SignCode';
-import SignIn from './src/components/app/user/screens/LogIn';
-import SignPass from './src/components/app/user/screens/SignPass';
-import SignUp from './src/components/app/user/screens/SignUp';
-import Welcome from './src/components/app/user/screens/Welcome';
-import Cart from './src/components/app/cart/screens/Cart';
-import Mango from './src/components/app/shop/screens/Mango';
-import Address from './src/components/app/user/screens/Address';
-import NewAddress from './src/components/app/user/screens/NewAddress';
-import EditAddress from './src/components/app/user/screens/EditAddress';
-import NewsAddress from './src/components/app/user/screens/NewAddress';
-
+import UserNavigation from './src/components/app/user/navigation/UserNavigation';
+import CartNavigation from './src/components/app/cart/navigation/CartNavigation';
 import OrdersNavigation from './src/components/app/user/navigation/OrdersNavigation';
-// import {NavigationContainer} from '@react-navigation/native';
-import History from './src/components/app/user/screens/History';
-import Ongoing from './src/components/app/user/screens/Ongoing';
-import OrderFailed from './src/components/app/cart/screens/OrderFailed';
-import OrderAccepted from './src/components/app/cart/screens/OrderAccepted';
+import Cart from './src/components/app/cart/screens/Cart';
+import Itemes from './src/components/app/cart/screens/Itemes';
 import Payment from './src/components/app/cart/screens/Payment';
+import OrderAccepted from './src/components/app/cart/screens/OrderAccepted';
+import OrderFailed from './src/components/app/cart/screens/OrderFailed';
+import AppNavigation from './src/components/app/appNavigation/AppNavigation';
+import MainNavigation from './src/components/app/appNavigation/MainNavigation';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Mycards1 from './src/components/app/user/screens/Mycards1';
-import EditProfile from './src/components/app/user/screens/EditProfile';
-import ChangePassword from './src/components/app/user/screens/ChangePassword';
-import Newcard from './src/components/app/user/screens/Newcard';
-import Nosavecard from './src/components/app/user/screens/Nosavecard';
+const Stack = createStackNavigator();
 
-import Shop from './src/components/app/shop/screens/Shop';
-import Explore from './src/components/app/shop/screens/Explore';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-// Redux Toolkit
-import {store} from './src/redux-toolkit/store';
-import {Provider} from 'react-redux';
-import ExploreRedux from './src/components/app/shop/screens/ExploreRedux';
+const Tab = createMaterialTopTabNavigator();
+import History from './src/components/app/user/screens/History'
+import Ongoing from './src/components/app/user/screens/Ongoing'
+
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-        }}>
-        <ExploreRedux />
-      </View>
-    </Provider>
+    <NavigationContainer>
+      <MainNavigation />
+    </NavigationContainer>
   );
 };
 

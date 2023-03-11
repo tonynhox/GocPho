@@ -1,7 +1,8 @@
 import { Button, StyleSheet, Text, TextInput, View, Pressable,Image } from 'react-native'
 import React from 'react'
 
-const EditProfile = () => {
+const EditProfile = (props) => {
+    const { navigation } = props;
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Edit Profile</Text>

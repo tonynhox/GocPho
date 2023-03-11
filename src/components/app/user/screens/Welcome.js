@@ -1,7 +1,8 @@
 import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import React from 'react';
 
-const Welcome = () => {
+const Welcome = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
       <Image source={require('../../../../media/images/Illustration.png')} />

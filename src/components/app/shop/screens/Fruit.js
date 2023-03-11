@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, Touchabl
 import React from 'react'
 
 
-const Friut = () => {
-
+const Friut = (props) => {
+    const { navigation } = props;
 
 
     const renderItemPopular = ({ item, index }) => {

@@ -1,7 +1,8 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
-const Address = () => {
+const Address = (props) => {
+    const { navigation } = props;
     return (
         <View style={AddressS.container}>
             <View style={AddressS.tt}>

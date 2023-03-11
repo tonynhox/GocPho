@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, Pressable, Image } from 'react-native'
 import React from 'react'
 
-const Payment = () => {
+const Payment = (props) => {
+    const { navigation } = props;
     return (
         <ScrollView style={[styles.container]}>
-
+            {/* địa chỉ giao hàng */}
             <View style={[styles.location]}>
                 <View style={[styles.locationTop]}>
                     <Text style={[styles.locationTextRight]}>Delivery Location</Text>
@@ -17,12 +18,33 @@ const Payment = () => {
                 </View>
             </View>
 
+            {/* Chọn Store Gần nhất */}
+
+            <View style={[styles.PickStore]}>
+                <View style={[styles.PickStore1]}>
+                <View style={[styles.PickStoreLeft]}>
+                    <Text style={[styles.PickStoreName]}>H Shop form Anh Huy</Text>
+                    <Text style={[styles.PickStoreSistance]}>15km</Text>
+                </View>
+                <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
+                </View>
+                <View style={[styles.PickStore1,{borderTopColor: 'black',borderTopWidth: 1,}]}>
+                <View style={[styles.PickStoreLeft]}>
+                    <Text style={[styles.PickStoreName]}>Shop Luxury Anh Tài</Text>
+                    <Text style={[styles.PickStoreSistance]}>10km</Text>
+                </View>
+                <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
+                </View>
+            </View>
+            
+
+            {/* Chọn ngày, giờ giao hàng */}
             <View style={[styles.PickDate]}>
                 <Text style={[styles.PickDateText]}>Expected date & Time</Text>
                 <Pressable style={[styles.PickDateButton]}>
                     <Text style={[styles.PickDateButtonText]}>Select Date</Text>
                 </Pressable>
-                
+                {/* Chọn giờ giao hàng */}
                 <View style={[styles.PickTime]}>
                     <Pressable style={[styles.PickTimeButton]}>
                         <Text style={[styles.PickTimeButtonText]}>8 AM - 11 AM</Text>
@@ -49,22 +71,61 @@ const Payment = () => {
                     </Pressable>
                 </View>
             </View>
+            {/* Lấy hàng tại cửa hàng */}
             <View style={[styles.InStoryPickup]}>
                     <Text style={[styles.InStoryPickupText]}>In-Store Pickup</Text>
                     <Text style={[styles.InStoryPickupText]}>FREE</Text>
                     <Text style={[styles.InStoryPickupInfo]}>Some Stores May Be Temporarily Unavalable.</Text>
                     <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
             </View>
-            <View style={[styles.SeeItemes]}>
+            {/* // Thông tin đơn hàng */}
+            <Pressable style={[styles.SeeItemes]} 
+                onPress={() => navigation.navigate('Itemes')}>
                 <View style={[styles.SeeItemesLeft]}>
                     <Image source={require('../../../../media/images/IconStore.png')} style={[styles.imgIconStore]} />
                     <Text style={[styles.SeeItemesText]}>See Items</Text>
                 </View>
                 <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRightItem]} />
+            </Pressable>
+            {/* // Phương thức thanh toán */}
+            <View style={[styles.PaymentMethod]}>
+                <Text style={[styles.PaymentMethodText]}>Payment Method</Text>
+                <View style={[styles.PaymentMethodTop]}>
+                    <Image source={require('../../../../media/images/MethodApplePay.png')} style={[styles.imgCard]} />
+                    <Text style={[styles.PaymentMethodTopText]}>Apple Pay</Text>
+                    <Image source={require('../../../../media/images/TickedOn.png')} style={[styles.TickedOn]} />
+                </View>
+                <View style={[styles.PaymentMethodBottom]}>
+                    <Image source={require('../../../../media/images/MethodDelivery.png')} style={[styles.imgCard]} />
+                    <Text style={[styles.PaymentMethodTopText]}>Cash on Delivery</Text>
+                    <Image source={require('../../../../media/images/TickedOn.png')} style={[styles.TickedOn]} />
+                </View>
             </View>
 
+            {/* //Giá trị đơn hàng */}
+            <View style={[styles.OrderValue]}> 
+                <Text style={[styles.OrderValueTitle]}>Order Sammery</Text>
+                <View style={[styles.OrderValueContent]}>
+                    <Text style={[styles.OrderValueContentText]}>Subtotal</Text>
+                    <Text style={[styles.OrderValueContentText]}>$ 0.00</Text>
+                </View>
+                <View style={[styles.OrderValueContent]}>
+                    <Text style={[styles.OrderValueContentText]}>Subtotal</Text>
+                    <Text style={[styles.OrderValueContentText]}>$ 0.00</Text>
+                </View>
+                <View style={[styles.OrderValueContent]}>
+                    <Text style={[styles.OrderValueContentText]}>Subtotal</Text>
+                    <Text style={[styles.OrderValueContentText]}>$ 0.00</Text>
+                </View>
 
-            <Pressable style = {[styles.btnAccept]}>
+                <View style={[styles.OrderValueTotal]}>
+                    <Text style={[styles.TotalText]}>Total</Text>
+                    <Text style={[styles.TotalText]}>$ 0.00</Text>
+                </View>
+            </View> 
+
+            {/* // Thanh toán */}
+            <Pressable style = {[styles.btnAccept]} onPress={() => navigation.navigate('OrderAccepted')}>
                 <Text style = {[styles.btnAcceptText]}>Track Order</Text>
             </Pressable>
         </ScrollView>
@@ -74,6 +135,135 @@ const Payment = () => {
 export default Payment
 
 const styles = StyleSheet.create({
+    PickStoreSistance:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "400",
+        fontSize: 14,
+        lineHeight: 17,
+        color: '#6D3805',
+        paddingBottom: 16,
+    },
+    PickStoreName:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "700",
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#6D3805',
+        paddingBottom: 16,
+        marginTop: 16,
+    },
+    PickStoreLeft:{
+        justifyContent: 'space-between',
+    },
+    PickStore1:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 16,
+
+    },
+    PickStore:{
+        marginTop: 16,
+        backgroundColor: '#FFF4E9',
+        borderRadius: 20,
+        width: "100%",
+        paddingLeft: 16,
+        paddingRight: 16,
+    },
+    TotalText:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "700",
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#6D3805',
+
+    },
+    OrderValueTotal:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 16,
+        paddingBottom: 16,
+        backgroundColor: '#FFF4E9',
+        borderRadius: 20,
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+    },
+    OrderValueContentText:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "400",
+        fontSize: 16,
+        lineHeight: 20,
+        color: '#6D3805',
+        
+    },
+    OrderValueContent:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 16,
+    },
+    OrderValueTitle:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "700",
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#6D3805',
+        paddingLeft: 16,
+        paddingTop: 16,
+
+    },
+    OrderValue:{
+        width: '100%',
+        marginTop: 23,
+        backgroundColor: '#FFF4E9',
+        borderRadius: 20,
+    },
+    TickedOn:{
+        marginLeft: "40%",
+    },
+    PaymentMethodBottom:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingBottom: 16,
+        paddingLeft : 16,
+        marginTop: 16,
+    },
+    PaymentMethodTopText:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "400",
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#6D3805',
+        paddingLeft: 16,
+    },
+    PaymentMethodTop:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        paddingBottom: 16,
+        paddingLeft : 16,
+    },
+    PaymentMethodText:{
+        fontFamily: 'Klarna Text',
+        fontWeight: "700",
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#6D3805',
+        padding:16,
+    },
+    PaymentMethod:{
+        width: '100%',
+
+        marginTop: 23,
+        backgroundColor: '#FFF4E9',
+        borderRadius: 20,
+    },
     SeeItemesText:{
         fontFamily: 'Klarna Text',
         fontWeight: "700",
@@ -245,7 +435,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 16,
         textAlign: 'center',
-        backgroundColor: '#F5F5F5',
         
     },
 })

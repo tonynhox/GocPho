@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Pressable, TextInput } from 'react-native'
 import React from 'react'
 
-const Newcard = () => {
+const Newcard = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
 

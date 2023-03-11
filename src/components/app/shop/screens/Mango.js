@@ -35,7 +35,8 @@ const renderItemPopular = ({item}) => {
   );
 };
 
-const Mango = () => {
+const Mango = (props) => {
+  const { navigation } = props;
   return (
     //minHeight : '100%'
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
