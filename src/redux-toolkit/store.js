@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit';
 import filterSlice from './reducer_slice/shop_slice/filterSlice';
 import itemSlice from './reducer_slice/shop_slice/itemSlice';
+import buyItemSlice from './reducer_slice/cart_slice/buyItemSlice';
 
 export const store = configureStore({
   reducer: {
     filter: filterSlice,
     item: itemSlice,
+    buyItem: buyItemSlice
   },
 });

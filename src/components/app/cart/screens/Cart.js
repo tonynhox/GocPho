@@ -7,72 +7,86 @@ import {
   TextInput,
   FlatList,
   TouchableHighlight,
+  Touchable,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { buyItemSlice } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import { upItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 
-const data = [
-  {
-    id: '1',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '2',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '3',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'Aplkfdgjsldfgjlsfjglfple',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '4',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '5',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '6',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '7',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-  {
-    id: '8',
-    image: require('../../../../media/images/AppleCart.png'),
-    nameFruit: 'AppleCart',
-    cost: '2.33$',
-    quantity: 1,
-  },
-];
+const Cart = props => {
+  const listData = useSelector(state => state.buyItem.buyList);
 
-const Cart = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
+
+  const dispatch = useDispatch();
+
+  const addItem = () => {
+    const newItem = {
+      id: Math.random(),
+
+      nameFruit: 'AppleCart',
+      cost: '2.33$',
+      quantity: 1,
+    };
+    setData([...data, newItem]);
+    console.log('add data', newItem);
+  };
+  const addItemRedux = () => {
+    dispatch(
+      addItem({
+        id: Math.random(),
+        nameFruit: 'AppleCart',
+        // image: require ('../../../media/images/AppleCart.png'),
+        cost: '2.883$',
+        quantity: 1,
+      }),
+    );
+  };
+
+  const deleteItem = id => {
+    setData(data.filter(item => item.id != id));
+  };
+
+  const handleUp = id => {
+    console.log('UP: ', id);
+    setData(
+      data.map(item => {
+        if (item.id == id) {
+          return {...item, quantity: item.quantity + 1};
+        } else {
+          return item;
+        }
+      }),
+    );
+  };
+
+  const handleUpRedux = id => {
+    console.log("Up pressed, id here: ", id)
+    dispatch(upItem({id}));
+  };
+
+  const handleDown = id => {
+    console.log('Down Pressed')
+    setData(
+      data.map(item => {
+        if (item.id == id) {
+          if (item.quantity != 0) {
+            return {...item, quantity: item.quantity - 1};
+          } else {
+            return {...item, quantity: 0};
+          }
+        } else {
+          return item;
+        }
+      }),
+    );
+  };
+
   const Item = ({item}) => {
     return (
+      // <Pressable onPress={()=> deleteItem(item.id)}>
       <View style={styles.itemContainer}>
         {/* Image Fruit*/}
         <Image source={item.image} />
@@ -81,26 +95,27 @@ const Cart = (props) => {
         <View style={styles.nameFruitContainer}>
           <Text style={styles.nameFruit}>{item.nameFruit}</Text>
           <View style={styles.iconContainer}>
-            <TouchableHighlight>
+            <Pressable onPress={() => handleDown(item.id)}>
               <Image
                 style={styles.icon}
                 source={require('../../../../media/images/MinusIcon.png')}
               />
-            </TouchableHighlight>
+            </Pressable>
 
-            <Text style={styles.cost}>1</Text>
-            <TouchableHighlight>
+            <Text style={styles.cost}>{item.quantity}</Text>
+            <Pressable onPress={() => handleUpRedux(item.id)}>
               <Image
                 style={styles.icon}
                 source={require('../../../../media/images/PlusIcon.png')}
               />
-            </TouchableHighlight>
+            </Pressable>
           </View>
         </View>
 
         {/* Cost */}
         <Text style={styles.cost}>{item.cost}</Text>
       </View>
+      // </Pressable>
     );
   };
 
@@ -116,14 +131,20 @@ const Cart = (props) => {
 
       {/* Flatlist */}
       <FlatList
-        data={data}
+        data={listData}
         renderItem={({item}) => <Item item={item} />}
         keyExtractor={item => item.id}
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />
 
-      <Pressable style={styles.btnSignUp} onPress={() => navigation.navigate('Payment')}>
+      <Pressable style={styles.btnSignUp} onPress={() => addItem()}>
+        <Text style={styles.signUpInsideButton}>Add More</Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.btnSignUp}
+        onPress={() => navigation.navigate('Payment')}>
         <Text style={styles.signUpInsideButton}>CheckOut</Text>
       </Pressable>
     </View>
@@ -198,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
     padding: 20,
   },
 });

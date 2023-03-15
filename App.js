@@ -29,20 +29,27 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 import History from './src/components/app/user/screens/History'
 import Ongoing from './src/components/app/user/screens/Ongoing'
+import { Provider } from 'react-redux';
+import { store } from './src/redux-toolkit/store';
 
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <Provider store={store}>
+    <View style={{flex:1, backgroundColor: 'white'}}>
+    <Cart/>
+    </View>
+    </Provider>
+    // <NavigationContainer>
 
-      <MainNavigation />
-      {/* <UserNavigation /> */}
+    //   <MainNavigation />
+    //   <UserNavigation />
 
       
       
     
   
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 };
 
