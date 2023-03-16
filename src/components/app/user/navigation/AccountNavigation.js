@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const FruitNavigation = () => {
+const AccountNavigation = () => {
   return (
     <View>
-      <Text>FruitNavigation</Text>
+      <Text>AccountNavigation</Text>
     </View>
   )
 }
 
-export default FruitNavigation
+export default AccountNavigation

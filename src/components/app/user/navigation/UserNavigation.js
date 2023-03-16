@@ -1,29 +1,49 @@
-
+import { View, Text } from 'react-native'
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import LogIn from '../screens/LogIn'
-import SignUp from '../screens/SignUp'
-import Welcome from '../screens/Welcome';
-import SignPass from '../screens/SignPass';
-import SignCode from '../screens/SignCode';
 
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Welcome from '../../user/screens/Welcome';
+import SignUp from '../../user/screens/SignUp';
+import SignPass from '../../user/screens/SignPass';
+import SignCode from '../../user/screens/SignCode';
+import Login from '../../user/screens/LogIn';
+
+
+const Navigations = {
+  Stack: [
+    { component: Welcome, name: 'Welcome', options: {} },
+    { component: SignUp, name: 'SignUp', options: {} },
+    { component: SignPass, name: 'SignPass', options: {} },
+    { component: SignCode, name: 'SignCode', options: {} },
+    { component: Login, name: 'Login', options: {} },
+  ]
+}
+
+// const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const Main = createNativeStackNavigator();
+
+const StackNavigation = () => {
+  return (
+    <Stack.Navigator>
+      {
+        Navigations.Stack.map((item, index) => {
+          return (
+            <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
+          )})
+        }
+      </Stack.Navigator>
+    )
+  }
 
 
 const UserNavigation = () => {
   return (
-    <Stack.Navigator
-        screenOptions={{
-            headerShown: false, //ẩn header
-        }}
-    >
-        <Stack.Screen name="WelcomeStack" component={Welcome} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="SignPass" component={SignPass} />
-        <Stack.Screen name="SignCode" component={SignCode} />
-        <Stack.Screen name="Login" component={LogIn} />
-    </Stack.Navigator>
+    <StackNavigation />
   )
 }
+
+//chưa tối ưu
 
 export default UserNavigation

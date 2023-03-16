@@ -10,7 +10,7 @@ const Shop = (props) => {
         return (
             <TouchableOpacity
                 style={Styles.card}
-                onPress={() => navigation.navigate("Mango")
+                onPress={() => props.navigation.navigate('StackNavigation',{screen:'Fruit'})
                 }
             >
                 <View style={[Styles.imgCard]}>
@@ -74,7 +74,10 @@ const Shop = (props) => {
 
             <View style={[{ marginTop: 36 }, Styles.type]}>
                 <Text style={Styles.txtType}>Categories</Text>
-                <Pressable style={Styles.seeAll}><Text style={Styles.txtSeeAll}>See All</Text></Pressable>
+                <TouchableOpacity style={Styles.seeAll} 
+                    onPress={() => props.navigation.navigate('StackNavigation',{screen:'Explore'})}>
+                        <Text style={Styles.txtSeeAll}>See All</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={Styles.listCate}>
@@ -90,7 +93,7 @@ const Shop = (props) => {
 
             <View style={[{ marginTop: 53.17 }, Styles.type]}>
                 <Text style={Styles.txtType}>Popular deals</Text>
-                <Pressable style={Styles.seeAll}><Text style={Styles.txtSeeAll}>See All</Text></Pressable>
+                <TouchableOpacity style={Styles.seeAll}><Text style={Styles.txtSeeAll}>See All</Text></TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 34, height: '100%' }}>

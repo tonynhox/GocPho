@@ -59,7 +59,7 @@ const LogIn = (props) => {
       </View>
 
       <Pressable style={styles.btnSignUp} onPress={()=> navigation.goBack()}>
-        <Text style={styles.signUpInsideButton}>Next</Text>
+        <Text style={styles.signUpInsideButton}>Sign in</Text>
       </Pressable>
 
       {/* Already have an account? Login */}
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     height: '8%',
     borderWidth: 1,
     borderRadius: 30,
+    borderColor: '#FF5E00',
     justifyContent: 'center',
     alignItems: 'center',
   },
