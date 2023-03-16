@@ -40,16 +40,17 @@ const App = () => {
     <Cart/>
     </View>
     </Provider>
-    // <NavigationContainer>
+  //   <Provider store={store}>
+  //   <NavigationContainer>
 
-    //   <MainNavigation />
-    //   <UserNavigation />
-
+  //     <MainNavigation />
+  //     <UserNavigation />
       
       
     
   
-    // </NavigationContainer>
+  //    </NavigationContainer>
+  //     </Provider>
   );
 };
 

@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import update from 'react-addons-update';
 
 export const buyItemSlice = createSlice({
   name: 'buyItem',
@@ -7,43 +8,75 @@ export const buyItemSlice = createSlice({
       {
         id: 2,
         image: require('../../../media/images/AppleCart.png'),
-        nameFruit: 'Test Redux-Toolkit',
-        cost: '6.98$',
+        nameFruit: 'fest Redux-Toolkit',
+        cost: '12',
         quantity: 1,
       },
       {
         id: 3,
         image: require('../../../media/images/AppleCart.png'),
         nameFruit: 'Test hohoh',
-        cost: '65.1992$',
+        cost: '9',
         quantity: 13,
       },
       {
         id: 4,
         image: require('../../../media/images/AppleCart.png'),
-        nameFruit: 'Test hohoh',
-        cost: '65.12$',
-        quantity: 13,
+        nameFruit: 'best hohoh',
+        cost: '6',
+        quantity: 14,
       },
     ],
   },
   reducers: {
     addItem: (state, action) => {
-      state.push(action.payload);
+      state.buyList.push(action.payload);
     },
-    upItem: (state, action) => {
-      state.buyList.map(item => {
-        if (item.id == action.payload.id) {
-          console.log("Item: ", {...item})
-          return {...item, quantity: item.quantity + 1};
+
+    incrementItemQuantity(state, action) {
+      const itemIndex = state.buyList.findIndex(
+        item => item.id === action.payload.id,
+      );
+      if (itemIndex !== -1) {
+        state.buyList[itemIndex].quantity++;
+      }
+    },
+    decrementItemQuantity(state, action) {
+      const itemIndex = state.buyList.findIndex(
+        item => item.id === action.payload.id,
+      );
+      if (itemIndex !== -1) {
+        if (state.buyList[itemIndex].quantity != 0) {
+          state.buyList[itemIndex].quantity--;
         } else {
-          return item;
+          state.buyList[itemIndex].quantity;
         }
+      }
+    },
+    sortListByTotalCost(state, action) {
+      state.buyList = state.buyList.sort((a, b) => {
+        return (
+          parseFloat(a.cost * a.quantity) - parseFloat(b.cost * b.quantity)
+        );
       });
     },
+    sortListByName(state, action) {
+      state.buyList = state.buyList.sort((a, b) => {
+        return a.nameFruit.localeCompare(b.nameFruit);
+      });
+    },
+    sortListByQuantity(state, action) {
+        state.buyList = state.buyList.sort((a,b)=>{
+          return(a.quantity - b.quantity)
+        })
+    }
   },
 });
 
-export const {upItem} = buyItemSlice.actions;
+export const {sortListByQuantity} = buyItemSlice.actions;
+export const {sortListByName} = buyItemSlice.actions;
+export const {sortListByTotalCost} = buyItemSlice.actions;
+export const {decrementItemQuantity} = buyItemSlice.actions;
+export const {incrementItemQuantity} = buyItemSlice.actions;
 export const {addItem} = buyItemSlice.actions;
 export default buyItemSlice.reducer;

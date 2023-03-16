@@ -11,9 +11,13 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { buyItemSlice } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {buyItemSlice} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import { upItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import { sortListByQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 
 const Cart = props => {
   const listData = useSelector(state => state.buyItem.buyList);
@@ -22,67 +26,38 @@ const Cart = props => {
 
   const dispatch = useDispatch();
 
-  const addItem = () => {
-    const newItem = {
-      id: Math.random(),
-
-      nameFruit: 'AppleCart',
-      cost: '2.33$',
-      quantity: 1,
-    };
-    setData([...data, newItem]);
-    console.log('add data', newItem);
-  };
   const addItemRedux = () => {
     dispatch(
       addItem({
         id: Math.random(),
         nameFruit: 'AppleCart',
-        // image: require ('../../../media/images/AppleCart.png'),
-        cost: '2.883$',
+        image: require('../../../../media/images/AppleCart.png'),
+        cost: '2$',
         quantity: 1,
       }),
     );
   };
 
-  const deleteItem = id => {
-    setData(data.filter(item => item.id != id));
-  };
-
-  const handleUp = id => {
-    console.log('UP: ', id);
-    setData(
-      data.map(item => {
-        if (item.id == id) {
-          return {...item, quantity: item.quantity + 1};
-        } else {
-          return item;
-        }
-      }),
-    );
-  };
-
   const handleUpRedux = id => {
-    console.log("Up pressed, id here: ", id)
-    dispatch(upItem({id}));
+    console.log('Up pressed, id here: ', id);
+    dispatch(incrementItemQuantity({id}));
   };
 
-  const handleDown = id => {
-    console.log('Down Pressed')
-    setData(
-      data.map(item => {
-        if (item.id == id) {
-          if (item.quantity != 0) {
-            return {...item, quantity: item.quantity - 1};
-          } else {
-            return {...item, quantity: 0};
-          }
-        } else {
-          return item;
-        }
-      }),
-    );
+  const handleDownRedux = id => {
+    dispatch(decrementItemQuantity({id}));
   };
+
+  const sortListByCostRedux = () => {
+    dispatch(sortListByTotalCost());
+  };
+
+  const sortListByNameRedux = () => {
+    dispatch(sortListByName());
+  };
+
+  const sortListByQuantityRedux = () =>{
+    dispatch(sortListByQuantity())
+  }
 
   const Item = ({item}) => {
     return (
@@ -95,7 +70,7 @@ const Cart = props => {
         <View style={styles.nameFruitContainer}>
           <Text style={styles.nameFruit}>{item.nameFruit}</Text>
           <View style={styles.iconContainer}>
-            <Pressable onPress={() => handleDown(item.id)}>
+            <Pressable onPress={() => handleDownRedux(item.id)}>
               <Image
                 style={styles.icon}
                 source={require('../../../../media/images/MinusIcon.png')}
@@ -113,7 +88,7 @@ const Cart = props => {
         </View>
 
         {/* Cost */}
-        <Text style={styles.cost}>{item.cost}</Text>
+        <Text style={styles.cost}>{item.cost * item.quantity} $</Text>
       </View>
       // </Pressable>
     );
@@ -138,8 +113,16 @@ const Cart = props => {
         showsVerticalScrollIndicator={false}
       />
 
-      <Pressable style={styles.btnSignUp} onPress={() => addItem()}>
-        <Text style={styles.signUpInsideButton}>Add More</Text>
+      <Pressable style={styles.btnSignUp} onPress={() => sortListByQuantityRedux()}>
+        <Text style={styles.signUpInsideButton}>Ascending buy quantity</Text>
+      </Pressable>
+
+      <Pressable style={styles.btnSignUp} onPress={() => sortListByNameRedux()}>
+        <Text style={styles.signUpInsideButton}>Ascending buy name</Text>
+      </Pressable>
+
+      <Pressable style={styles.btnSignUp} onPress={() => sortListByCostRedux()}>
+        <Text style={styles.signUpInsideButton}>Ascending buy Cost</Text>
       </Pressable>
 
       <Pressable
@@ -155,7 +138,7 @@ export default Cart;
 
 const styles = StyleSheet.create({
   flatlist: {
-    height: '70%',
+    height: '50%',
     marginVertical: 30,
   },
   nameFruitContainer: {
