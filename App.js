@@ -39,7 +39,7 @@ const App = () => {
     <View style={{flex:1, backgroundColor: 'white'}}>
     <Cart/>
     </View>
-    </Provider>
+     </Provider>
   //   <Provider store={store}>
   //   <NavigationContainer>
 

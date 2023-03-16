@@ -17,10 +17,13 @@ import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/car
 import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import { sortListByQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const Cart = props => {
   const listData = useSelector(state => state.buyItem.buyList);
+
+  const sort = ['Name', 'Total Price', 'Quantity'];
 
   const {navigation} = props;
 
@@ -55,9 +58,9 @@ const Cart = props => {
     dispatch(sortListByName());
   };
 
-  const sortListByQuantityRedux = () =>{
-    dispatch(sortListByQuantity())
-  }
+  const sortListByQuantityRedux = () => {
+    dispatch(sortListByQuantity());
+  };
 
   const Item = ({item}) => {
     return (
@@ -104,6 +107,52 @@ const Cart = props => {
         <Text style={styles.cart}>Cart</Text>
       </View>
 
+      <View style={styles.selectDropdown}>
+        <SelectDropdown
+          data={sort}
+          buttonStyle={{
+            backgroundColor: '#AC7253',
+            width: 120,
+            height: 40,
+            borderRadius: 20,
+          }}
+          buttonTextStyle={{
+            color: 'white',
+            fontSize: 16,
+            fontWeight: '700',
+            lineHeight: 22,
+          }}
+          dropdownStyle={{}}
+          rowStyle={{
+            borderWidth: 1,
+            backgroundColor: '#00FF4A',
+            borderColor: 'black',
+          }}
+          rowTextStyle={{
+            fontSize: 16,
+            fontWeight: '700',
+            lineHeight: 22,
+            color: 'black',
+          }}
+          onSelect={(selectedItem, index) => {
+            if (selectedItem == 'Name') {
+              sortListByNameRedux();
+            } else if (selectedItem == 'Total Price') {
+              sortListByCostRedux();
+            } else {
+              sortListByQuantityRedux();
+            }
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item;
+          }}
+          defaultButtonText={'Sort'}
+        />
+      </View>
+
       {/* Flatlist */}
       <FlatList
         data={listData}
@@ -113,7 +162,7 @@ const Cart = props => {
         showsVerticalScrollIndicator={false}
       />
 
-      <Pressable style={styles.btnSignUp} onPress={() => sortListByQuantityRedux()}>
+      {/* <Pressable style={styles.btnSignUp} onPress={() => sortListByQuantityRedux()}>
         <Text style={styles.signUpInsideButton}>Ascending buy quantity</Text>
       </Pressable>
 
@@ -123,7 +172,7 @@ const Cart = props => {
 
       <Pressable style={styles.btnSignUp} onPress={() => sortListByCostRedux()}>
         <Text style={styles.signUpInsideButton}>Ascending buy Cost</Text>
-      </Pressable>
+      </Pressable> */}
 
       <Pressable
         style={styles.btnSignUp}
@@ -137,9 +186,13 @@ const Cart = props => {
 export default Cart;
 
 const styles = StyleSheet.create({
+  selectDropdown: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   flatlist: {
-    height: '50%',
-    marginVertical: 30,
+    height: 600,
+    marginVertical: 5,
   },
   nameFruitContainer: {
     flexDirection: 'column',
