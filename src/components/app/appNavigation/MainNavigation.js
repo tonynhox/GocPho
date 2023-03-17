@@ -20,42 +20,28 @@ import OrderScreen from '../shop/screens/OrderScreen'
 import Address from '../user/screens/Address'
 import ChangePassword from '../user/screens/ChangePassword'
 import Mycards1 from '../user/screens/Mycards1'
-import Newcard from '../user/screens/Newcard'
-import Nosavecard from '../user/screens/Nosavecard'
+import ShopNavigation from '../shop/navigation/ShopNavigation'
+import ExploreNavigation from '../shop/navigation/ExploreNavigation'
+import AccountNavigation from '../user/navigation/AccountNavigation'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const Stackbao = createNativeStackNavigator();
 
 
 
 
 const Navigations = {
-  Stack: [
-    { component: Fruit, name: 'Fruit', options: {} },//note lại cái này(sai sai)
-    { component: Mango, name: 'Mango', options: {} },
-    { component: OrderScreen, name: 'OrderScreen', options: {} }, //note lại cái này(sai sai)
-    { component: ProfileScreen, name: 'ProfileScreen', options: {} },
-    { component: EditProfile, name: 'EditProfile', options: {} },
-    { component: Address, name: 'Address', options: {} },
-    { component: ChangePassword, name: 'ChangePassword', options: {} },
-    { component: Mycards1, name: 'Mycards1', options: {} },
-    { component: Payment, name: 'Payment', options: {} },
-    { component: Itemes, name: 'Itemes', options: {} },
-    { component: Explore, name: 'Explore', options: {} },
-    
-    
-  ],
   Tabs: [
-    { component: Shop, name: 'Shop', options: {} },
-    { component: Explore, name: 'Explore', options: {} },
-    { component: Cart, name: 'Cart', options: {} },
+    { component: ShopNavigation, name: 'Shop', options: {} },
+    { component: ExploreNavigation, name: 'Explore', options: {} },
+    { component: CartNavigation, name: 'Cart', options: {} },
     { component: FavoriteScreen, name: 'Favorite', options: {} },
-    { component: AccountScreen, name: 'Account', options: {} },
-  ]
+    { component: AccountNavigation, name: 'Account', options: {} },
+  ],
 }
 
-
-const BottomTabsNavigation = () => {
+const MainNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -198,49 +184,14 @@ const BottomTabsNavigation = () => {
 
         },
       })}>
-
       {
         Navigations.Tabs.map((item, index) => {
           return (
-            <Tab.Screen key={index} name={item.name} component={item.component} options={item.options} />
+            <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
           )
         })
       }
     </Tab.Navigator>
-  )
-}
-
-const StackNavigation = () => {
-  return (
-    <Stack.Navigator
-    screenOptions={{headerShown: false}}
-    >
-      {
-        Navigations.Stack.map((item, index) => {
-          return (
-            <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={[item.options,{headerShown: false}]}  />
-          )})
-        }
-      </Stack.Navigator>
-    )
-  }
-
-const Main = createNativeStackNavigator();
-const Main2 = createNativeStackNavigator();
-
-const MainNavigation2 = () => {
-  return (
-    <Main2.Navigator initialRouteName='BottomTabsNavigation'>
-      <Main.Screen name="BottomTabsNavigation" component={BottomTabsNavigation} options={{ headerShown: false }} />
-    </Main2.Navigator>
-  )
-}
-const MainNavigation = () => {
-  return (
-    <Main.Navigator initialRouteName='MainNavigation2'>
-      <Main.Screen name="MainNavigation2" component={MainNavigation2} options={{ headerShown: false }} />
-      <Main.Screen name="StackNavigation" component={StackNavigation} options={{ headerShown: false }} />
-    </Main.Navigator>
   )
 }
 

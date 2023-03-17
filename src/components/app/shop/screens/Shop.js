@@ -10,7 +10,7 @@ const Shop = (props) => {
         return (
             <TouchableOpacity
                 style={Styles.card}
-                onPress={() => props.navigation.navigate('StackNavigation',{screen:'Fruit'})
+                onPress={() => props.navigation.navigate('Explore',{screen:'Fruit'})
                 }
             >
                 <View style={[Styles.imgCard]}>
