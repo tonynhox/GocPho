@@ -1,8 +1,27 @@
 import { StyleSheet, Text, View, ScrollView, Pressable, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import DatePicker from 'react-native-date-picker'
 
 const Payment = (props) => {
+    
     const { navigation } = props;
+
+    // lấy dũ liệu ngày giao hàng
+    const [date, setDate] = useState(new Date());
+    const [open, setOpen] = useState(false);
+    const [selectdate, setSelectdate] = useState('Select Date');
+
+    // lấy dữ liệu khung giờ giao hàng
+    const [time, SetTime] = useState('');
+
+    const [isPressed, setIsPressed] = useState(false);
+    const [isPressed1, setIsPressed1] = useState(false);
+    const [isPressed2, setIsPressed2] = useState(false);
+    const [isPressed3, setIsPressed3] = useState(false);
+    const [isPressed4, setIsPressed4] = useState(false);
+    const [isPressed5, setIsPressed5] = useState(false);
+
+
     return (
         <ScrollView style={[styles.container]}>
             {/* địa chỉ giao hàng */}
@@ -22,64 +41,78 @@ const Payment = (props) => {
 
             <View style={[styles.PickStore]}>
                 <View style={[styles.PickStore1]}>
-                <View style={[styles.PickStoreLeft]}>
-                    <Text style={[styles.PickStoreName]}>H Shop form Anh Huy</Text>
-                    <Text style={[styles.PickStoreSistance]}>15km</Text>
+                    <View style={[styles.PickStoreLeft]}>
+                        <Text style={[styles.PickStoreName]}>H Shop form Anh Huy</Text>
+                        <Text style={[styles.PickStoreSistance]}>15km</Text>
+                    </View>
+                    <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
                 </View>
-                <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
-                </View>
-                <View style={[styles.PickStore1,{borderTopColor: 'black',borderTopWidth: 1,}]}>
-                <View style={[styles.PickStoreLeft]}>
-                    <Text style={[styles.PickStoreName]}>Shop Luxury Anh Tài</Text>
-                    <Text style={[styles.PickStoreSistance]}>10km</Text>
-                </View>
-                <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
+                <View style={[styles.PickStore1, { borderTopColor: 'black', borderTopWidth: 1, }]}>
+                    <View style={[styles.PickStoreLeft]}>
+                        <Text style={[styles.PickStoreName]}>Shop Luxury Anh Tài</Text>
+                        <Text style={[styles.PickStoreSistance]}>10km</Text>
+                    </View>
+                    <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
                 </View>
             </View>
-            
+
 
             {/* Chọn ngày, giờ giao hàng */}
             <View style={[styles.PickDate]}>
                 <Text style={[styles.PickDateText]}>Expected date & Time</Text>
-                <Pressable style={[styles.PickDateButton]}>
-                    <Text style={[styles.PickDateButtonText]}>Select Date</Text>
+                <Pressable style={[styles.PickDateButton]} onPress={() => setOpen(true)}>
+                    <Text style={[styles.PickDateButtonText]}>{selectdate}</Text>
+                    <DatePicker
+                        modal
+                        mode='date'
+                        open={open}
+                        date={date}
+                        onConfirm={(date) => {
+                            setOpen(false)
+                            setDate(date)
+                            setSelectdate(date.toISOString().substring(0, 10))
+                        }}
+                        onCancel={() => {
+                            setOpen(false)
+                        }}
+                    />
                 </Pressable>
                 {/* Chọn giờ giao hàng */}
                 <View style={[styles.PickTime]}>
-                    <Pressable style={[styles.PickTimeButton]}>
+                    <Pressable style={[styles.PickTimeButton, isPressed && styles.PickTimeButtonPressed]} onPress={() => SetTime('8 AM - 11 AM') || setIsPressed(true)}>
                         <Text style={[styles.PickTimeButtonText]}>8 AM - 11 AM</Text>
                     </Pressable>
 
-                    <Pressable style={[styles.PickTimeButton]}>
-                        <Text style={[styles.PickTimeButtonText]}>11 AM - 13 PM</Text>
+                    <Pressable style={[styles.PickTimeButton, isPressed1 && styles.PickTimeButtonPressed]} onPress={() => SetTime('11 AM - 13 PM') || setIsPressed1(true)}>
+                        <Text style={[styles.PickTimeButtonText]} >11 AM - 13 PM</Text>
                     </Pressable>
 
-                    <Pressable style={[styles.PickTimeButton]}>
+                    <Pressable style={[styles.PickTimeButton, isPressed2 && styles.PickTimeButtonPressed]} onPress={() => SetTime('13 PM - 15 PM') || setIsPressed2(true)}>
                         <Text style={[styles.PickTimeButtonText]}>13 PM - 15 PM</Text>
                     </Pressable>
 
-                    <Pressable style={[styles.PickTimeButton]}>
+                    <Pressable style={[styles.PickTimeButton, isPressed3 && styles.PickTimeButtonPressed]} onPress={() => SetTime('15 PM - 17 PM') || setIsPressed3(true)}>
                         <Text style={[styles.PickTimeButtonText]}>15 PM - 17 PM</Text>
                     </Pressable>
 
-                    <Pressable style={[styles.PickTimeButton]}>
+                    <Pressable style={[styles.PickTimeButton, isPressed4 && styles.PickTimeButtonPressed]} onPress={() => SetTime('17 PM - 19 PM') || setIsPressed4(true)}>
                         <Text style={[styles.PickTimeButtonText]}>17 PM - 19 PM</Text>
                     </Pressable>
 
-                    <Pressable style={[styles.PickTimeButton]}>
+                    <Pressable style={[styles.PickTimeButton, isPressed5 && styles.PickTimeButtonPressed]} onPress={() => SetTime('19 PM - 21 PM') || setIsPressed5(true)}>
                         <Text style={[styles.PickTimeButtonText]}>19 PM - 21 PM</Text>
                     </Pressable>
                 </View>
             </View>
             {/* Lấy hàng tại cửa hàng */}
             <View style={[styles.InStoryPickup]}>
-                    <Text style={[styles.InStoryPickupText]}>In-Store Pickup</Text>
-                    <Text style={[styles.InStoryPickupText]}>FREE</Text>
-                    <Text style={[styles.InStoryPickupInfo]}>Some Stores May Be Temporarily Unavalable.</Text>
-                    <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
+                <Text style={[styles.InStoryPickupText]}>In-Store Pickup</Text>
+                <Text style={[styles.InStoryPickupText]}>FREE</Text>
+                <Text style={[styles.InStoryPickupInfo]}>Some Stores May Be Temporarily Unavalable.</Text>
+                <Image source={require('../../../../media/images/IconArrowRight.png')} style={[styles.imgArrowRight]} />
             </View>
             {/* // Thông tin đơn hàng */}
-            <Pressable style={[styles.SeeItemes]} 
+            <Pressable style={[styles.SeeItemes]}
                 onPress={() => navigation.navigate('Itemes')}>
                 <View style={[styles.SeeItemesLeft]}>
                     <Image source={require('../../../../media/images/IconStore.png')} style={[styles.imgIconStore]} />
@@ -103,7 +136,7 @@ const Payment = (props) => {
             </View>
 
             {/* //Giá trị đơn hàng */}
-            <View style={[styles.OrderValue]}> 
+            <View style={[styles.OrderValue]}>
                 <Text style={[styles.OrderValueTitle]}>Order Sammery</Text>
                 <View style={[styles.OrderValueContent]}>
                     <Text style={[styles.OrderValueContentText]}>Subtotal</Text>
@@ -122,11 +155,11 @@ const Payment = (props) => {
                     <Text style={[styles.TotalText]}>Total</Text>
                     <Text style={[styles.TotalText]}>$ 0.00</Text>
                 </View>
-            </View> 
+            </View>
 
             {/* // Thanh toán */}
-            <Pressable style = {[styles.btnAccept]} onPress={() => navigation.navigate('OrderAccepted')}>
-                <Text style = {[styles.btnAcceptText]}>Track Order</Text>
+            <Pressable style={[styles.btnAccept]} onPress={() => navigation.navigate('OrderAccepted')}>
+                <Text style={[styles.btnAcceptText]}>Track Order</Text>
             </Pressable>
         </ScrollView>
     )
@@ -135,7 +168,17 @@ const Payment = (props) => {
 export default Payment
 
 const styles = StyleSheet.create({
-    PickStoreSistance:{
+    PickTimeButtonPressed: {
+        width: 94,
+        height: 40,
+        backgroundColor: 'red',
+        color: 'while',
+        borderRadius: 7,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 6,
+    },
+    PickStoreSistance: {
         fontFamily: 'Klarna Text',
         fontWeight: "400",
         fontSize: 14,
@@ -143,7 +186,7 @@ const styles = StyleSheet.create({
         color: '#6D3805',
         paddingBottom: 16,
     },
-    PickStoreName:{
+    PickStoreName: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -152,17 +195,17 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         marginTop: 16,
     },
-    PickStoreLeft:{
+    PickStoreLeft: {
         justifyContent: 'space-between',
     },
-    PickStore1:{
+    PickStore1: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 16,
 
     },
-    PickStore:{
+    PickStore: {
         marginTop: 16,
         backgroundColor: '#FFF4E9',
         borderRadius: 20,
@@ -170,7 +213,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 16,
     },
-    TotalText:{
+    TotalText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -178,7 +221,7 @@ const styles = StyleSheet.create({
         color: '#6D3805',
 
     },
-    OrderValueTotal:{
+    OrderValueTotal: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -191,15 +234,15 @@ const styles = StyleSheet.create({
         borderTopColor: 'black',
         borderTopWidth: 1,
     },
-    OrderValueContentText:{
+    OrderValueContentText: {
         fontFamily: 'Klarna Text',
         fontWeight: "400",
         fontSize: 16,
         lineHeight: 20,
         color: '#6D3805',
-        
+
     },
-    OrderValueContent:{
+    OrderValueContent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -207,7 +250,7 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         paddingTop: 16,
     },
-    OrderValueTitle:{
+    OrderValueTitle: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -217,23 +260,23 @@ const styles = StyleSheet.create({
         paddingTop: 16,
 
     },
-    OrderValue:{
+    OrderValue: {
         width: '100%',
         marginTop: 23,
         backgroundColor: '#FFF4E9',
         borderRadius: 20,
     },
-    TickedOn:{
+    TickedOn: {
         marginLeft: "40%",
     },
-    PaymentMethodBottom:{
+    PaymentMethodBottom: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingBottom: 16,
-        paddingLeft : 16,
+        paddingLeft: 16,
         marginTop: 16,
     },
-    PaymentMethodTopText:{
+    PaymentMethodTopText: {
         fontFamily: 'Klarna Text',
         fontWeight: "400",
         fontSize: 18,
@@ -241,30 +284,30 @@ const styles = StyleSheet.create({
         color: '#6D3805',
         paddingLeft: 16,
     },
-    PaymentMethodTop:{
+    PaymentMethodTop: {
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         paddingBottom: 16,
-        paddingLeft : 16,
+        paddingLeft: 16,
     },
-    PaymentMethodText:{
+    PaymentMethodText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
         lineHeight: 22,
         color: '#6D3805',
-        padding:16,
+        padding: 16,
     },
-    PaymentMethod:{
+    PaymentMethod: {
         width: '100%',
 
         marginTop: 23,
         backgroundColor: '#FFF4E9',
         borderRadius: 20,
     },
-    SeeItemesText:{
+    SeeItemesText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -274,12 +317,12 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         alignItems: 'center',
     },
-    SeeItemesLeft:{
+    SeeItemesLeft: {
         flexDirection: 'row',
         alignItems: 'center',
-        
+
     },
-    SeeItemes:{
+    SeeItemes: {
         width: '100%',
         height: 100,
         backgroundColor: '#FFF4E9',
@@ -291,10 +334,10 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         marginTop: 40,
     },
-    imgArrowRight:{
+    imgArrowRight: {
         marginTop: 26,
     },
-    InStoryPickupInfo:{
+    InStoryPickupInfo: {
         paddingTop: 12,
         fontFamily: 'Klarna Text',
         fontWeight: "400",
@@ -302,14 +345,14 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         color: '#6D3805',
     },
-    InStoryPickupText:{
+    InStoryPickupText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 22,
         lineHeight: 27,
         color: '#6D3805',
     },
-    InStoryPickup:{
+    InStoryPickup: {
         width: '100%',
         height: 100,
         justifyContent: 'space-between',
@@ -317,7 +360,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         padding: 16,
     },
-    PickTimeButton:{
+    PickTimeButton: {
         width: 94,
         height: 40,
         backgroundColor: '#FFFFFF',
@@ -326,22 +369,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 6,
     },
-    PickTime:{
+    PickTime: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         paddingLeft: 15,
         paddingRight: 15,
 
-    } ,
-    PickDateButtonText:{
+    },
+    PickDateButtonText: {
         fontFamily: 'Klarna Text',
         fontWeight: "400",
         fontSize: 16,
         lineHeight: 20,
 
     },
-    PickDateButton:{
+    PickDateButton: {
         paddingLeft: 15,
         paddingRight: 15,
         height: 48,
@@ -351,7 +394,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 16,
     },
-    PickDateText:{
+    PickDateText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -435,6 +478,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 16,
         textAlign: 'center',
-        
+        flex: 1
+
     },
 })

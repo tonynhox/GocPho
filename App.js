@@ -33,19 +33,26 @@ import Ongoing from './src/components/app/user/screens/Ongoing'
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <View style = {styles.container}>
+      <Text>Hello</Text>
+      <Payment />
+    </View>
+   
+ //   <NavigationContainer>
 
-      <MainNavigation />
-      {/* <UserNavigation /> */}
+    //  <MainNavigation />
+  //    {/* <UserNavigation /> */}
 
-      
-      
-    
   
-    </NavigationContainer>
+ //   </NavigationContainer>
+  
   );
 };
 
 export default App;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+  }
+});
