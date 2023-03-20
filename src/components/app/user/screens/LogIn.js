@@ -13,33 +13,22 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import loginSlice, {
+  changeStatusLogin,
+  getUserInformationFromGoogle,
+} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import {useDispatch} from 'react-redux';
 
 GoogleSignin.configure();
 
-// GoogleSignin.configure({
-//   scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-//   webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
-//   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-//   hostedDomain: '', // specifies a hosted domain restriction
-//   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-//   accountName: '', // [Android] specifies an account name on the device that should be used
-//   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-//   googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
-//   openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
-//   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
-// });
-
 const LogIn = props => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+
+  const {navigation} = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    GoogleSignin.configure({
-      //  webClientId: 'ABC123',  // Replace with your Google web client ID
-      // offlineAccess: true,
-      // hostedDomain: '',
-      // forceCodeForRefreshToken: true,
-      // accountName: '',
-    });
+    GoogleSignin.configure({});
 
     const getCurrentUser = async () => {
       const currentUser = await GoogleSignin.getCurrentUser();
@@ -56,8 +45,13 @@ const LogIn = props => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      setUser(userInfo)
-      console.log('User infor: ', userInfo)
+      setUser(userInfo);
+      console.log('User infor: ', userInfo);
+
+      dispatch(await getUserInformationFromGoogle(userInfo));
+      dispatch(await changeStatusLogin(true));
+      // console.log('User: ', user);
+      navigation.navigate('avatar');
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -75,6 +69,13 @@ const LogIn = props => {
     }
   };
 
+  const handleLogin = async () => {
+    console.log('User: ', user);
+    dispatch(getUserInformationFromGoogle(user));
+    dispatch(changeStatusLogin(true));
+    navigation.navigate('avatar');
+  };
+
   const signOut = async () => {
     try {
       await GoogleSignin.revokeAccess();
@@ -85,7 +86,6 @@ const LogIn = props => {
     }
   };
 
-  const {navigation} = props;
   return (
     <View style={styles.container}>
       {/* Back Arrow */}
@@ -128,41 +128,18 @@ const LogIn = props => {
         <Text style={styles.forgotPassword}>Forgot Password</Text>
       </View>
 
-      {/* <Pressable>
-        <GoogleSigninButton
-          style={{width: 192, height: 48}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={signIn()}
-          // disabled={this.state.isSigninInProgress}
-        />
-      </Pressable> */}
+      <Pressable style={styles.btnSignUp} onPress={() => navigation.goBack()}>
+        <Text style={styles.signUpInsideButton}>Sign In</Text>
+      </Pressable>
 
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <GoogleSigninButton
           style={{width: 192, height: 48}}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
           onPress={signIn}
         />
-        {user && (
-          <View style={{marginTop: 20}}>
-            <Text>Welcome {user.user.name}!</Text>
-            <Pressable title="Sign Out" onPress={signOut} />
-          </View>
-        )}
       </View>
-
-      <Pressable
-        onPress={() => {
-          signOut();
-        }}>
-        <Text style={{color: 'black'}}>Sign out</Text>
-      </Pressable>
-
-      <Pressable style={styles.btnSignUp} onPress={() => navigation.goBack()}>
-        <Text style={styles.signUpInsideButton}>Sign In</Text>
-      </Pressable>
       {/* Already have an account? Login */}
       <View style={styles.alreadyHaveAccount}>
         <Text style={[styles.already, {color: '#7F4E1D'}]}>
@@ -230,7 +207,7 @@ const styles = StyleSheet.create({
   },
   btnSignUp: {
     backgroundColor: '#FF5E00',
-    marginTop: 40,
+    marginTop: 10,
     height: '8%',
     borderWidth: 1,
     borderRadius: 30,

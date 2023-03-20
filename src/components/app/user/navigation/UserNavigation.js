@@ -17,10 +17,10 @@ const UserNavigation = () => {
             headerShown: false, //ẩn header
         }}
     >
-        <Stack.Screen name="WelcomeStack" component={Welcome} />
+        {/* <Stack.Screen name="WelcomeStack" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignPass" component={SignPass} />
-        <Stack.Screen name="SignCode" component={SignCode} />
+        <Stack.Screen name="SignCode" component={SignCode} /> */}
         <Stack.Screen name="Login" component={LogIn} />
     </Stack.Navigator>
   )

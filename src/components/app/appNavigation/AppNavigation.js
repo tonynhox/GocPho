@@ -2,15 +2,18 @@ import React, {useContext} from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import UserNavigation from '../user/navigation/UserNavigation'
 import MainNavigation from './MainNavigation'
-
-import { UserContext } from '../user/utilities/UserContext'
+import { useSelector } from 'react-redux'
+// import Avatar from '../user/screens/Avatar'
+import FullMainNavigation from './FullMainNavigation'
 
 const AppNavigation = () => {
-    const {isLogin} = useContext(UserContext);
+const isLoggedIn = useSelector(state => state.login.isLoggedIn)
+const user = useSelector(state =>state.login.userInfo)
   return (
     <NavigationContainer>
-        {/* {isLogin ? <MainNavigation /> : <UserNavigation />} */}
-        {isLogin ? <UserNavigation /> : <MainNavigation />}
+      {console.log("Logged: ", isLoggedIn)}
+      {console.log("User at AppNavigation: ", user)}
+        {isLoggedIn ? <MainNavigation /> : <UserNavigation />}
     </NavigationContainer>
   )
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 import React, {
   useState,
   useContext,
@@ -7,8 +7,8 @@ import React, {
   useRef,
 } from 'react';
 import 'react-native-gesture-handler';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 import UserNavigation from './src/components/app/user/navigation/UserNavigation';
 import CartNavigation from './src/components/app/cart/navigation/CartNavigation';
@@ -20,38 +20,27 @@ import OrderAccepted from './src/components/app/cart/screens/OrderAccepted';
 import OrderFailed from './src/components/app/cart/screens/OrderFailed';
 import AppNavigation from './src/components/app/appNavigation/AppNavigation';
 import MainNavigation from './src/components/app/appNavigation/MainNavigation';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 const Tab = createMaterialTopTabNavigator();
-import History from './src/components/app/user/screens/History'
-import Ongoing from './src/components/app/user/screens/Ongoing'
-import { Provider } from 'react-redux';
-import { store } from './src/redux-toolkit/store';
+import History from './src/components/app/user/screens/History';
+import Ongoing from './src/components/app/user/screens/Ongoing';
+import {Provider} from 'react-redux';
+import {store} from './src/redux-toolkit/store';
 import LogIn from './src/components/app/user/screens/LogIn';
-
+import Avatar from './src/components/app/user/screens/Avatar';
+import {useSelector} from 'react-redux';
 
 const App = () => {
+
   return (
     <Provider store={store}>
-    <View style={{flex:1, backgroundColor: 'white'}}>
-    <LogIn/>
-    </View>
-     </Provider>
-  //   <Provider store={store}>
-  //   <NavigationContainer>
-
-  //     <MainNavigation />
-  //     <UserNavigation />
-      
-      
-    
-  
-  //    </NavigationContainer>
-  //     </Provider>
+        <AppNavigation/>
+    </Provider>
   );
 };
 
