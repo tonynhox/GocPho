@@ -31,13 +31,14 @@ import History from './src/components/app/user/screens/History'
 import Ongoing from './src/components/app/user/screens/Ongoing'
 import { Provider } from 'react-redux';
 import { store } from './src/redux-toolkit/store';
+import LogIn from './src/components/app/user/screens/LogIn';
 
 
 const App = () => {
   return (
     <Provider store={store}>
     <View style={{flex:1, backgroundColor: 'white'}}>
-    <Cart/>
+    <LogIn/>
     </View>
      </Provider>
   //   <Provider store={store}>

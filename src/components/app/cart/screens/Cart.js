@@ -17,6 +17,7 @@ import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/car
 import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import { cloneIncrementItemQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -42,9 +43,8 @@ const Cart = props => {
   };
 
   const handleUpRedux = id => {
-    console.log('Up pressed, id here: ', id);
     dispatch(incrementItemQuantity({id}));
-  };
+    };
 
   const handleDownRedux = id => {
     dispatch(decrementItemQuantity({id}));
@@ -161,18 +161,6 @@ const Cart = props => {
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />
-
-      {/* <Pressable style={styles.btnSignUp} onPress={() => sortListByQuantityRedux()}>
-        <Text style={styles.signUpInsideButton}>Ascending buy quantity</Text>
-      </Pressable>
-
-      <Pressable style={styles.btnSignUp} onPress={() => sortListByNameRedux()}>
-        <Text style={styles.signUpInsideButton}>Ascending buy name</Text>
-      </Pressable>
-
-      <Pressable style={styles.btnSignUp} onPress={() => sortListByCostRedux()}>
-        <Text style={styles.signUpInsideButton}>Ascending buy Cost</Text>
-      </Pressable> */}
 
       <Pressable
         style={styles.btnSignUp}

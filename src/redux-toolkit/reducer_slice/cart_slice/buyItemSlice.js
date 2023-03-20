@@ -69,6 +69,17 @@ export const buyItemSlice = createSlice({
         state.buyList[itemIndex].quantity++;
       }
     },
+
+    cloneIncrementItemQuantity(state, action) {
+        let arr = state.buyList.map(item => {
+          if(item.id == action.payload.id){
+            return {...item, quantity: item.quantity + 1}
+          }
+          return item;
+        });
+        state.buyList = arr;
+        console.log('>>>>>>>>>>>>>', state);
+    },
     decrementItemQuantity(state, action) {
       const itemIndex = state.buyList.findIndex(
         item => item.id === action.payload.id,
@@ -101,6 +112,7 @@ export const buyItemSlice = createSlice({
   },
 });
 
+export const {cloneIncrementItemQuantity} = buyItemSlice.actions;
 export const {sortListByQuantity} = buyItemSlice.actions;
 export const {sortListByName} = buyItemSlice.actions;
 export const {sortListByTotalCost} = buyItemSlice.actions;
