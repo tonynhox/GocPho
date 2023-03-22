@@ -34,12 +34,13 @@ import {store} from './src/redux-toolkit/store';
 import LogIn from './src/components/app/user/screens/LogIn';
 import Avatar from './src/components/app/user/screens/Avatar';
 import {useSelector} from 'react-redux';
+import CartAPI from './src/components/app/cart/screens/CartAPI';
 
 const App = () => {
 
   return (
     <Provider store={store}>
-        <AppNavigation/>
+        <CartAPI/>
     </Provider>
   );
 };
