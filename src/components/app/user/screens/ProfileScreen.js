@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 
 const ProfileScreen = (props) => {
@@ -12,29 +12,35 @@ const ProfileScreen = (props) => {
                 <Text style={styles.textHeader}>Profile</Text>
             </View>
             <View style={styles.body}>
-                <View style={styles.bodyAccount}>
+                <Pressable 
+                    style={styles.bodyAccount}
+                    onPress={()=> props.navigation.navigate('EditProfile')} >
                     <Image
                         source={require('../../../../media/images/iconAccount.png')}
                         style={{width: 20, height: 24}}
                     />
                     <Text style={styles.textAccount}>Edit Profile</Text>
-                </View>
+                </Pressable>
 
-                <View style={styles.bodyAccount}>
+                <Pressable 
+                    onPress={()=> props.navigation.navigate('ChangePassword')}
+                    style={styles.bodyAccount}>
                     <Image
                         source={require('../../../../media/images/iconKey.png')}
                         style={{width: 24, height: 24}}
                     />
                     <Text style={styles.textAccount}>Change Password</Text>
-                </View>
+                </Pressable>
 
-                <View style={styles.bodyAccount}>
+                <Pressable 
+                    onPress={()=> props.navigation.navigate('Mycards')}
+                     style={styles.bodyAccount}>
                     <Image
                         source={require('../../../../media/images/iconCard.png')}
                         style={{width: 24, height: 21}}
                     />
                     <Text style={styles.textAccount}>My Cards</Text>
-                </View>
+                </Pressable>
 
                 <Text style={styles.textBody}>App Settings</Text>
 

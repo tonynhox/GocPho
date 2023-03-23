@@ -23,7 +23,7 @@ const AccountScreen = (props) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate("Order")}>
+                <TouchableOpacity onPress={() => navigation.navigate("order")}>
                     <View style={styles.bodyAccount}>
                         <Image
                             source={require('../../../../media/images/iconOrders.png')}

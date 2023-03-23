@@ -2,9 +2,8 @@ import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, Touchabl
 import React from 'react'
 import MasonryList from '@react-native-seoul/masonry-list';
 
-const Fruit = () => {
-
-
+const Fruit = (props) => {
+    const { navigation } = props;
 
     const renderItemPopular = ({ item, i,index }) => {
         // const item= props;
@@ -22,7 +21,7 @@ const Fruit = () => {
         } else {
 
             return (
-                <View style={[Styles.boxShadown, Styles.cardPopular]}>
+                <Pressable onPress={()=>props.navigation.navigate('Mango')} style={[Styles.boxShadown, Styles.cardPopular]}>
                     <View style={{ margin: 10 }}>
                         <View style={Styles.imgPop}>
                             <Image source={require('../../../../media/images/apple.png')} />
@@ -37,7 +36,7 @@ const Fruit = () => {
                         </View>
 
                     </View>
-                </View>
+                </Pressable>
             );
         }
 

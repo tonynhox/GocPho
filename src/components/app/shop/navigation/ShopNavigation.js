@@ -3,8 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
-import Fruit from '../screens/Fruit'
-import Mango from '../screens/Mango'
+
 import Shop from '../screens/Shop'
 
 
@@ -12,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const Navigations = {
     Stacks: [
-        { component: Shop, name: 'Shop', options: {} }
+        { component: Shop, name: '_Shop', options: {} }
     ]
 }
 

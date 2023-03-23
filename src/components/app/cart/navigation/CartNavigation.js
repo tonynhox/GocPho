@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 
 const Navigations = {
   Stack: [
-    { component: Cart, name: 'Cart', options: {} },
+    { component: Cart, name: '_Cart', options: {} },
     
     { component: Payment, name: 'Payment', options: {} },
   ]
