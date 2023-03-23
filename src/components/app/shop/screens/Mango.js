@@ -8,10 +8,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 
 const renderItemPopular = ({item}) => {
-  // const item= props;
   const {__id, image, price, kg} = item;
   return (
     <View style={[styles.boxShadown, styles.cardPopular]}>
@@ -35,8 +36,38 @@ const renderItemPopular = ({item}) => {
   );
 };
 
-const Mango = (props) => {
-  const { navigation } = props;
+const Mango = props => {
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleAddItem = () => {
+    product = {
+      category: 'fruit',
+      cost: 12,
+      id: Math.random(),
+      image:
+        'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
+      name: 'Mango',
+      quantity: quantity,
+    };
+    dispatch(addItem(product));
+
+    navigation.navigate('Cart', {screen: 'cart'});
+  };
+
+  const handleUp = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDown = () => {
+    if (quantity <= 1) {
+      setQuantity(1);
+    } else {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const {navigation} = props;
   return (
     //minHeight : '100%'
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -45,7 +76,12 @@ const Mango = (props) => {
 
         {/* Image Fruit */}
         <View style={styles.fruitContainer}>
-          <Image source={require('../../../../media/images/Mango.png')} />
+          <Image
+            style={{width: 200, height: 200, resizeMode: 'contain'}}
+            source={{
+              uri: 'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
+            }}
+          />
         </View>
 
         {/* Original Mango */}
@@ -65,15 +101,20 @@ const Mango = (props) => {
         <View style={styles.quantityContainer}>
           {/* Minus, Heart and Plus Icon */}
           <View style={styles.minusPlusIconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('../../../../media/images/MinusIcon.png')}
-            />
-            <Text style={styles.price}>1</Text>
-            <Image
-              style={styles.icon}
-              source={require('../../../../media/images/PlusIcon.png')}
-            />
+            <Pressable onPress={handleDown}>
+              <Image
+                onPress={() => handleDown()}
+                style={styles.icon}
+                source={require('../../../../media/images/MinusIcon.png')}
+              />
+            </Pressable>
+            <Text style={styles.price}>{quantity}</Text>
+            <Pressable onPress={() => handleUp()}>
+              <Image
+                style={styles.icon}
+                source={require('../../../../media/images/PlusIcon.png')}
+              />
+            </Pressable>
           </View>
 
           {/* Heart Icon */}
@@ -84,7 +125,7 @@ const Mango = (props) => {
         </View>
 
         {/* Button add to Cart */}
-        <Pressable style={styles.btnSignUp}>
+        <Pressable style={styles.btnSignUp} onPress={handleAddItem}>
           <Text style={styles.signUpInsideButton}>Add to Cart</Text>
         </Pressable>
 
@@ -222,6 +263,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   container: {
+    flex: 1,
     padding: 20,
   },
 });

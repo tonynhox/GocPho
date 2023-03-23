@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import { useSelector } from 'react-redux';
 import loginSlice from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
@@ -12,11 +12,23 @@ const photo = dataUser.user.photo
 
 useEffect(() => {
   const timeout = setTimeout(() => {
-    navigation.navigate('profile');
+    navigation.navigate('main', {screen: 'Shop'});
   }, 3000);
 
   return () => clearTimeout(timeout);
 }, [])
+
+// const navigateToShop = useCallback(() => {
+//   navigation.navigate('main', {screen: 'Shop'})
+// }, [navigation]);
+
+// useEffect(() => {
+//   const timeout = setTimeout(() => {
+//     navigateToShop();
+//   }, 3000);
+
+//   return () => clearTimeout(timeout);
+// }, [navigateToShop]);
 
   return (
     <View

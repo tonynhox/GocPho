@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {lazy, useState, useEffect} from 'react';
 import {Image, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -24,10 +24,21 @@ import Avatar from '../user/screens/Avatar';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const MainNavigation = () => {
+const MainNavigation = ({navigation}) => {
+  const [currentTab, setCurrentTab] = useState('Shop');
+
   const ShopNavigation = () => {
+    useEffect(() => {
+      if (currentTab != 'Shop') {
+        console.log("Current tab: ", currentTab)
+        navigation.navigate('Shop');
+      }
+    }, [currentTab]);
+
     return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator
+      initialRouteName='ShopStack'
+      screenOptions={{headerShown: false}}>
         <Stack.Screen name="ShopStack" component={Shop} />
         <Stack.Screen name="Mango" component={Mango} />
       </Stack.Navigator>
@@ -73,167 +84,155 @@ const MainNavigation = () => {
       </Stack.Navigator>
     );
   };
-  const MainTabNavigation = () => {
-    return (
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          headerShown: false,
-          tabBarIcon: ({focused}) => {
-            if (route.name == 'Shop') {
-              if (!focused) {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/shop.png')}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/shopPressed.png')}
-                  />
-                );
-              }
-            } else if (route.name == 'Explore') {
-              if (!focused) {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/explore.png')}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/explorePressed.png')}
-                  />
-                );
-              }
-            } else if (route.name == 'Cart') {
-              if (!focused) {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/cart.png')}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/cartPressed.png')}
-                  />
-                );
-              }
-            } else if (route.name == 'Favorite') {
-              if (!focused) {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/favorite.png')}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/favoritePressed.png')}
-                  />
-                );
-              }
-            } else if (route.name == 'Account') {
-              if (!focused) {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/account.png')}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    source={require('../../../media/iconNavigation/accountPressed.png')}
-                  />
-                );
-              }
-            }
-          },
-          tabBarLabel: ({focused}) => {
-            if (route.name == 'Shop') {
-              if (focused)
-                return (
-                  <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
-                    Shop
-                  </Text>
-                );
-              else
-                return (
-                  <Text style={{color: '6D3805', fontStyle: 'italic'}}>
-                    Shop
-                  </Text>
-                );
-            } else if (route.name == 'Explore') {
-              if (focused)
-                return (
-                  <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
-                    Explore
-                  </Text>
-                );
-              else
-                return (
-                  <Text style={{color: '6D3805', fontStyle: 'italic'}}>
-                    Explore
-                  </Text>
-                );
-            } else if (route.name == 'Cart') {
-              if (focused)
-                return (
-                  <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
-                    Cart
-                  </Text>
-                );
-              else
-                return (
-                  <Text style={{color: '6D3805', fontStyle: 'italic'}}>
-                    Cart
-                  </Text>
-                );
-            } else if (route.name == 'Favorite') {
-              if (focused)
-                return (
-                  <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
-                    Favorite
-                  </Text>
-                );
-              else
-                return (
-                  <Text style={{color: '6D3805', fontStyle: 'italic'}}>
-                    Favorite
-                  </Text>
-                );
-            } else if (route.name == 'Account') {
-              if (focused)
-                return (
-                  <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
-                    Account
-                  </Text>
-                );
-              else
-                return (
-                  <Text style={{color: '6D3805', fontStyle: 'italic'}}>
-                    Account
-                  </Text>
-                );
-            }
-          },
-        })}>
-        <Tab.Screen name="Shop" component={ShopNavigation} />
-        <Tab.Screen name="Explore" component={ExploreNavigation} />
-        <Tab.Screen name="Cart" component={CartNavigation} />
-        <Tab.Screen name="Favorite" component={FavoriteScreen} />
-        <Tab.Screen name="Account" component={AccountNavigation} />
-      </Tab.Navigator>
-    );
-  };
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="avatar" component={Avatar} />
-      <Stack.Screen name="profile" component={ProfileScreen} />
-    </Stack.Navigator>
+    <Tab.Navigator
+      initialRouteName="Shop"
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({focused}) => {
+          if (route.name == 'Shop') {
+            if (!focused) {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/shop.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/shopPressed.png')}
+                />
+              );
+            }
+          } else if (route.name == 'Explore') {
+            if (!focused) {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/explore.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/explorePressed.png')}
+                />
+              );
+            }
+          } else if (route.name == 'Cart') {
+            if (!focused) {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/cart.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/cartPressed.png')}
+                />
+              );
+            }
+          } else if (route.name == 'Favorite') {
+            if (!focused) {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/favorite.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/favoritePressed.png')}
+                />
+              );
+            }
+          } else if (route.name == 'Account') {
+            if (!focused) {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/account.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../../../media/iconNavigation/accountPressed.png')}
+                />
+              );
+            }
+          }
+        },
+        tabBarLabel: ({focused}) => {
+          if (route.name == 'Shop') {
+            if (focused)
+              return (
+                <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>Shop</Text>
+              );
+            else
+              return (
+                <Text style={{color: '6D3805', fontStyle: 'italic'}}>Shop</Text>
+              );
+          } else if (route.name == 'Explore') {
+            if (focused)
+              return (
+                <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
+                  Explore
+                </Text>
+              );
+            else
+              return (
+                <Text style={{color: '6D3805', fontStyle: 'italic'}}>
+                  Explore
+                </Text>
+              );
+          } else if (route.name == 'Cart') {
+            if (focused)
+              return (
+                <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>Cart</Text>
+              );
+            else
+              return (
+                <Text style={{color: '6D3805', fontStyle: 'italic'}}>Cart</Text>
+              );
+          } else if (route.name == 'Favorite') {
+            if (focused)
+              return (
+                <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
+                  Favorite
+                </Text>
+              );
+            else
+              return (
+                <Text style={{color: '6D3805', fontStyle: 'italic'}}>
+                  Favorite
+                </Text>
+              );
+          } else if (route.name == 'Account') {
+            if (focused)
+              return (
+                <Text style={{color: 'FF5E00', fontWeight: 'bold'}}>
+                  Account
+                </Text>
+              );
+            else
+              return (
+                <Text style={{color: '6D3805', fontStyle: 'italic'}}>
+                  Account
+                </Text>
+              );
+          }
+        },
+        tabBarOnPress: e => {
+          setCurrentTab(e.target.innerText); // or use e.currentTarget.getAttribute('name')
+        },
+      })}>
+      <Tab.Screen name="Shop" component={ShopNavigation} />
+      <Tab.Screen name="Explore" component={ExploreNavigation} />
+      <Tab.Screen name="Cart" component={CartNavigation} />
+      <Tab.Screen name="Favorite" component={FavoriteScreen} />
+      <Tab.Screen name="Account" component={AccountNavigation} />
+    </Tab.Navigator>
   );
 };
 

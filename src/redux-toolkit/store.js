@@ -3,7 +3,8 @@ import filterSlice from './reducer_slice/shop_slice/filterSlice';
 import itemSlice from './reducer_slice/shop_slice/itemSlice';
 import buyItemSlice from './reducer_slice/cart_slice/buyItemSlice';
 import loginSlice from './reducer_slice/user_slice/loginSlice';
-import getProductAPI from './reducer_slice/cart_slice/getProductAPI';
+import getProductAPISlice from './reducer_slice/cart_slice/getProductAPISlice';
+import shopPageCategorySlice from './reducer_slice/shop_slice/shopPageCategorySlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     item: itemSlice,
     buyItem: buyItemSlice,
     login: loginSlice,
-    dataAPI: getProductAPI
+    dataAPI: getProductAPISlice,
+    dataCategoryMainShop: shopPageCategorySlice
   },
 });

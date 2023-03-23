@@ -6,7 +6,7 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 
 import {
   GoogleSignin,
@@ -41,6 +41,19 @@ const LogIn = props => {
     getCurrentUser();
   }, []);
 
+  // const getCurrentUser = useCallback(async () => {
+  //   const currentUser = await GoogleSignin.getCurrentUser();
+
+  //   if (currentUser) {
+  //     setUser(currentUser);
+  //   }
+  // }, [setUser]);
+
+  // useEffect(() => {
+  //   GoogleSignin.configure({});
+  //   getCurrentUser();
+  // }, [getCurrentUser]);
+
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -51,7 +64,6 @@ const LogIn = props => {
       dispatch(await getUserInformationFromGoogle(userInfo));
       dispatch(await changeStatusLogin(true));
       // console.log('User: ', user);
-      navigation.navigate('avatar');
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -73,7 +85,6 @@ const LogIn = props => {
     console.log('User: ', user);
     dispatch(getUserInformationFromGoogle(user));
     dispatch(changeStatusLogin(true));
-    navigation.navigate('avatar');
   };
 
   const signOut = async () => {

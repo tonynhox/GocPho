@@ -1,32 +1,53 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {changeStatusLogin} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
-import { getUserInformationFromGoogle } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import {getUserInformationFromGoogle} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import { useNavigation } from '@react-navigation/native';
 
 import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-  } from '@react-native-google-signin/google-signin';
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const ProfileScreen = props => {
   const {navigation} = props;
+  const clearNavigation = useNavigation()
 
+  const infor = useSelector(state => state.login.userInfo);
+
+  console.log('User info: ', infor);
   const dispatch = useDispatch();
 
   const signOut = async () => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      dispatch(await getUserInformationFromGoogle(null))
+      dispatch(await getUserInformationFromGoogle(null));
     } catch (error) {
       console.log('Error:', error.message);
     }
   };
 
+  const askForLogout = () =>{
+    Alert.alert(
+      'Logout?',
+      'Are you sure you want to Logout?',
+      [
+         {text: 'Cancel', style: 'cancel'},
+         {text: 'OK', onPress: () => handleLogout()},
+      ],
+      { cancelable: false }
+ )
+  }
+
   const handleLogout = async () => {
-    signOut()
+    signOut();
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Shop'}],
+    });
     await dispatch(changeStatusLogin(false));
   };
 
@@ -37,12 +58,33 @@ const ProfileScreen = props => {
         <Text style={styles.textHeader}>Profile</Text>
       </View>
       <View style={styles.body}>
-        <View style={styles.bodyAccount}>
+        {/* Avatar form google */}
+        {/* <View style={styles.bodyAccount}>
           <Image
-            source={require('../../../../media/images/iconAccount.png')}
-            style={{width: 20, height: 24}}
+            style={{
+              width: 70,
+              height: 70,
+              resizeMode: 'contain',
+              borderRadius: 40,
+            }}
+            source={{uri: infor.user.photo}}
           />
-          <Text style={styles.textAccount}>Edit Profile</Text>
+        </View> */}
+
+        <View style={styles.bodyAccountGoogle}>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              resizeMode: 'contain',
+              borderRadius: 25,
+            }}
+            source={{uri: infor.user.photo}}
+          />
+          <View >
+            <Text style={styles.textAccountGoogle}>{infor.user.name}</Text>
+            <Text style={[styles.textAccountGoogle,{fontWeight:'450'} ]}>Edit Profile</Text>
+          </View>
         </View>
 
         <View style={styles.bodyAccount}>
@@ -84,7 +126,7 @@ const ProfileScreen = props => {
             source={require('../../../../media/images/iconLogout.png')}
             style={{width: 25, height: 25}}
           />
-          <Text style={styles.textAccount} onPress={handleLogout}>
+          <Text style={styles.textAccount} onPress={askForLogout}>
             Logout
           </Text>
         </View>
@@ -108,8 +150,20 @@ const styles = StyleSheet.create({
     color: '#6D3805',
     marginLeft: 27,
   },
+
+  textAccountGoogle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#6D3805',
+    marginLeft: 15,
+  },
   bodyAccount: {
     flexDirection: 'row',
+    marginBottom: 25,
+  },
+  bodyAccountGoogle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     marginBottom: 25,
   },
   body: {},

@@ -21,7 +21,7 @@ import { cloneIncrementItemQuantity } from '../../../../redux-toolkit/reducer_sl
 import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
 import SelectDropdown from 'react-native-select-dropdown';
 
-import  { fetchData, getProductAPI } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPI';
+import  { fetchData, getProductAPI } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 
 
 const CartAPI = props => {
@@ -38,7 +38,7 @@ const CartAPI = props => {
 
   useEffect(()=>{
     dispatch(fetchData())
-  }, [fetchData])
+  }, [])
 
   const addItemRedux = () => {
     dispatch(

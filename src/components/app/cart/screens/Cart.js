@@ -9,24 +9,31 @@ import {
   TouchableHighlight,
   Touchable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {buyItemSlice} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import { cloneIncrementItemQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {cloneIncrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import SelectDropdown from 'react-native-select-dropdown';
+import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 
 const Cart = props => {
-  const listData = useSelector(state => state.buyItem.buyList);
-
+  const listData = useSelector(state => state.dataAPI.data);
+  console.log('data: ', listData);
+  const loading = useSelector(state => state.dataAPI.loading);
+  const error = useSelector(state => state.dataAPI.error);
   const sort = ['Name', 'Total Price', 'Quantity'];
 
   const {navigation} = props;
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [fetchData]);
 
   const dispatch = useDispatch();
 
@@ -43,8 +50,9 @@ const Cart = props => {
   };
 
   const handleUpRedux = id => {
+    console.log("ID: ", id)
     dispatch(incrementItemQuantity({id}));
-    };
+  };
 
   const handleDownRedux = id => {
     dispatch(decrementItemQuantity({id}));
@@ -67,11 +75,14 @@ const Cart = props => {
       // <Pressable onPress={()=> deleteItem(item.id)}>
       <View style={styles.itemContainer}>
         {/* Image Fruit*/}
-        <Image source={item.image} />
+        <Image
+          style={{width: 130, height: 100, resizeMode: 'contain'}}
+          source={{uri: item.image}}
+        />
 
         {/* Name Fruit and quantity */}
         <View style={styles.nameFruitContainer}>
-          <Text style={styles.nameFruit}>{item.nameFruit}</Text>
+          <Text numberOfLines={2} style={styles.nameFruit}>{item.name}</Text>
           <View style={styles.iconContainer}>
             <Pressable onPress={() => handleDownRedux(item.id)}>
               <Image
@@ -198,6 +209,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     lineHeight: 32,
+    width: 150
   },
   iconContainer: {
     flexDirection: 'row',
@@ -214,6 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginVertical: 5
   },
   signUpInsideButton: {
     color: 'white',
