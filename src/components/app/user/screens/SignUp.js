@@ -6,10 +6,14 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
+import CountryPicker from 'react-native-country-picker-modal'
+
 
 const SignUp = (props) => {
   const { navigation } = props;
+  const [countryCode, setCountryCode] = useState('VN');
+  const [callingCode, setCallingCode] = useState('84');
   return (
     <View style={styles.container}>
       {/* Back Arrow */}
@@ -36,11 +40,30 @@ const SignUp = (props) => {
 
       {/* Name input */}
       <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Phone Number"
-          placeholderTextColor={'#AC8E71'}
-          style={styles.inputPasswordConfirmPassword}
-        />
+        <View
+          style={styles.inputPasswordConfirmPassword}>
+          <CountryPicker
+            style={{ alignItems: 'center' }}
+            withFilter
+            countryCode={countryCode}
+            withFlag
+            withAlphaFilter
+            withEmoji={true}
+            withCallingCode={false}
+            withCurrencyButton={false}
+            onSelect={(country) => {
+              const { cca2, callingCode } = country;
+              console.log('country: ', country);
+              setCountryCode(cca2);
+              setCallingCode(callingCode);
+            }}
+          />
+          <TextInput
+            placeholder="Phone Number"
+            placeholderTextColor={'#AC8E71'}
+          />
+        </View>
+
       </View>
 
       {/* For the security */}
@@ -48,14 +71,14 @@ const SignUp = (props) => {
         We need to verify you. We will send you a one time verification code.{' '}
       </Text>
 
-      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("SignPass")}>
+      <Pressable style={styles.btnSignUp} onPress={() => navigation.navigate("SignPass")}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 
       {/* Already have an account? */}
       <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, {color:'#7F4E1D'}]}>Already have an account? </Text>
-        <Text onPress={()=> navigation.navigate("Login")} style={[styles.already,{color:'#FF5E00'}]}>Login</Text>
+        <Text style={[styles.already, { color: '#7F4E1D' }]}>Already have an account? </Text>
+        <Text onPress={() => navigation.navigate("Login")} style={[styles.already, { color: '#FF5E00' }]}>Login</Text>
       </View>
     </View>
   );
@@ -75,6 +98,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   inputPasswordConfirmPassword: {
+    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#F3F3F3',
     marginTop: 16,
     borderRadius: 6,

@@ -6,10 +6,13 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
+import CountryPicker from 'react-native-country-picker-modal'
 
 const LogIn = (props) => {
   const { navigation } = props;
+  const [countryCode, setCountryCode] = useState('VN');
+  const [callingCode, setCallingCode] = useState('84');
   return (
     <View style={styles.container}>
       {/* Back Arrow */}
@@ -32,11 +35,30 @@ const LogIn = (props) => {
 
       {/* Phone Number input */}
       <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Phone Number"
-          placeholderTextColor={'#AC8E71'}
-          style={styles.inputPasswordConfirmPassword}
-        />
+        <View
+          style={styles.inputPasswordConfirmPassword}>
+          <CountryPicker
+            style={{ alignItems: 'center' }}
+            withFilter
+            countryCode={countryCode}
+            withFlag
+            withAlphaFilter
+            withEmoji={true}
+            withCallingCode={false}
+            withCurrencyButton={false}
+            onSelect={(country) => {
+              const { cca2, callingCode } = country;
+              console.log('country: ', country);
+              setCountryCode(cca2);
+              setCallingCode(callingCode);
+            }}
+          />
+          <TextInput
+            placeholder="Phone Number"
+            placeholderTextColor={'#AC8E71'}
+          />
+        </View>
+
       </View>
 
       {/* Confirm Password input */}
@@ -58,16 +80,16 @@ const LogIn = (props) => {
         <Text style={styles.forgotPassword}>Forgot Password</Text>
       </View>
 
-      <Pressable style={styles.btnSignUp} onPress={()=> navigation.goBack()}>
+      <Pressable style={styles.btnSignUp} onPress={() => navigation.goBack()}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 
       {/* Already have an account? Login */}
       <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, {color: '#7F4E1D'}]}>
+        <Text style={[styles.already, { color: '#7F4E1D' }]}>
           Already have an account?{' '}
         </Text>
-        <Text style={[styles.already, {color: '#FF5E00'}]}>Sign Up</Text>
+        <Text style={[styles.already, { color: '#FF5E00' }]}>Sign Up</Text>
       </View>
     </View>
   );
@@ -115,6 +137,8 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   inputPasswordConfirmPassword: {
+    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#F3F3F3',
     marginTop: 16,
     borderRadius: 6,

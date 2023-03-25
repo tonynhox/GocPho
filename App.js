@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import React, {
   useState,
   useContext,
@@ -29,30 +29,34 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 import History from './src/components/app/user/screens/History'
 import Ongoing from './src/components/app/user/screens/Ongoing'
-
+import EditProfile from './src/components/app/user/screens/EditProfile';
+import CountryPicker from 'react-native-country-picker-modal'
+import LogIn from './src/components/app/user/screens/LogIn';
+import SignUp from './src/components/app/user/screens/SignUp';
 
 const App = () => {
+  
+
   return (
-    <View style = {styles.container}>
-      <Text>Hello</Text>
-      <Payment />
-    </View>
-   
- //   <NavigationContainer>
+    
+      <LogIn />
+
+
+    //   <NavigationContainer>
 
     //  <MainNavigation />
-  //    {/* <UserNavigation /> */}
+    //    {/* <UserNavigation /> */}
 
-  
- //   </NavigationContainer>
-  
+
+    //   </NavigationContainer>
+
   );
 };
 
 export default App;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
   }
 });
