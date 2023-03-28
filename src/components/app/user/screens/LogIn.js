@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
     marginTop: 16,
     borderRadius: 6,
-    paddingLeft: 50,
+    paddingLeft: 20,
   },
   signUpInsideButton: {
     color: 'white',

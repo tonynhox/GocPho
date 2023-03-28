@@ -39,7 +39,7 @@ const App = () => {
 
   return (
     
-      <LogIn />
+      <EditProfile />
 
 
     //   <NavigationContainer>

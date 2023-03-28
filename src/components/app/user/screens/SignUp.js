@@ -6,12 +6,11 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React, { useState } from 'react';
-import CountryPicker from 'react-native-country-picker-modal'
+import React, {useState} from 'react';
+import CountryPicker from 'react-native-country-picker-modal';
 
-
-const SignUp = (props) => {
-  const { navigation } = props;
+const SignUp = props => {
+  const {navigation} = props;
   const [countryCode, setCountryCode] = useState('VN');
   const [callingCode, setCallingCode] = useState('84');
   return (
@@ -40,10 +39,9 @@ const SignUp = (props) => {
 
       {/* Name input */}
       <View style={styles.passwordContainer}>
-        <View
-          style={styles.inputPasswordConfirmPassword}>
+        <View style={styles.inputPasswordConfirmPassword}>
           <CountryPicker
-            style={{ alignItems: 'center' }}
+            style={{alignItems: 'center'}}
             withFilter
             countryCode={countryCode}
             withFlag
@@ -51,8 +49,8 @@ const SignUp = (props) => {
             withEmoji={true}
             withCallingCode={false}
             withCurrencyButton={false}
-            onSelect={(country) => {
-              const { cca2, callingCode } = country;
+            onSelect={country => {
+              const {cca2, callingCode} = country;
               console.log('country: ', country);
               setCountryCode(cca2);
               setCallingCode(callingCode);
@@ -63,7 +61,6 @@ const SignUp = (props) => {
             placeholderTextColor={'#AC8E71'}
           />
         </View>
-
       </View>
 
       {/* For the security */}
@@ -71,14 +68,22 @@ const SignUp = (props) => {
         We need to verify you. We will send you a one time verification code.{' '}
       </Text>
 
-      <Pressable style={styles.btnSignUp} onPress={() => navigation.navigate("SignPass")}>
+      <Pressable
+        style={styles.btnSignUp}
+        onPress={() => navigation.navigate('SignPass')}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 
       {/* Already have an account? */}
       <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, { color: '#7F4E1D' }]}>Already have an account? </Text>
-        <Text onPress={() => navigation.navigate("Login")} style={[styles.already, { color: '#FF5E00' }]}>Login</Text>
+        <Text style={[styles.already, {color: '#7F4E1D'}]}>
+          Already have an account?{' '}
+        </Text>
+        <Text
+          onPress={() => navigation.navigate('Login')}
+          style={[styles.already, {color: '#FF5E00'}]}>
+          Login
+        </Text>
       </View>
     </View>
   );
