@@ -67,7 +67,7 @@ export const getProductAPISlice = createSlice({
         item => item.id === action.payload.id,
       );
       if (itemIndex !== -1) {
-        if (state.data[itemIndex].quantity != 0) {
+        if (state.data[itemIndex].quantity != 1) {
           state.data[itemIndex].quantity--;
         } else {
           state.data[itemIndex].quantity;
