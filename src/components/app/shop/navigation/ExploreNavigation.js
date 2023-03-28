@@ -4,23 +4,24 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Explore from '../screens/Explore';
 import Fruit from '../screens/Fruit'
-import Mango from '../screens/Mango'
 
 
 const Stack = createNativeStackNavigator();
+
 
 const Navigations = {
   Stack: [
     { component: Explore, name: 'Explores', options: {} },
     { component: Fruit, name: 'Fruit', options: {} },//note lại cái này(sai sai)
-    { component: Mango, name: 'Mango', options: {} },
   ]
 }
 
 const ExploreNavigation = () => {
+
+
   return (
     <Stack.Navigator
-      initialRouteName='Explores'
+      initialRouteName={"Explores"}
       screenOptions={{ headerShown: false }}
     >
       {

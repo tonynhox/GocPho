@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
 import React from 'react'
-
+import Mango from './Mango';
 
 const Shop = (props) => {
     const { navigation } = props;
@@ -10,8 +10,14 @@ const Shop = (props) => {
         return (
             <TouchableOpacity
                 style={Styles.card}
-                onPress={() => props.navigation.navigate('Explore',{screen:'Fruit'})
+                onPress={() => {
+                    props.navigation.navigate('Explore', { screen: 'Explores' })
+                    setTimeout(() => {
+                        props.navigation.navigate('Fruit')
+
+                    },1)
                 }
+            }
             >
                 <View style={[Styles.imgCard]}>
                     <ImageBackground style={Styles.imgCardBackground} source={_background}>
@@ -35,7 +41,14 @@ const Shop = (props) => {
         // const item= props;
         const { __id, image, price, kg } = item;
         return (
-            <Pressable onPress={() => navigation.navigate("Mango")}>
+            <Pressable onPress={() => {
+                // props.navigation.navigate('Explore', { screen: 'Explores' })
+                // setTimeout(() => {
+                //     props.navigation.navigate('Mango')
+
+                // },1)
+                props.navigation.navigate('Mango')
+            }}>
 
                 <View style={[Styles.boxShadown, Styles.cardPopular]}>
                     <View style={{ margin: 10 }}>
@@ -74,9 +87,9 @@ const Shop = (props) => {
 
             <View style={[{ marginTop: 36 }, Styles.type]}>
                 <Text style={Styles.txtType}>Categories</Text>
-                <TouchableOpacity style={Styles.seeAll} 
-                    onPress={() => props.navigation.navigate('StackNavigation',{screen:'Explore'})}>
-                        <Text style={Styles.txtSeeAll}>See All</Text>
+                <TouchableOpacity style={Styles.seeAll}
+                    onPress={() => props.navigation.navigate('StackNavigation', { screen: 'Explore' })}>
+                    <Text style={Styles.txtSeeAll}>See All</Text>
                 </TouchableOpacity>
             </View>
 

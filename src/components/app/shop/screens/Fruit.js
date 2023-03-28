@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
-import React from 'react'
+import React,{ useEffect } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list';
-
+import { useIsFocused,CommonActions,useNavigation } from '@react-navigation/native';
 const Fruit = (props) => {
     const { navigation } = props;
-
     const renderItemPopular = ({ item, i,index }) => {
         // const item= props;
         const { __id, image, price, kg } = item;

@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 
 
 const Explore = (props) => {
     const { navigation } = props;
+
     const renderItem = ({ item }) => {
         // const item= props;
         const { _name, image, _background, _id } = item;
         return (
             <TouchableOpacity
-            onPress={() => navigation.navigate("Fruit")}
+                onPress={() => navigation.navigate("Fruit")}
                 style={Styles.card}
             // onPress={() => navigation.navigate('Detail', {id: _id}
             //     )}
@@ -54,11 +55,11 @@ const Explore = (props) => {
                     keyExtractor={(item) => item._id}//số không trùng
                     showsVerticalScrollIndicator={false}
                     horizontal={false}
-                    columnWrapperStyle={{justifyContent: 'space-between'}}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
                 />
             </View>
 
-    
+
 
 
 
@@ -69,7 +70,7 @@ const Explore = (props) => {
 
 export default Explore
 const Styles = StyleSheet.create({
-    
+
     nameCard: {
         color: '#6D3805',
         marginTop: 16.5,
@@ -91,7 +92,7 @@ const Styles = StyleSheet.create({
     },
 
     imgCard: {
-        
+
     },
     card: {
         alignItems: 'center',
@@ -99,8 +100,8 @@ const Styles = StyleSheet.create({
 
     },
     listCate: {
-        height: '100%', 
-        
+        height: '100%',
+
 
     },
 

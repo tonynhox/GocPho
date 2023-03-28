@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -23,13 +23,11 @@ import Mycards1 from '../user/screens/Mycards1'
 import ShopNavigation from '../shop/navigation/ShopNavigation'
 import ExploreNavigation from '../shop/navigation/ExploreNavigation'
 import AccountNavigation from '../user/navigation/AccountNavigation'
+import { useIsFocused } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-const Stackbao = createNativeStackNavigator();
-
-
-
+const StackMain = createNativeStackNavigator();
 
 const Navigations = {
   Tabs: [
@@ -41,7 +39,8 @@ const Navigations = {
   ],
 }
 
-const MainNavigation = () => {
+
+const TabMain = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -61,6 +60,7 @@ const MainNavigation = () => {
               );
             }
           } else if (route.name == 'Explore') {
+
             if (!focused) {
               return (
                 <Image source={require('../../../media/iconNavigation/explore.png')} />
@@ -188,11 +188,25 @@ const MainNavigation = () => {
         Navigations.Tabs.map((item, index) => {
           return (
             <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
+            
           )
         })
       }
     </Tab.Navigator>
   )
+}
+
+
+const MainNavigation = () => {
+  return(
+    <StackMain.Navigator>
+      <StackMain.Screen name="TabMain" component={TabMain} options={{ headerShown: false }} />
+      <StackMain.Screen name="Mango" component={Mango} options={{ headerShown: false }} />
+    </StackMain.Navigator>
+
+
+  )
+
 }
 
 export default MainNavigation

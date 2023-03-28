@@ -52,8 +52,6 @@ const StackTopOrder = () => {
   return (
     <stackTop.Navigator 
     screenOptions={{ headerShadowVisible: false,}}
-    
-
     >
       <stackTop.Screen name="Orders" component={TopTabOrder} />
     </stackTop.Navigator>
@@ -66,8 +64,8 @@ const StackProfile = createNativeStackNavigator();
 const ProfileNavigation = () => {
   return (
     <StackProfile.Navigator 
-    screenOptions={{ headerShown: false}}
-    
+      screenOptions={{ headerShown: false}}
+
     >
       <StackProfile.Screen name="ProfileScreen" component={Profile} />
       <StackProfile.Screen name="EditProfile" component={EditProfile} />
@@ -97,6 +95,7 @@ const StackNavigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
+      initialRouteName="_Account"
     >
       {
         Navigations.Stack.map((item, index) => {
