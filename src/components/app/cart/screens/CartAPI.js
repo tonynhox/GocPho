@@ -25,6 +25,7 @@ import  { fetchData, getProductAPI } from '../../../../redux-toolkit/reducer_sli
 
 
 const CartAPI = props => {
+  // const listData = useSelector(state => state.dataAPI.data);
   const listData = useSelector(state => state.dataAPI.data);
   console.log("data: ", listData)
   const loading = useSelector(state => state.dataAPI.loading);
@@ -36,9 +37,9 @@ const CartAPI = props => {
 
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(fetchData())
-  }, [])
+  // useEffect(()=>{
+  //   dispatch(fetchData())
+  // }, [])
 
   const addItemRedux = () => {
     dispatch(

@@ -12,15 +12,26 @@ import {
 import React, {useEffect, useState} from 'react';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import {useDispatch, useSelector} from 'react-redux';
+import { showItemMatch } from '../../../../redux-toolkit/selector';
+import { searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 
 const Explore = props => {
   const {navigation} = props;
-  const dataExplore = useSelector(state => state.dataAPI.data);
+  const dataExplore = useSelector(showItemMatch)
+  console.log("Data search match: ", dataExplore)
   const dispatch = useDispatch();
+
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(fetchData());
   }, [fetchData]);
+
+  const handleSearch = (value) => {
+    console.log('Handle Search: ', value)
+    setSearch(value)
+    dispatch(searchFilterChange(value))
+  };
 
   const renderItem = ({item}) => {
     // const item= props;
@@ -40,7 +51,9 @@ const Explore = props => {
           </ImageBackground>
         </View>
 
-        <Text numberOfLines={2} style={Styles.nameCard}>{name}</Text>
+        <Text numberOfLines={2} style={Styles.nameCard}>
+          {name}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -52,6 +65,8 @@ const Explore = props => {
       </View>
       <View style={Styles.search}>
         <TextInput
+          value={search}
+          onChangeText={handleSearch}
           placeholder="Search"
           placeholderTextColor="rgba(109, 56, 5, 0.57)"
           style={Styles.ipSearch}></TextInput>
@@ -84,7 +99,7 @@ const Styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     lineHeight: 18,
-    width: 100
+    width: 100,
   },
   imgCardItem: {},
 
@@ -100,9 +115,9 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginHorizontal: 5,
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   listCate: {
     height: '100%',
