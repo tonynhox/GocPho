@@ -13,7 +13,9 @@ export const shopPageCategorySlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    data: [],
+    data: [
+
+    ],
   },
   reducers: {},
   extraReducers: builder => {

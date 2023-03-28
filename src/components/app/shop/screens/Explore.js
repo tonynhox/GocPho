@@ -12,14 +12,16 @@ import {
 import React, {useEffect, useState} from 'react';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import {useDispatch, useSelector} from 'react-redux';
-import { showItemMatch } from '../../../../redux-toolkit/selector';
-import { searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import {showItemMatch} from '../../../../redux-toolkit/selector';
+import {categoryFilterChange, searchFilterChange} from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 
 const Explore = props => {
   const {navigation} = props;
-  const dataExplore = useSelector(showItemMatch)
-  console.log("Data search match: ", dataExplore)
   const dispatch = useDispatch();
+
+  const dataExplore = useSelector(showItemMatch);
+  const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
 
   const [search, setSearch] = useState('');
 
@@ -27,10 +29,23 @@ const Explore = props => {
     dispatch(fetchData());
   }, [fetchData]);
 
-  const handleSearch = (value) => {
-    console.log('Handle Search: ', value)
-    setSearch(value)
-    dispatch(searchFilterChange(value))
+  useEffect(() => {
+    dispatch(fetchCategory);
+  }, [fetchCategory]);
+
+  const handleSearch = value => {
+    setSearch(value);
+    dispatch(searchFilterChange(value));
+  };
+
+  const handleCategory = id => {
+    index = dataCategory.findIndex(item => {
+     return item.id == id;
+    });
+    
+    if (index != -1) {
+      dispatch(categoryFilterChange(dataCategory[index].name));
+    }
   };
 
   const renderItem = ({item}) => {
@@ -58,6 +73,16 @@ const Explore = props => {
     );
   };
 
+  const ItemCategory = ({item}) => {
+    return (
+      <View style={{height: 30, marginTop: 10}}>
+        <Pressable onPress={() => handleCategory(item.id)}>
+          <Text style={Styles.listCategory}>{item.name}</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
   return (
     <View style={Styles.container}>
       <View style={Styles.title}>
@@ -76,23 +101,36 @@ const Explore = props => {
         />
       </View>
 
-      <View style={Styles.listCate}>
-        <FlatList
-          data={dataExplore}
-          numColumns={3}
-          renderItem={renderItem} //gọi từ biến trên
-          keyExtractor={item => item.id} //số không trùng
-          showsVerticalScrollIndicator={false}
-          horizontal={false}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-        />
-      </View>
+      <FlatList
+        data={dataCategory}
+        renderItem={({item}) => <ItemCategory item={item} />}
+        keyExtractor={item => item.id}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      />
+
+      <FlatList
+        data={dataExplore}
+        numColumns={3}
+        renderItem={renderItem} //gọi từ biến trên
+        keyExtractor={item => item.id} //số không trùng
+        showsVerticalScrollIndicator={false}
+        horizontal={false}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+      />
     </View>
   );
 };
 
 export default Explore;
 const Styles = StyleSheet.create({
+  listCategory: {
+    fontSize: 20,
+    fontWeight: '400',
+    lineHeight: 24,
+    marginHorizontal: 7,
+    color: '#6D3805',
+  },
   nameCard: {
     color: '#6D3805',
     marginTop: 8,
@@ -119,9 +157,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  listCate: {
-    height: '100%',
-  },
+  listCate: {},
 
   imgSearch: {
     position: 'absolute',
