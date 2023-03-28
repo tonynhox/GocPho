@@ -19,12 +19,18 @@ import loginSlice, {
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 import {useDispatch} from 'react-redux';
 
+import CountryPicker from 'react-native-country-picker-modal'
+
 GoogleSignin.configure();
 
 const LogIn = props => {
   const [user, setUser] = useState(null);
 
   const {navigation} = props;
+
+  const [countryCode, setCountryCode] = useState('VN');
+  const [callingCode, setCallingCode] = useState('84');
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -115,11 +121,30 @@ const LogIn = props => {
       </Text>
       {/* Phone Number input */}
       <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Phone Number"
-          placeholderTextColor={'#AC8E71'}
-          style={styles.inputPasswordConfirmPassword}
-        />
+        <View
+          style={styles.inputPasswordConfirmPassword}>
+          <CountryPicker
+            style={{ alignItems: 'center' }}
+            withFilter
+            countryCode={countryCode}
+            withFlag
+            withAlphaFilter
+            withEmoji={true}
+            withCallingCode={false}
+            withCurrencyButton={false}
+            onSelect={(country) => {
+              const { cca2, callingCode } = country;
+              console.log('country: ', country);
+              setCountryCode(cca2);
+              setCallingCode(callingCode);
+            }}
+          />
+          <TextInput
+            placeholder="Phone Number"
+            placeholderTextColor={'#AC8E71'}
+          />
+        </View>
+
       </View>
       {/* Confirm Password input */}
       <View style={styles.passwordContainer}>
@@ -153,10 +178,10 @@ const LogIn = props => {
       </View>
       {/* Already have an account? Login */}
       <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, {color: '#7F4E1D'}]}>
+        <Text style={[styles.already, { color: '#7F4E1D' }]}>
           Already have an account?{' '}
         </Text>
-        <Text style={[styles.already, {color: '#FF5E00'}]}>Sign Up</Text>
+        <Text style={[styles.already, { color: '#FF5E00' }]}>Sign Up</Text>
       </View>
     </View>
   );
@@ -204,10 +229,12 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   inputPasswordConfirmPassword: {
+    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#F3F3F3',
     marginTop: 16,
     borderRadius: 6,
-    paddingLeft: 50,
+    paddingLeft: 20,
   },
   signUpInsideButton: {
     color: 'white',
@@ -264,5 +291,6 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 20,
+    flex: 1,
   },
 });
