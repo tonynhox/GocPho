@@ -132,6 +132,7 @@ const Styles = StyleSheet.create({
         bottom: 0
     },
     txtPrice: {
+        justifyContent: 'space-around',
         color: '#FF5E00',
         fontSize: 20,
         fontWeight: '700',

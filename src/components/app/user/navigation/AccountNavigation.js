@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text ,Image} from 'react-native'
 import React from 'react'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { HeaderBackButton } from '@react-navigation/elements';
 
 import Account from '../screens/AccountScreen';
 import Profile from '../screens/ProfileScreen';
@@ -15,6 +16,7 @@ import History from '../screens/History';
 import EditProfile from '../screens/EditProfile';
 import ChangePassword from '../screens/ChangePassword';
 import Mycards from '../screens/Mycards1';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -22,23 +24,16 @@ const Tab = createMaterialTopTabNavigator();
 
 const TopTabOrder = () => {
   return (
-    <Tab.Navigator 
-        screenOptions={{
-          tabStyle: { 
-            width: '70%', // thiết lập chiều rộng của mỗi tab được tính tự động
-            marginLeft: '5%', // đẩy các tab sang bên trái
-            marginRight: '5%', // đẩy các tab sang bên phải
-            justifyContent: 'center', // căn giữa các tab theo chiều ngang
-            
-          },
-          tabBar: {
-            tabStyle: { 
-              padding: 10, // thiết lập khoảng cách xung quanh các tab là 10px
-            }},
-          tabBarActiveTintColor: '#F37A20', // màu sắc của chữ cho tab được chọn
-          tabBarInactiveTintColor: 'gray', // màu sắc của chữ cho các tab không được chọn
-          tabBarIndicatorStyle: { backgroundColor: '#FF5E00', } // tùy chọn để thay đổi màu của dòng chỉ trỏ đến tab đang được chọn
-        }}
+    <Tab.Navigator
+      screenOptions={{
+      tabBarActiveTintColor: '#F37A20',
+      tabBarInactiveTintColor: 'gray',
+      tabBarIndicatorStyle: {
+        backgroundColor: '#FF5E00',
+        width: '50%',
+      },tabBarIndicatorContainerStyle: { marginHorizontal: 40, paddingHorizontal: 80 }
+    }}
+
     >
       <Tab.Screen name="Ongoing" component={Ongoing} />
       <Tab.Screen name="Settings" component={History} />
@@ -50,8 +45,23 @@ const stackTop = createNativeStackNavigator();
 
 const StackTopOrder = () => {
   return (
-    <stackTop.Navigator 
-    screenOptions={{ headerShadowVisible: false,}}
+    <stackTop.Navigator
+      screenOptions={({ navigation, route }) => ({ 
+        headerShadowVisible: false,
+        headerTitleStyle: {  fontSize: 24, fontWeight: '700'},
+        headerTitleAlign: 'center',
+        headerTintColor: '#FF5E00',
+        // headerBackImageSource: require('../../../../media/images/icBack.png'),
+        // headerBackImageStyle: { width: 100, height: 30 },
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+             onPress={() => navigation.goBack()}
+          >
+            {/* <Image source={require('../../../../media/images/icBack.png')} style={{ width: 20, height: 20, marginLeft: 10 }} /> */}
+          </HeaderBackButton>
+       ),
+      })}
     >
       <stackTop.Screen name="Orders" component={TopTabOrder} />
     </stackTop.Navigator>
@@ -63,8 +73,8 @@ const StackProfile = createNativeStackNavigator();
 
 const ProfileNavigation = () => {
   return (
-    <StackProfile.Navigator 
-      screenOptions={{ headerShown: false}}
+    <StackProfile.Navigator
+      screenOptions={{ headerShown: false }}
 
     >
       <StackProfile.Screen name="ProfileScreen" component={Profile} />
