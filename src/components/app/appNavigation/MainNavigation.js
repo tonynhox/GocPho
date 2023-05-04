@@ -1,90 +1,107 @@
-import React, {lazy, useState, useEffect} from 'react';
-import {Image, Text} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import CartNavigation from '../cart/navigation/CartNavigation';
-import OrdersNavigation from '../user/navigation/OrdersNavigation';
-import Shop from '../shop/screens/Shop';
-import Explore from '../shop/screens/Explore';
-import Cart from '../cart/screens/Cart';
-import FavoriteScreen from '../shop/screens/FavoriteScreen';
-import Mango from '../shop/screens/Mango';
-import Fruit from '../shop/screens/Fruit';
-import Payment from '../cart/screens/Payment';
-import Itemes from '../cart/screens/Itemes';
-import OrderAccepted from '../cart/screens/OrderAccepted';
-import AccountScreen from '../user/screens/AccountScreen';
-import EditProfile from '../user/screens/EditProfile';
-import ProfileScreen from '../user/screens/ProfileScreen';
-import OrderScreen from '../shop/screens/OrderScreen';
-import Address from '../user/screens/Address';
-import ChangePassword from '../user/screens/ChangePassword';
-import Mycards1 from '../user/screens/Mycards1';
-import Avatar from '../user/screens/Avatar';
+import React, { useEffect } from 'react'
+import { Image, Text } from 'react-native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import CartNavigation from '../cart/navigation/CartNavigation'
+import OrdersNavigation from '../user/navigation/AccountNavigation'
+import Shop from '../shop/screens/Shop'
+import Explore from '../shop/screens/Explore'
+import Cart from '../cart/screens/Cart'
+import FavoriteScreen from '../shop/screens/FavoriteScreen'
+import Mango from '../shop/screens/Mango'
+import Fruit from '../shop/screens/Fruit'
+import Payment from '../cart/screens/Payment'
+import Itemes from '../cart/screens/Itemes'
+import OrderAccepted from '../cart/screens/OrderAccepted'
+import AccountScreen from '../user/screens/AccountScreen'
+import EditProfile from '../user/screens/EditProfile'
+import ProfileScreen from '../user/screens/ProfileScreen'
+import OrderScreen from '../shop/screens/OrderScreen'
+import Address from '../user/screens/Address'
+import ChangePassword from '../user/screens/ChangePassword'
+import Mycards1 from '../user/screens/Mycards1'
+import ShopNavigation from '../shop/navigation/ShopNavigation'
+import ExploreNavigation from '../shop/navigation/ExploreNavigation'
+import AccountNavigation from '../user/navigation/AccountNavigation'
+import { useIsFocused } from '@react-navigation/native';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const StackMain = createNativeStackNavigator();
 
-const MainNavigation = ({navigation}) => {
-  const [currentTab, setCurrentTab] = useState('Shop');
+// const MainNavigation = ({navigation}) => {
+//   const [currentTab, setCurrentTab] = useState('Shop');
 
-  const ShopNavigation = () => {
-    useEffect(() => {
-      if (currentTab != 'Shop') {
-        console.log("Current tab: ", currentTab)
-        navigation.navigate('Shop');
-      }
-    }, [currentTab]);
+//   const ShopNavigation = () => {
+//     useEffect(() => {
+//       if (currentTab != 'Shop') {
+//         console.log("Current tab: ", currentTab)
+//         navigation.navigate('Shop');
+//       }
+//     }, [currentTab]);
 
-    return (
-      <Stack.Navigator
-      initialRouteName='ShopStack'
-      screenOptions={{headerShown: false}}>
-        <Stack.Screen name="ShopStack" component={Shop} />
-        <Stack.Screen name="Mango" component={Mango} />
-      </Stack.Navigator>
-    );
-  };
+//     return (
+//       <Stack.Navigator
+//       initialRouteName='ShopStack'
+//       screenOptions={{headerShown: false}}>
+//         <Stack.Screen name="ShopStack" component={Shop} />
+//         <Stack.Screen name="Mango" component={Mango} />
+//       </Stack.Navigator>
+//     );
+//   };
 
-  const ExploreNavigation = () => {
-    return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="ExploreStack" component={Explore} />
-        <Stack.Screen name="Fruit" component={Fruit} />
-      </Stack.Navigator>
-    );
-  };
-  const CartNavigation = () => {
-    return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="CartStack" component={Cart} />
-        <Stack.Screen name="Payment" component={Payment} />
-        <Stack.Screen name="Itemes" component={Itemes} />
-        <Stack.Screen name="OrderAccepted" component={OrderAccepted} />
-      </Stack.Navigator>
-    );
-  };
+//   const ExploreNavigation = () => {
+//     return (
+//       <Stack.Navigator screenOptions={{headerShown: false}}>
+//         <Stack.Screen name="ExploreStack" component={Explore} />
+//         <Stack.Screen name="Fruit" component={Fruit} />
+//       </Stack.Navigator>
+//     );
+//   };
+//   const CartNavigation = () => {
+//     return (
+//       <Stack.Navigator screenOptions={{headerShown: false}}>
+//         <Stack.Screen name="CartStack" component={Cart} />
+//         <Stack.Screen name="Payment" component={Payment} />
+//         <Stack.Screen name="Itemes" component={Itemes} />
+//         <Stack.Screen name="OrderAccepted" component={OrderAccepted} />
+//       </Stack.Navigator>
+//     );
+//   };
 
-  const AccountNavigation = () => {
-    return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="AccountStack" component={AccountScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Order" component={OrdersNavigation} />
-        <Stack.Screen name="Address" component={Address} />
-        <Stack.Screen name="Payment" component={Payment} />
-      </Stack.Navigator>
-    );
-  };
-  const SettingNavigation = () => {
-    return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="ChangePassword" component={ChangePassword} />
-        <Stack.Screen name="MyCard" component={Mycards1} />
-      </Stack.Navigator>
-    );
-  };
+//   const AccountNavigation = () => {
+//     return (
+//       <Stack.Navigator screenOptions={{headerShown: false}}>
+//         <Stack.Screen name="AccountStack" component={AccountScreen} />
+//         <Stack.Screen name="Profile" component={ProfileScreen} />
+//         <Stack.Screen name="EditProfile" component={EditProfile} />
+//         <Stack.Screen name="Order" component={OrdersNavigation} />
+//         <Stack.Screen name="Address" component={Address} />
+//         <Stack.Screen name="Payment" component={Payment} />
+//       </Stack.Navigator>
+//     );
+//   };
+//   const SettingNavigation = () => {
+//     return (
+//       <Stack.Navigator screenOptions={{headerShown: false}}>
+//         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+//         <Stack.Screen name="MyCard" component={Mycards1} />
+//       </Stack.Navigator>
+//     );
+//   }
+// }
+const Navigations = {
+  Tabs: [
+    { component: ShopNavigation, name: 'Shop', options: {} },
+    { component: ExploreNavigation, name: 'Explore', options: {} },
+    { component: CartNavigation, name: 'Cart', options: {} },
+    { component: FavoriteScreen, name: 'Favorite', options: {} },
+    { component: AccountNavigation, name: 'Account', options: {} },
+  ],
+}
 
+
+const TabMain = () => {
   return (
     <Tab.Navigator
       initialRouteName="Shop"
@@ -106,6 +123,7 @@ const MainNavigation = ({navigation}) => {
               );
             }
           } else if (route.name == 'Explore') {
+
             if (!focused) {
               return (
                 <Image
@@ -227,13 +245,29 @@ const MainNavigation = ({navigation}) => {
           setCurrentTab(e.target.innerText); // or use e.currentTarget.getAttribute('name')
         },
       })}>
-      <Tab.Screen name="Shop" component={ShopNavigation} />
-      <Tab.Screen name="Explore" component={ExploreNavigation} />
-      <Tab.Screen name="Cart" component={CartNavigation} />
-      <Tab.Screen name="Favorite" component={FavoriteScreen} />
-      <Tab.Screen name="Account" component={AccountNavigation} />
+      {
+        Navigations.Tabs.map((item, index) => {
+          return (
+            <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
+            
+          )
+        })
+      }
     </Tab.Navigator>
   );
 };
 
-export default MainNavigation;
+
+const MainNavigation = () => {
+  return(
+    <StackMain.Navigator>
+      <StackMain.Screen name="TabMain" component={TabMain} options={{ headerShown: false }} />
+      <StackMain.Screen name="Mango" component={Mango} options={{ headerShown: false }} />
+    </StackMain.Navigator>
+
+
+  )
+
+}
+
+export default MainNavigation

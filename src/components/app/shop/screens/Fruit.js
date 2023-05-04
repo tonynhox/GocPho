@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
-import React from 'react'
+import React,{ useEffect } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list';
-
-const Fruit = () => {
-
-
-
+import { useIsFocused,CommonActions,useNavigation } from '@react-navigation/native';
+const Fruit = (props) => {
+    const { navigation } = props;
     const renderItemPopular = ({ item, i,index }) => {
         // const item= props;
         const { __id, image, price, kg } = item;
@@ -22,7 +20,7 @@ const Fruit = () => {
         } else {
 
             return (
-                <View style={[Styles.boxShadown, Styles.cardPopular]}>
+                <Pressable onPress={()=>props.navigation.navigate('Mango')} style={[Styles.boxShadown, Styles.cardPopular]}>
                     <View style={{ margin: 10 }}>
                         <View style={Styles.imgPop}>
                             <Image source={require('../../../../media/images/apple.png')} />
@@ -37,7 +35,7 @@ const Fruit = () => {
                         </View>
 
                     </View>
-                </View>
+                </Pressable>
             );
         }
 

@@ -12,7 +12,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 import UserNavigation from './src/components/app/user/navigation/UserNavigation';
 import CartNavigation from './src/components/app/cart/navigation/CartNavigation';
-import OrdersNavigation from './src/components/app/user/navigation/OrdersNavigation';
+import OrdersNavigation from './src/components/app/user/navigation/AccountNavigation';
 import Cart from './src/components/app/cart/screens/Cart';
 import Itemes from './src/components/app/cart/screens/Itemes';
 import Payment from './src/components/app/cart/screens/Payment';
