@@ -91,6 +91,14 @@ export const getProductAPISlice = createSlice({
         return a.quantity - b.quantity;
       });
     },
+    removeItemById(state, action) {
+      const itemIndex = state.data.findIndex(item => {
+        return item.id == action.payload;
+      });
+
+      state.data.splice(itemIndex, 1);
+      console.log('REMOVED OBJECT NUMBER: ', itemIndex);
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchData.pending, state => {
@@ -108,6 +116,7 @@ export const getProductAPISlice = createSlice({
   },
 });
 
+export const {removeItemById} = getProductAPISlice.actions;
 export const {cloneIncrementItemQuantity} = getProductAPISlice.actions;
 export const {sortListByQuantity} = getProductAPISlice.actions;
 export const {sortListByName} = getProductAPISlice.actions;

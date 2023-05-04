@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableHighlight,
   Touchable,
+  Alert
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,6 +23,7 @@ import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_s
 import SelectDropdown from 'react-native-select-dropdown';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import {SwipeRow} from 'react-native-swipe-list-view';
+import {removeItemById} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 
 const Cart = props => {
   const listData = useSelector(state => state.dataAPI.data);
@@ -71,6 +73,29 @@ const Cart = props => {
     dispatch(sortListByQuantity());
   };
 
+  const removeItemWithSwipeRow = id => {
+    dispatch(removeItemById(id));
+  };
+
+  const deleteConfirm = (id) =>{
+    Alert.alert(
+      'Delete?',
+      'Are you sure you want to delete this item?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        {
+          text: 'OK',
+          onPress: () => removeItemWithSwipeRow(id)
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
   const Item = ({item}) => {
     return (
       // <Pressable onPress={()=> deleteItem(item.id)}>
@@ -113,39 +138,46 @@ const Cart = props => {
 
   const ItemSwipe = ({item}) => {
     return (
-      <SwipeRow rightOpenValue={-75}>
+      <SwipeRow rightOpenValue={-60}>
         <View style={styles.standaloneRowBack}>
           <Text style={styles.backTextWhite}></Text>
-          <Text style={styles.backTextWhite}>Delete</Text>
-          {/* <Image
-            style={styles.iconDelete}
-            source={require('../../../../media/images/ic_Delete.png')}
-          /> */}
+          {/* <Text style={styles.backTextWhite}>Delete</Text> */}
+          <Pressable onPress={() => deleteConfirm(item.id)}>
+            <Image
+              style={styles.iconDelete}
+              source={require('../../../../media/images/ic_Delete.png')}
+            />
+          </Pressable>
         </View>
 
         <View style={styles.standaloneRowFront}>
           <View style={styles.itemContainer}>
             {/* Image Fruit*/}
-            <Image source={item.image} />
+            <Image
+              style={{width: 130, height: 100, resizeMode: 'contain'}}
+              source={{uri: item.image}}
+            />
 
             {/* Name Fruit and quantity */}
             <View style={styles.nameFruitContainer}>
-              <Text style={styles.nameFruit}>{item.nameFruit}</Text>
+              <Text numberOfLines={2} style={styles.nameFruit}>
+                {item.name}
+              </Text>
               <View style={styles.iconContainer}>
-                <TouchableHighlight>
+                <Pressable onPress={() => handleDownRedux(item.id)}>
                   <Image
                     style={styles.icon}
                     source={require('../../../../media/images/MinusIcon.png')}
                   />
-                </TouchableHighlight>
+                </Pressable>
 
-                <Text style={styles.cost}>1</Text>
-                <TouchableHighlight>
+                <Text style={styles.cost}>{item.quantity}</Text>
+                <Pressable onPress={() => handleUpRedux(item.id)}>
                   <Image
                     style={styles.icon}
                     source={require('../../../../media/images/PlusIcon.png')}
                   />
-                </TouchableHighlight>
+                </Pressable>
               </View>
             </View>
 
@@ -216,7 +248,7 @@ const Cart = props => {
       {/* Flatlist */}
       <FlatList
         data={listData}
-        renderItem={({item}) => <Item item={item} />}
+        renderItem={({item}) => <ItemSwipe item={item} />}
         keyExtractor={item => item.id}
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
@@ -246,7 +278,7 @@ const styles = StyleSheet.create({
   },
   standaloneRowBack: {
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'orange',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

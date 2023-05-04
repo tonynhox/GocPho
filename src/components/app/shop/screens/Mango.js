@@ -70,7 +70,7 @@ const Mango = props => {
   const {navigation} = props;
   return (
     //minHeight : '100%'
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
       <View style={styles.container}>
         <Image source={require('../../../../media/images/Arrow.png')} />
 
