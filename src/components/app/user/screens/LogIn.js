@@ -19,7 +19,7 @@ import loginSlice, {
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 import {useDispatch} from 'react-redux';
 
-import CountryPicker from 'react-native-country-picker-modal'
+import CountryPicker from 'react-native-country-picker-modal';
 
 GoogleSignin.configure();
 
@@ -121,10 +121,9 @@ const LogIn = props => {
       </Text>
       {/* Phone Number input */}
       <View style={styles.passwordContainer}>
-        <View
-          style={styles.inputPasswordConfirmPassword}>
+        <View style={styles.inputPasswordConfirmPassword}>
           <CountryPicker
-            style={{ alignItems: 'center' }}
+            style={{alignItems: 'center'}}
             withFilter
             countryCode={countryCode}
             withFlag
@@ -132,8 +131,8 @@ const LogIn = props => {
             withEmoji={true}
             withCallingCode={false}
             withCurrencyButton={false}
-            onSelect={(country) => {
-              const { cca2, callingCode } = country;
+            onSelect={country => {
+              const {cca2, callingCode} = country;
               console.log('country: ', country);
               setCountryCode(cca2);
               setCallingCode(callingCode);
@@ -144,7 +143,6 @@ const LogIn = props => {
             placeholderTextColor={'#AC8E71'}
           />
         </View>
-
       </View>
       {/* Confirm Password input */}
       <View style={styles.passwordContainer}>
@@ -178,10 +176,14 @@ const LogIn = props => {
       </View>
       {/* Already have an account? Login */}
       <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, { color: '#7F4E1D' }]}>
-          Already have an account?{' '}
+        <Text style={[styles.already, {color: '#7F4E1D'}]}>
+          Don't have an account?{' '}
         </Text>
-        <Text style={[styles.already, { color: '#FF5E00' }]}>Sign Up</Text>
+        <Text
+          style={[styles.already, {color: '#FF5E00'}]}
+          onPress={() => navigation.navigate('SignUp')}>
+          Sign Up
+        </Text>
       </View>
     </View>
   );
