@@ -21,6 +21,7 @@ import {cloneIncrementItemQuantity} from '../../../../redux-toolkit/reducer_slic
 import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import SelectDropdown from 'react-native-select-dropdown';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {SwipeRow} from 'react-native-swipe-list-view';
 
 const Cart = props => {
   const listData = useSelector(state => state.dataAPI.data);
@@ -50,7 +51,7 @@ const Cart = props => {
   };
 
   const handleUpRedux = id => {
-    console.log("ID: ", id)
+    console.log('ID: ', id);
     dispatch(incrementItemQuantity({id}));
   };
 
@@ -82,7 +83,9 @@ const Cart = props => {
 
         {/* Name Fruit and quantity */}
         <View style={styles.nameFruitContainer}>
-          <Text numberOfLines={2} style={styles.nameFruit}>{item.name}</Text>
+          <Text numberOfLines={2} style={styles.nameFruit}>
+            {item.name}
+          </Text>
           <View style={styles.iconContainer}>
             <Pressable onPress={() => handleDownRedux(item.id)}>
               <Image
@@ -105,6 +108,52 @@ const Cart = props => {
         <Text style={styles.cost}>{item.cost * item.quantity} $</Text>
       </View>
       // </Pressable>
+    );
+  };
+
+  const ItemSwipe = ({item}) => {
+    return (
+      <SwipeRow rightOpenValue={-75}>
+        <View style={styles.standaloneRowBack}>
+          <Text style={styles.backTextWhite}></Text>
+          <Text style={styles.backTextWhite}>Delete</Text>
+          {/* <Image
+            style={styles.iconDelete}
+            source={require('../../../../media/images/ic_Delete.png')}
+          /> */}
+        </View>
+
+        <View style={styles.standaloneRowFront}>
+          <View style={styles.itemContainer}>
+            {/* Image Fruit*/}
+            <Image source={item.image} />
+
+            {/* Name Fruit and quantity */}
+            <View style={styles.nameFruitContainer}>
+              <Text style={styles.nameFruit}>{item.nameFruit}</Text>
+              <View style={styles.iconContainer}>
+                <TouchableHighlight>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../../../media/images/MinusIcon.png')}
+                  />
+                </TouchableHighlight>
+
+                <Text style={styles.cost}>1</Text>
+                <TouchableHighlight>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../../../media/images/PlusIcon.png')}
+                  />
+                </TouchableHighlight>
+              </View>
+            </View>
+
+            {/* Cost */}
+            <Text style={styles.cost}>{item.cost}</Text>
+          </View>
+        </View>
+      </SwipeRow>
     );
   };
 
@@ -185,6 +234,27 @@ const Cart = props => {
 export default Cart;
 
 const styles = StyleSheet.create({
+  iconDelete: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  standaloneRowFront: {
+    // alignItems: 'center',
+    backgroundColor: '#FFF',
+    // justifyContent: 'center',
+    // height: 50,
+  },
+  standaloneRowBack: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+  },
+  backTextWhite: {
+    color: '#FFF',
+  },
   selectDropdown: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -209,7 +279,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     lineHeight: 32,
-    width: 150
+    width: 150,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -226,7 +296,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 5
+    marginVertical: 5,
   },
   signUpInsideButton: {
     color: 'white',
@@ -258,6 +328,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
-    flex: 1
+    flex: 1,
   },
 });
