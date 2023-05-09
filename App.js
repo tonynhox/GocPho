@@ -34,7 +34,7 @@ import {store} from './src/redux-toolkit/store';
 import LogIn from './src/components/app/user/screens/LogIn';
 import Avatar from './src/components/app/user/screens/Avatar';
 import {useSelector} from 'react-redux';
-import CartAPI from './src/components/app/cart/screens/CartAPI';
+// import CartAPI from './src/components/app/cart/screens/CartAPI';
 import Shop from './src/components/app/shop/screens/Shop';
 import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
 
