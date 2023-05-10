@@ -37,12 +37,15 @@ import {useSelector} from 'react-redux';
 // import CartAPI from './src/components/app/cart/screens/CartAPI';
 import Shop from './src/components/app/shop/screens/Shop';
 import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
+import Mango from './src/components/app/shop/screens/Mango';
 
 const App = () => {
 
   return (
     <Provider store={store}>
         <AppNavigation/>
+        
+         {/* <Mango/> */}
     </Provider>
   );
 };

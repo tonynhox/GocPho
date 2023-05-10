@@ -74,13 +74,13 @@ const Shop = props => {
               <Text style={Styles.txtNamePop}>{item.name}</Text>
               <Text style={Styles.txtKg}></Text>
               <Text style={Styles.txtPrice}>$ {item.cost}</Text>
-              <TouchableOpacity>
+            </View>
+            <TouchableOpacity>
                 <Image
                   style={Styles.imgAdd}
                   source={require('../../../../media/images/icAdd.png')}
                 />
               </TouchableOpacity>
-            </View>
           </View>
         </View>
       </Pressable>
@@ -156,21 +156,21 @@ const Styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     lineHeight: 24,
-    marginTop: 1,
+    position: 'absolute',
+    bottom: '4%',
   },
   txtKg: {
     color: '#929292',
     fontSize: 12,
     fontWeight: '400',
     lineHeight: 14,
-    marginTop: 1,
+    marginBottom: 1,
   },
   txtNamePop: {
     color: '#6D3805',
     fontSize: 15,
     fontWeight: '700',
     lineHeight: 18,
-    marginTop: 2,
   },
   imgPop: {
     height: '60%',

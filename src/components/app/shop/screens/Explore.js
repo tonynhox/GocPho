@@ -111,7 +111,7 @@ const Explore = props => {
 
       <FlatList
         data={dataExplore}
-        numColumns={3}
+        numColumns={2}
         renderItem={renderItem} //gọi từ biến trên
         keyExtractor={item => item.id} //số không trùng
         showsVerticalScrollIndicator={false}

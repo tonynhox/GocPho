@@ -8,29 +8,31 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 
-const renderItemPopular = ({item}) => {
-  const {__id, image, price, kg} = item;
+const renderItemPopular = ({ item }) => {
+  const { __id, image, price, kg } = item;
   return (
-    <View style={[styles.boxShadown, styles.cardPopular]}>
-      <View style={{margin: 10}}>
+    <View style={{marginVertical:10}} >
+      <View style={[styles.boxShadown, styles.cardPopular]}>
         <View style={styles.imgPop}>
           <Image source={require('../../../../media/images/apple.png')} />
         </View>
-        <View style={{position: 'relative'}}>
+        <View style={{ position: 'relative' }}>
           <Text style={styles.txtNamePop}>Red Apple</Text>
           <Text style={styles.txtKg}>1kg,priceg</Text>
           <Text style={styles.txtPrice}>$ 4,99</Text>
-          <TouchableOpacity>
+          
+        </View>
+
+        <TouchableOpacity>
             <Image
               style={styles.imgAdd}
               source={require('../../../../media/images/icAdd.png')}
             />
           </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -52,7 +54,7 @@ const Mango = props => {
     };
     dispatch(addItem(product));
 
-    navigation.navigate('Cart', {screen: 'cart'});
+    navigation.navigate('Cart', { screen: 'cart' });
   };
 
   const handleUp = () => {
@@ -67,17 +69,17 @@ const Mango = props => {
     }
   };
 
-  const {navigation} = props;
+  const { navigation } = props;
   return (
     //minHeight : '100%'
-    <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
-      <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <View>
         <Image source={require('../../../../media/images/Arrow.png')} />
 
         {/* Image Fruit */}
         <View style={styles.fruitContainer}>
           <Image
-            style={{width: 200, height: 200, resizeMode: 'contain'}}
+            style={{ width: 200, height: 200, resizeMode: 'contain' }}
             source={{
               uri: 'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
             }}
@@ -131,9 +133,7 @@ const Mango = props => {
 
         {/* You may also need */}
         <Text style={styles.more}>You may also need</Text>
-
-        {/* Flatlist */}
-        <View>
+        <View style={{marginVertical:20}}>
           <FlatList
             data={[1, 2, 3, 4, 5]}
             renderItem={renderItemPopular} //gọi từ biến trên
@@ -142,6 +142,7 @@ const Mango = props => {
             horizontal={true}
           />
         </View>
+
       </View>
     </ScrollView>
   );
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 13,
     elevation: 9,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
   },
   cardPopular: {
     backgroundColor: 'white',
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
   btnSignUp: {
     backgroundColor: '#FF5E00',
     marginBottom: 30,
-    height: '8%',
+    height: 50,
     borderWidth: 1,
     borderRadius: 30,
     justifyContent: 'center',
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   fruitContainer: {
-    height: '40%',
+    height:300,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
-    flex: 1,
+    backgroundColor: '#ffffff',
+    padding:16
   },
 });
