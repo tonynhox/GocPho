@@ -5,16 +5,12 @@ const Address = (props) => {
     const { navigation } = props;
     return (
         <View style={AddressS.container}>
-            <View style={AddressS.tt}>
-                <Image style={AddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-                <Image style={AddressS.icontitle} source={require('../../../../media/images/AddressAdd.png')} />
-            </View>
             <Text style={AddressS.text1}>
                 Addresses
             </Text>
             <Pressable style={[AddressS.item, AddressS.tt]}>
                 <View style={AddressS.isItem}>
-                    <Image style={{marginRight:6}} source={require('../../../../media/images/AddressHome.png')} />
+                    <Image style={{ marginRight: 6 }} source={require('../../../../media/images/AddressHome.png')} />
                     <View>
                         <Text style={AddressS.text2}>Home</Text>
                         <Text style={AddressS.text3}>Lungangen 6, 41722 </Text>
@@ -24,13 +20,19 @@ const Address = (props) => {
             </Pressable>
             <Pressable style={[AddressS.item2, AddressS.tt]}>
                 <View style={AddressS.isItem}>
-                    <Image style={{marginRight:6}} source={require('../../../../media/images/AddressOffice.png')} />
+                    <Image style={{ marginRight: 6 }} source={require('../../../../media/images/AddressOffice.png')} />
                     <View>
                         <Text style={AddressS.text2}>Office</Text>
                         <Text style={AddressS.text3}>Lungangen 6, 41722 </Text>
                     </View>
                 </View>
                 <Image source={require('../../../../media/images/AddressNext.png')} />
+            </Pressable>
+
+            <Pressable
+                style={AddressS.btnAdd}
+                onPress={() => navigation.navigate('SignPass')}>
+                <Text style={AddressS.add}>Add</Text>
             </Pressable>
         </View>
     )
@@ -39,6 +41,22 @@ const Address = (props) => {
 export default Address
 
 const AddressS = StyleSheet.create({
+    btnAdd: {
+        backgroundColor: '#FF5E00',
+        marginTop: 300,
+        height: '8%',
+        borderWidth: 1,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    add: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 20,
+        lineHeight: 22,
+        letterSpacing: 0.41,
+    },
     item2: {
         // position: 'absolute',
         width: '100%',
@@ -88,12 +106,6 @@ const AddressS = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-    },
-    icontitle: {
-
-        width: 8.49,
-        height: 14,
-        background: '#FF5E00',
     },
     container: {
         backgroundColor: '#fff',

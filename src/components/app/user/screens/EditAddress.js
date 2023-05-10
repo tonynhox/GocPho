@@ -5,9 +5,6 @@ const EditAddress = (props) => {
     const { navigation } = props;
     return (
         <View style={EditAddressS.container}>
-            <View>
-                <Image style={EditAddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-            </View>
             <Text style={EditAddressS.text1}>
                 Edit Addresses
             </Text>
@@ -90,12 +87,6 @@ const EditAddressS = StyleSheet.create({
         position: 'relative',
     },
 
-    icontitle: {
-
-        width: 8.49,
-        height: 14,
-        background: '#FF5E00',
-    },
     container: {
         backgroundColor: '#fff',
         flex: 1,

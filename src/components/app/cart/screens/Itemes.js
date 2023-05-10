@@ -5,9 +5,6 @@ const Itemes = (props) => {
     const { navigation } = props;
     return (
         <View style={ItemesS.container}>
-            <View>
-                <Image style={ItemesS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-            </View>
             <Text style={ItemesS.text1}>
                 Itemes
             </Text>
@@ -109,12 +106,6 @@ const ItemesS = StyleSheet.create({
         lineHeight: 29,
         color: '#FF5E00',
         alignSelf: 'center'
-    },
-    icontitle: {
-
-        width: 8.49,
-        height: 14,
-        background: '#FF5E00',
     },
     container: {
         backgroundColor: '#fff',

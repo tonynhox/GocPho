@@ -38,14 +38,17 @@ import {useSelector} from 'react-redux';
 import Shop from './src/components/app/shop/screens/Shop';
 import ProfileScreen from './src/components/app/user/screens/ProfileScreen';
 import Mango from './src/components/app/shop/screens/Mango';
+import Explore from './src/components/app/shop/screens/Explore';
+import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen';
+import Fruit from './src/components/app/shop/screens/Fruit';
+import Address from './src/components/app/user/screens/Address';
 
 const App = () => {
 
   return (
+    
     <Provider store={store}>
-        <AppNavigation/>
-        
-         {/* <Mango/> */}
+        <Address />
     </Provider>
   );
 };

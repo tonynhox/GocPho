@@ -171,7 +171,7 @@ const Cart = props => {
                   />
                 </Pressable>
 
-                <Text style={styles.cost}>{item.quantity}</Text>
+                <TextInput style={styles.cost}>{item.quantity}</TextInput>
                 <Pressable onPress={() => handleUpRedux(item.id)}>
                   <Image
                     style={styles.icon}
@@ -191,8 +191,6 @@ const Cart = props => {
 
   return (
     <View style={styles.container}>
-      {/* Back Arrow */}
-      <Image source={require('../../../../media/images/Arrow.png')}></Image>
 
       {/* Cart */}
       <View style={styles.mainTitle}>
