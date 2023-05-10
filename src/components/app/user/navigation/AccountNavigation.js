@@ -90,7 +90,7 @@ const ProfileNavigation = () => {
 const Navigations = {
   Stack: [
     { component: Account, name: '_Account', options: {} },
-    { component: ProfileNavigation, name: 'Profile', options: {} },
+{ component: ProfileNavigation, name: 'Profile', options: {} },
     { component: StackTopOrder, name: 'order', options: {} },
     { component: Address, name: 'Address', options: {} },
     { component: Payment, name: 'Payment', options: {} },

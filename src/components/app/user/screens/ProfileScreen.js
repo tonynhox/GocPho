@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, Alert} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert, Pressable} from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeStatusLogin} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
@@ -83,53 +83,57 @@ const ProfileScreen = props => {
           />
           <View >
             <Text style={styles.textAccountGoogle}>{infor.user.name}</Text>
-            <Text style={[styles.textAccountGoogle,{fontWeight:'450'} ]}>Edit Profile</Text>
+            <Pressable onPress={()=> props.navigation.navigate('EditProfile')} >
+              <Text style={[styles.textAccountGoogle,{fontWeight:'450'} ]}>Edit Profile</Text>
+            </Pressable>
           </View>
         </View>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconKey.png')}
-            style={{width: 24, height: 24}}
-          />
-          <Text style={styles.textAccount}>Change Password</Text>
-        </View>
+        <Pressable 
+                    onPress={()=> props.navigation.navigate('ChangePassword')}
+                    style={styles.bodyAccount}>
+                    <Image
+                        source={require('../../../../media/images/iconKey.png')}
+                        style={{width: 24, height: 24}}
+                    />
+                    <Text style={styles.textAccount}>Change Password</Text>
+                </Pressable>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconCard.png')}
-            style={{width: 24, height: 21}}
-          />
-          <Text style={styles.textAccount}>My Cards</Text>
-        </View>
+                <Pressable 
+                    onPress={()=> props.navigation.navigate('Mycards')}
+                     style={styles.bodyAccount}>
+                    <Image
+                        source={require('../../../../media/images/iconCard.png')}
+                        style={{width: 24, height: 21}}
+                    />
+                    <Text style={styles.textAccount}>My Cards</Text>
+                </Pressable>
 
-        <Text style={styles.textBody}>App Settings</Text>
+                <Text style={styles.textBody}>App Settings</Text>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconNotification.png')}
-            style={{width: 20, height: 24}}
-          />
-          <Text style={styles.textAccount}>Notifications</Text>
-        </View>
+                <View style={styles.bodyAccount}>
+                    <Image
+                        source={require('../../../../media/images/iconNotification.png')}
+                        style={{width: 20, height: 24}}
+                    />
+                    <Text style={styles.textAccount}>Notifications</Text>
+                </View>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconLanguage.png')}
-            style={{width: 24, height: 24}}
-          />
-          <Text style={styles.textAccount}>Language</Text>
-        </View>
+                <View style={styles.bodyAccount}>
+                    <Image
+                        source={require('../../../../media/images/iconLanguage.png')}
+                        style={{width: 24, height: 24}}
+                    />
+                    <Text style={styles.textAccount}>Language</Text>
+                </View>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconLogout.png')}
-            style={{width: 25, height: 25}}
-          />
-          <Text style={styles.textAccount} onPress={askForLogout}>
-            Logout
-          </Text>
-        </View>
+                <View style={styles.bodyAccount}>
+                    <Image
+                        source={require('../../../../media/images/iconLogout.png')}
+                        style={{width: 25, height: 25}}
+                    />
+                    <Text style={styles.textAccount}>Logout</Text>
+                </View>
       </View>
     </View>
   );

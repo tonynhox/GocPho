@@ -158,7 +158,12 @@ const Payment = (props) => {
             </View>
 
             {/* // Thanh toán */}
-            <Pressable style={[styles.btnAccept]} onPress={() => navigation.navigate('OrderAccepted')}>
+            <Pressable style={[styles.btnAccept]} onPress={() => 
+                {
+                    //if thafnh cong 
+                    navigation.navigate('OrderAccepted')
+                }
+                }>
                 <Text style={[styles.btnAcceptText]}>Track Order</Text>
             </Pressable>
         </ScrollView>

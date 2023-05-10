@@ -4,14 +4,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Payment from '../screens/Payment';
 import Cart from '../screens/Cart';
-
+import Itemes from '../screens/Itemes';
+import OrderAccepted from '../screens/OrderAccepted';
+import OrderFailed from '../screens/OrderFailed';
 const Stack = createNativeStackNavigator();
 
 const Navigations = {
   Stack: [
     { component: Cart, name: '_Cart', options: {} },
-    
     { component: Payment, name: 'Payment', options: {} },
+    { component: Itemes, name: 'Itemes', options: {} },
+    { component: OrderAccepted, name: 'OrderAccepted', options: {} },
+    { component: OrderFailed, name: 'OrderFailed', options: {} },
   ]
 }
 

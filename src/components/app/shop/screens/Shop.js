@@ -38,7 +38,14 @@ const Shop = props => {
     return (
       <TouchableOpacity
         style={Styles.card}
-        onPress={() => navigation.navigate('Mango')}>
+        onPress={() => {
+            props.navigation.navigate('Explore', { screen: 'Explores' })
+            setTimeout(() => {
+                props.navigation.navigate('Fruit')
+
+            },1)
+        }
+        }>
         <View style={[Styles.imgCard]}>
           <ImageBackground
             style={Styles.imgCardBackground}
