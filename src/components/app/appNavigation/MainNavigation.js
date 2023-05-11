@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, Text } from 'react-native'
+import { Image, Text,View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CartNavigation from '../cart/navigation/CartNavigation'
@@ -220,9 +220,16 @@ const TabMain = () => {
 
 const MainNavigation = () => {
   return (
-    <StackMain.Navigator>
+    <StackMain.Navigator
+    screenOptions={{                headerShadowVisible: false,
+      headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+      headerTitleAlign: 'center',
+      headerTintColor: '#FF5E00',}}
+      
+    >
       <StackMain.Screen name="TabMain" component={TabMain} options={{ headerShown: false }} />
-      <StackMain.Screen name="Mango" component={Mango} options={{ headerShown: false }} />
+      <StackMain.Screen name="Mango" component={Mango} options={{headerTitle:'' }}
+       />
     </StackMain.Navigator>
 
 
