@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, Image, Alert, Pressable} from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, Pressable } from 'react-native';
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {changeStatusLogin} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
-import {getUserInformationFromGoogle} from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeStatusLogin } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import { getUserInformationFromGoogle } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 import { useNavigation } from '@react-navigation/native';
 
 import {
@@ -12,7 +12,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 
 const ProfileScreen = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const clearNavigation = useNavigation()
 
   const infor = useSelector(state => state.login.userInfo);
@@ -30,29 +30,30 @@ const ProfileScreen = props => {
     }
   };
 
-  const askForLogout = () =>{
+  const askForLogout = () => {
     Alert.alert(
       'Logout?',
       'Are you sure you want to Logout?',
       [
-         {text: 'Cancel', style: 'cancel'},
-         {text: 'OK', onPress: () => handleLogout()},
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => handleLogout() },
       ],
       { cancelable: false }
- )
+    )
   }
 
   const handleLogout = async () => {
     signOut();
     navigation.reset({
       index: 0,
-      routes: [{name: 'Shop'}],
+      routes: [{ name: 'Shop' }],
     });
     await dispatch(changeStatusLogin(false));
   };
 
   return (
     <View style={styles.container}>
+      <Image source={require('../../../../media/images/Arrow.png')} />
       <View style={styles.header}>
         <Text style={styles.textHeader}>Profile</Text>
       </View>
@@ -78,61 +79,61 @@ const ProfileScreen = props => {
               resizeMode: 'contain',
               borderRadius: 25,
             }}
-            source={{uri: infor.user.photo}}
+            source={{ uri: infor.user.photo }}
           />
           <View >
             <Text style={styles.textAccountGoogle}>{infor.user.name}</Text>
-            <Pressable onPress={()=> props.navigation.navigate('EditProfile')} >
-              <Text style={[styles.textAccountGoogle,{fontWeight:'450'} ]}>Edit Profile</Text>
+            <Pressable onPress={() => props.navigation.navigate('EditProfile')} >
+              <Text style={[styles.textAccountGoogle, { fontWeight: '450' }]}>Edit Profile</Text>
             </Pressable>
           </View>
         </View>
 
-        <Pressable 
-                    onPress={()=> props.navigation.navigate('ChangePassword')}
-                    style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconKey.png')}
-                        style={{width: 24, height: 24}}
-                    />
-                    <Text style={styles.textAccount}>Change Password</Text>
-                </Pressable>
+        <Pressable
+          onPress={() => props.navigation.navigate('ChangePassword')}
+          style={styles.bodyAccount}>
+          <Image
+            source={require('../../../../media/images/iconKey.png')}
+            style={{ width: 24, height: 24 }}
+          />
+          <Text style={styles.textAccount}>Change Password</Text>
+        </Pressable>
 
-                <Pressable 
-                    onPress={()=> props.navigation.navigate('Mycards')}
-                     style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconCard.png')}
-                        style={{width: 24, height: 21}}
-                    />
-                    <Text style={styles.textAccount}>My Cards</Text>
-                </Pressable>
+        <Pressable
+          onPress={() => props.navigation.navigate('Mycards')}
+          style={styles.bodyAccount}>
+          <Image
+            source={require('../../../../media/images/iconCard.png')}
+            style={{ width: 24, height: 21 }}
+          />
+          <Text style={styles.textAccount}>My Cards</Text>
+        </Pressable>
 
-                <Text style={styles.textBody}>App Settings</Text>
+        <Text style={styles.textBody}>App Settings</Text>
 
-                <View style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconNotification.png')}
-                        style={{width: 20, height: 24}}
-                    />
-                    <Text style={styles.textAccount}>Notifications</Text>
-                </View>
+        <View style={styles.bodyAccount}>
+          <Image
+            source={require('../../../../media/images/iconNotification.png')}
+            style={{ width: 20, height: 24 }}
+          />
+          <Text style={styles.textAccount}>Notifications</Text>
+        </View>
 
-                <View style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconLanguage.png')}
-                        style={{width: 24, height: 24}}
-                    />
-                    <Text style={styles.textAccount}>Language</Text>
-                </View>
+        <View style={styles.bodyAccount}>
+          <Image
+            source={require('../../../../media/images/iconLanguage.png')}
+            style={{ width: 24, height: 24 }}
+          />
+          <Text style={styles.textAccount}>Language</Text>
+        </View>
 
-                <View style={styles.bodyAccount}>
-                    <Image
-                        source={require('../../../../media/images/iconLogout.png')}
-                        style={{width: 25, height: 25}}
-                    />
-                    <Text style={styles.textAccount}>Logout</Text>
-                </View>
+        <Pressable style={styles.bodyAccount} onPress={askForLogout}>
+          <Image
+            source={require('../../../../media/images/iconLogout.png')}
+            style={{ width: 25, height: 25 }}
+          />
+          <Text style={styles.textAccount}>Logout</Text>
+        </Pressable>
       </View>
     </View>
   );

@@ -5,6 +5,9 @@ const NewsAddress = (props) => {
     const { navigation } = props;
     return (
         <View style={NewsAddressS.container}>
+            <View>
+                <Image style={NewsAddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
+            </View>
             <Text style={NewsAddressS.text1}>
                 New Addresses
             </Text>
@@ -84,6 +87,13 @@ const NewsAddressS = StyleSheet.create({
         color: '#FF5E00',
         marginLeft: 100,
         position: 'relative',
+    },
+
+    icontitle: {
+
+        width: 8.49,
+        height: 14,
+        background: '#FF5E00',
     },
     container: {
         backgroundColor: '#fff',

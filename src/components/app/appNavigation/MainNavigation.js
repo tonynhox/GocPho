@@ -29,6 +29,27 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const StackMain = createNativeStackNavigator();
 
+
+// const StackFavouretite = createNativeStackNavigator();
+
+// const FavoriteNavigation = () => {
+//     return (
+//         <StackFavouretite.Navigator
+//             screenOptions={{
+//                 headerShadowVisible: false,
+//                 headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+//                 headerTitleAlign: 'center',
+//                 headerTintColor: '#FF5E00',
+//             }}
+//         >
+//             <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{ headerShown: false }} />
+            
+//         </StackFavouretite.Navigator>
+//     );
+// };
+
+
+
 const Navigations = {
   Tabs: [
     { component: ShopNavigation, name: 'Shop', options: {} },
@@ -75,7 +96,7 @@ const TabMain = () => {
           } else if (route.name == 'Cart') {
             if (!focused) {
               return (
-<Image source={require('../../../media/iconNavigation/cart.png')} />
+                <Image source={require('../../../media/iconNavigation/cart.png')} />
               );
             } else {
               return (
@@ -170,7 +191,7 @@ const TabMain = () => {
           else if (route.name == 'Account') {
             if (focused)
               return (
-<Text style={{ color: 'FF5E00', fontWeight: 'bold' }}>
+                <Text style={{ color: 'FF5E00', fontWeight: 'bold' }}>
                   Account
                 </Text>
               );
@@ -188,7 +209,7 @@ const TabMain = () => {
         Navigations.Tabs.map((item, index) => {
           return (
             <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
-            
+
           )
         })
       }
@@ -198,7 +219,7 @@ const TabMain = () => {
 
 
 const MainNavigation = () => {
-  return(
+  return (
     <StackMain.Navigator>
       <StackMain.Screen name="TabMain" component={TabMain} options={{ headerShown: false }} />
       <StackMain.Screen name="Mango" component={Mango} options={{ headerShown: false }} />

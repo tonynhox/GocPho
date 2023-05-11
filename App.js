@@ -48,7 +48,7 @@ const App = () => {
   return (
     
     <Provider store={store}>
-        <Address />
+        <AppNavigation />
     </Provider>
   );
 };

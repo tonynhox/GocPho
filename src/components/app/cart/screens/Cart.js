@@ -171,7 +171,7 @@ const Cart = props => {
                   />
                 </Pressable>
 
-                <TextInput style={styles.cost}>{item.quantity}</TextInput>
+                <Text style={styles.cost}>{item.quantity}</Text>
                 <Pressable onPress={() => handleUpRedux(item.id)}>
                   <Image
                     style={styles.icon}
@@ -191,12 +191,6 @@ const Cart = props => {
 
   return (
     <View style={styles.container}>
-
-      {/* Cart */}
-      <View style={styles.mainTitle}>
-        <Text style={styles.cart}>Cart</Text>
-      </View>
-
       <View style={styles.selectDropdown}>
         <SelectDropdown
           data={sort}
