@@ -45,10 +45,8 @@ const Explore = props => {
   };
 
   const handleCategory = id => {
-    console.log(id)
     index = dataCategory.findIndex(item => {
       if (item.id === id) {
-        console.log(item.name);
         dispatch(categoryFilterChange(item.name));
         return id;
       }
@@ -119,7 +117,7 @@ const Explore = props => {
 
       <FlatList
         data={dataExplore}
-        numColumns={2}
+        numColumns={3}
         renderItem={renderItem} //gọi từ biến trên
         keyExtractor={item => item.id} //số không trùng
         showsVerticalScrollIndicator={false}

@@ -7,7 +7,7 @@ const Fruit = (props) => {
     const renderItemPopular = ({ item, i,index }) => {
         // const item= props;
         const { __id, image, price, kg } = item;
-        console.log(i);
+        // console.log(i);
         if (i == 1) {
             return (
                 <Image style={{
