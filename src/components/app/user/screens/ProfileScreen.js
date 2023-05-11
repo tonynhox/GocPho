@@ -53,10 +53,7 @@ const ProfileScreen = props => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../../../../media/images/Arrow.png')} />
-      <View style={styles.header}>
-        <Text style={styles.textHeader}>Profile</Text>
-      </View>
+
       <View style={styles.body}>
         {/* Avatar form google */}
         {/* <View style={styles.bodyAccount}>

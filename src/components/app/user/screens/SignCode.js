@@ -12,13 +12,7 @@ const SignCode = (props) => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
-      {/* Back Arrow */}
-      <Image source={require('../../../../media/images/Arrow.png')}></Image>
 
-      {/* SignUP */}
-      <View style={styles.mainTitle}>
-        <Text style={styles.signUp}>Sign Up</Text>
-      </View>
 
       {/* Main background image */}
       <Image

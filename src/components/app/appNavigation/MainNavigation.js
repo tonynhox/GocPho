@@ -30,23 +30,23 @@ const Stack = createNativeStackNavigator();
 const StackMain = createNativeStackNavigator();
 
 
-// const StackFavouretite = createNativeStackNavigator();
+const StackFavouretite = createNativeStackNavigator();
 
-// const FavoriteNavigation = () => {
-//     return (
-//         <StackFavouretite.Navigator
-//             screenOptions={{
-//                 headerShadowVisible: false,
-//                 headerTitleStyle: { fontSize: 24, fontWeight: '700' },
-//                 headerTitleAlign: 'center',
-//                 headerTintColor: '#FF5E00',
-//             }}
-//         >
-//             <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{ headerShown: false }} />
+const FavoriteNavigation = () => {
+    return (
+        <StackFavouretite.Navigator
+            screenOptions={{
+                headerShadowVisible: false,
+                headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+                headerTitleAlign: 'center',
+                headerTintColor: '#FF5E00',
+            }}
+        >
+            <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{}} />
             
-//         </StackFavouretite.Navigator>
-//     );
-// };
+        </StackFavouretite.Navigator>
+    );
+};
 
 
 
@@ -55,7 +55,7 @@ const Navigations = {
     { component: ShopNavigation, name: 'Shop', options: {} },
     { component: ExploreNavigation, name: 'Explore', options: {} },
     { component: CartNavigation, name: 'Cart', options: {} },
-    { component: FavoriteScreen, name: 'Favorite', options: {} },
+    { component: FavoriteNavigation, name: 'Favorite', options: {} },
     { component: AccountNavigation, name: 'Account', options: {} },
   ],
 }

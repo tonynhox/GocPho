@@ -5,7 +5,6 @@ const ChangePassword = (props) => {
     const { navigation } = props;
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Change Password</Text>
             <View style={styles.vector1}>
                 <TextInput style={styles.oldpassword}
                     placeholder='Old Password :' />

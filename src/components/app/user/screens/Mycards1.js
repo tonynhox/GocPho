@@ -5,7 +5,6 @@ const Mycards1 = (props) => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Cards</Text>
       <View>
         <Text style={styles.text1}>
           My Card

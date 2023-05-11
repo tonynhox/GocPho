@@ -43,13 +43,8 @@ const Fruit = (props) => {
 
     return (
         <View style={Styles.container}>
-            <Pressable>
-                <Image style={{ marginTop: 10.5, marginLeft: 4, width: 8.49, height: 14 }}
-                    source={require('../../../../media/images/icBack.png')} />
-            </Pressable>
-            <View style={Styles.title}>
-                <Text style={Styles.txtTitle}>Fruits</Text>
-            </View>
+
+
             <View style={Styles.search}>
                 <TextInput placeholder='Search'
                     placeholderTextColor='rgba(109, 56, 5, 0.57)'

@@ -5,7 +5,6 @@ const Nosavecard = (props) => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>My Cards</Text>
         <Image style={styles.image} source={ require('../../../../media/images/vector2.png')}/>
         {/* <Image style={styles.image2} source={ require('../../../../media/images/vector3.png')}/>
         <Image style={styles.image3} source={ require('../../../../media/images/vector5.png')}/>

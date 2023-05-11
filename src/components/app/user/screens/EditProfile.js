@@ -9,10 +9,6 @@ const EditProfile = (props) => {
     console.log(countryCode, callingCode);
     return (
         <View style={styles.container}>
-            <View>
-                <Text style={styles.title}>Edit Profile</Text>
-
-            </View>
             <TextInput style={styles.name}
                 placeholder='mati egh :' />
             <View style={styles.hinh}>

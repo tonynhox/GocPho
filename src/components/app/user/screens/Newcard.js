@@ -6,7 +6,6 @@ const Newcard = (props) => {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>New Cards</Text>
       <Text style={styles.text1}>
         Card Number
       </Text>

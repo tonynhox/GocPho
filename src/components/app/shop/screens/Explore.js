@@ -92,9 +92,7 @@ const Explore = props => {
 
   return (
     <View style={Styles.container}>
-      <View style={Styles.title}>
-        <Text style={Styles.txtTitle}>Categories</Text>
-      </View>
+
       <View style={Styles.search}>
         <TextInput
           value={search}

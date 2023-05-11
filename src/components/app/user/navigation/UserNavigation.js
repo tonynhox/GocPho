@@ -13,15 +13,18 @@ const Stack = createNativeStackNavigator();
 const UserNavigation = () => {
   return (
     <Stack.Navigator
-        screenOptions={{
-            headerShown: false, //ẩn header
-        }}
+      screenOptions={{
+        headerShadowVisible: false,
+        headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+        headerTitleAlign: 'center',
+        headerTintColor: '#FF5E00',
+      }}
     >
-        <Stack.Screen name="WelcomeStack" component={Welcome} />
-        <Stack.Screen name="Login" component={LogIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="SignPass" component={SignPass} />
-        <Stack.Screen name="SignCode" component={SignCode} />
+      <Stack.Screen name="WelcomeStack" component={Welcome} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={LogIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="SignPass" component={SignPass} />
+      <Stack.Screen name="SignCode" component={SignCode} />
     </Stack.Navigator>
   )
 }

@@ -15,13 +15,6 @@ const SignUp = props => {
   const [callingCode, setCallingCode] = useState('84');
   return (
     <View style={styles.container}>
-      {/* Back Arrow */}
-      <Image source={require('../../../../media/images/Arrow.png')}></Image>
-
-      {/* SignUP title*/}
-      <View style={styles.mainTitle}>
-        <Text style={styles.signUp}>Sign Up</Text>
-      </View>
 
       {/* Main background image */}
       <Image

@@ -5,11 +5,8 @@ const OrderScreen = (props) => {
     const { navigation } = props;
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../media/images/Arrow.png')}
-            />
+
             <View style={styles.header}>
-                <Text style={styles.textHeader}>Favorite</Text>
                 <View style={styles.topTapNavigation}>
                         <Text style={styles.textHeader1}>Ongoing</Text>
                         <Text style={styles.textHeader1}>History</Text>

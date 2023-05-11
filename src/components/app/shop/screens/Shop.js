@@ -96,13 +96,7 @@ const Shop = props => {
 
   return (
     <View style={Styles.container}>
-      <View style={Styles.title}>
-        <Image
-          style={Styles.icLocation}
-          source={require('../../../../media/images/icLocation.png')}
-        />
-        <Text style={Styles.txtTitle}>Lungangen</Text>
-      </View>
+
       <View style={Styles.search}>
         <TextInput
           placeholder="Search"
