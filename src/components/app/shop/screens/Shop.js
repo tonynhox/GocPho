@@ -86,7 +86,7 @@ const Shop = props => {
             </View>
             <View style={{height: '40%', position: 'relative'}}>
               <Text style={Styles.txtNamePop}>{name}</Text>
-              <Text style={Styles.txtKg}></Text>
+              <Text style={Styles.txtKg}>{quantity}kg,priceg</Text>
               <Text style={Styles.txtPrice}>$ {price}</Text>
             </View>
             <TouchableOpacity>
