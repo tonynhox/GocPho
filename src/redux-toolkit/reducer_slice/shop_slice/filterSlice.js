@@ -11,6 +11,7 @@ export const filterSlice = createSlice({
             state.search = action.payload;
         },
         categoryFilterChange: (state, action) =>{
+            console.log(action.payload)
             state.category = action.payload;
         }
     }

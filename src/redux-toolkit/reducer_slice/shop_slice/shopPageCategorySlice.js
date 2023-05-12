@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchCategory = createAsyncThunk('fetchCategory', async () => {
   const response = await axios.get(
-    'https://641a6f92c152063412d96c73.mockapi.io/categories',
+    'https://sever-gocpho.herokuapp.com/category/get-all-categories',
   );
   return response.data;
 });
@@ -25,7 +25,7 @@ export const shopPageCategorySlice = createSlice({
     }),
       builder.addCase(fetchCategory.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.data = action.payload.result;
         state.error = null;
       }),
       builder.addCase(fetchCategory.rejected, (state, action) => {

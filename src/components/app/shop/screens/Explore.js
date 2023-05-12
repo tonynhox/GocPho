@@ -30,11 +30,7 @@ const Explore = props => {
   useEffect(() => {
     dispatch(fetchData());
   }, []);
-
-  useEffect(() => {
-    dispatch(categoryFilterChange(''))
-  }, [isFocused])
-
+  
   useEffect(() => {
     dispatch(fetchCategory);
   }, [fetchCategory]);
@@ -46,29 +42,32 @@ const Explore = props => {
 
   const handleCategory = id => {
     index = dataCategory.findIndex(item => {
-      if (item.id === id) {
-        dispatch(categoryFilterChange(item.name));
-        return id;
-      }
+        if (item._id === id) {
+            console.log('----------------------------------',id)
+            dispatch(categoryFilterChange(id));
+            return id;
+        }
     });
-  };
+};
 
   const renderItem = ({ item }) => {
     // const item= props;
-    const { name, image, background, id } = item;
+    const { name, images, background, _id } = item;
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('Fruit')}
+        onPress={() => {navigation.navigate('Fruit')
+        handleCategory(item._id)
+      }}
         style={Styles.card}
       // onPress={() => navigation.navigate('Detail', {id: _id}
       //     )}
       >
         <View style={[Styles.imgCard]}>
-          <ImageBackground style={Styles.imgCardBackground} source={background}>
+          {/* <ImageBackground style={Styles.imgCardBackground} source={background}> */}
             <Image
-              style={{ width: 80, height: 80, resizeMode: 'center' }}
-              source={{ uri: image }}></Image>
-          </ImageBackground>
+              style={[Styles.imgCardBackground,{ width: 80, height: 80, resizeMode: 'center' }]}
+              source={{ uri: images }}></Image>
+          {/* </ImageBackground> */}
         </View>
 
         <Text numberOfLines={2} style={Styles.nameCard}>
@@ -78,15 +77,7 @@ const Explore = props => {
     );
   };
 
-  const ItemCategory = ({ item, index }) => {
-    return (
-      <View style={{ height: 30, marginTop: 10 }}>
-        <Pressable onPress={() => handleCategory(item.id)}>
-          <Text style={Styles.listCategory}>{item.name}</Text>
-        </Pressable>
-      </View>
-    );
-  };
+
 
   return (
     <View style={Styles.container}>
@@ -103,23 +94,12 @@ const Explore = props => {
           source={require('../../../../media/images/icSearch.png')}
         />
       </View>
-      <View style={{height:40}}>
-        <FlatList
-          style={{ backgroundColor: '#000' }}
-          data={dataCategory}
-          renderItem={ItemCategory}
-          keyExtractor={item => item.id}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-
 
       <FlatList
-        data={dataExplore}
+        data={dataCategory}
         numColumns={3}
         renderItem={renderItem} //gọi từ biến trên
-        keyExtractor={item => item.id} //số không trùng
+        keyExtractor={item => item._id} //số không trùng
         showsVerticalScrollIndicator={false}
         horizontal={false}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
@@ -143,7 +123,6 @@ const Styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     lineHeight: 18,
-    width: 100,
   },
   imgCardItem: {},
 
@@ -152,12 +131,13 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
     height: 100,
+    borderRadius:60
   },
 
   imgCard: {},
   card: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
     marginHorizontal: 5,
     flexDirection: 'column',
     justifyContent: 'center',

@@ -1,4 +1,36 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import AxiosInstance from '../../../components/app/axiosClient/AxiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+// export const fetchRegisterGoogle = createAsyncThunk('fetchRegisterGoogle', async (email, password, confirmPass, name) => {
+//   const body = {
+//     email: email,
+//     password: password,
+//     confirm_password: confirmPass,
+//     name: name
+//   }
+//   const response = await AxiosInstance().post('/user/register-email', body);
+//   return response;
+// });
+
+
+// export const fetchLoginGoogle = createAsyncThunk('fetchLoginGoogle', async (email, password, confirmPass, name) => {
+//   const body = {
+//     email: email,
+//     password: password
+//   }
+//   const response = await AxiosInstance().post('/user/login-email', body);
+//   // doc token
+//   const { token } = response;
+//   // luu token vao bo nho
+//   await AsyncStorage.setItem('token', token);
+//   setUser(response.user.email);
+//   console.log('login response', response.user.email);
+//   return response;
+// });
+
 
 export const loginSlice = createSlice({
   name: 'login',
@@ -13,7 +45,7 @@ export const loginSlice = createSlice({
         givenName: '',
         id: '',
         name: '',
-        photo:''
+        photo: ''
       },
     },
     isLoggedIn: false
@@ -28,9 +60,21 @@ export const loginSlice = createSlice({
       state.userInfo = action.payload;
       console.log("User slice: ", state.userInfo)
     },
+  // },
+  // extraReducers: builder => {
+  //   builder.addCase(fetchLogin.pending, state => {
+  //     state.loading = true;
+  //     state.error = null;
+  //   }),
+  //     builder.addCase(fetchLogin.fulfilled, (state, action) => {
+  //       state.loading = false;
+  //       state.data = action.payload;
+
+  //       state.error = null;
+  //     })
   },
 });
 
-export const {changeStatusLogin} = loginSlice.actions;
-export const {getUserInformationFromGoogle} = loginSlice.actions;
+export const { changeStatusLogin } = loginSlice.actions;
+export const { getUserInformationFromGoogle } = loginSlice.actions;
 export default loginSlice.reducer;
