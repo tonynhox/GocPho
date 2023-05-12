@@ -11,6 +11,8 @@ import { categoryFilterChange, searchFilterChange } from '../../../../redux-tool
 const Fruit = (props) => {
     const { navigation } = props;
 
+    const [hover,setHover] = useState('All')
+
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
 
@@ -81,11 +83,26 @@ const Fruit = (props) => {
 
     }
 
+    const checkHover = (item) => {
+        if (item.name === hover) {
+          return { borderBottomWidth: 2, borderBottomColor: 'red' };
+        }
+      };
+      
+      const handleCategoryPress = (item) => {
+        setHover(item.name);
+        handleCategory(item._id);
+      };
+
+
     const ItemCategory = ({ item, index }) => {
 
         return (
-            <View style={{ height: 30, marginTop: 10 }}>
-                <Pressable onPress={() => handleCategory(item._id)}>
+            <View style={{ height: 30, marginTop: 10, }}>
+                <Pressable
+                    
+                    style={checkHover(item)}
+                    onPress={()=>handleCategoryPress(item)}>
                     <Text style={Styles.listCategory}>{item.name}</Text>
                 </Pressable>
             </View>
@@ -109,7 +126,7 @@ const Fruit = (props) => {
             </View>
             <View style={{ height: 40 }}>
                 <FlatList
-                    style={{ backgroundColor: '#000' }}
+                    style={{borderBottomWidth: 2, borderBottomColor: '#6D38050F' }}
                     data={updatedDataCategory}
                     renderItem={ItemCategory}
                     keyExtractor={item => item._id}
