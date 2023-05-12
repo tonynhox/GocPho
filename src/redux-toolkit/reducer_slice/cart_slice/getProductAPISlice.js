@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchData = createAsyncThunk('fetchData', async () => {
   const response = await axios.get(
-    'https://641a6f92c152063412d96c73.mockapi.io/products',
+    'https://sever-gocpho.herokuapp.com/product/get-all-products',
   );
   return response.data;
 });
@@ -107,7 +107,9 @@ export const getProductAPISlice = createSlice({
     }),
       builder.addCase(fetchData.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.data = action.payload.products;
+        // console.log('------------------',action.payload.products)
+
         state.error = null;
       }),
       builder.addCase(fetchData.rejected, (state, action) => {

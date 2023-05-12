@@ -6,12 +6,8 @@ const Address = (props) => {
     return (
         <View style={AddressS.container}>
             <View style={AddressS.tt}>
-                <Image style={AddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
                 <Image style={AddressS.icontitle} source={require('../../../../media/images/AddressAdd.png')} />
             </View>
-            <Text style={AddressS.text1}>
-                Addresses
-            </Text>
             <Pressable style={[AddressS.item, AddressS.tt]}>
                 <View style={AddressS.isItem}>
                     <Image style={{marginRight:6}} source={require('../../../../media/images/AddressHome.png')} />

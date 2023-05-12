@@ -74,8 +74,6 @@ const Mango = props => {
     //minHeight : '100%'
     <ScrollView style={styles.container}>
       <View>
-        <Image source={require('../../../../media/images/Arrow.png')} />
-
         {/* Image Fruit */}
         <View style={styles.fruitContainer}>
           <Image

@@ -5,12 +5,6 @@ const EditAddress = (props) => {
     const { navigation } = props;
     return (
         <View style={EditAddressS.container}>
-            <View>
-                <Image style={EditAddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-            </View>
-            <Text style={EditAddressS.text1}>
-                Edit Addresses
-            </Text>
             <View style={EditAddressS.v1}>
                 <View style={EditAddressS.txtProf}>
                     <TextInput placeholder='Home' placeholderTextColor='#AC8E71' style={EditAddressS.txtContext}></TextInput>

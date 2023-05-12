@@ -5,12 +5,7 @@ const Itemes = (props) => {
     const { navigation } = props;
     return (
         <View style={ItemesS.container}>
-            <View>
-                <Image style={ItemesS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-            </View>
-            <Text style={ItemesS.text1}>
-                Itemes
-            </Text>
+
             <View style={[ItemesS.item, ItemesS.tt]}>
                 <View style={ItemesS.isItem}>
                     <Image style={{ marginRight: 6 }} source={require('../../../../media/images/ItemesApple.png')} />

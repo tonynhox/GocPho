@@ -5,12 +5,7 @@ const NewsAddress = (props) => {
     const { navigation } = props;
     return (
         <View style={NewsAddressS.container}>
-            <View>
-                <Image style={NewsAddressS.icontitle} source={require('../../../../media/images/Arrow.png')} />
-            </View>
-            <Text style={NewsAddressS.text1}>
-                New Addresses
-            </Text>
+
             <View style={NewsAddressS.v1}>
                 <View style={NewsAddressS.txtProf}>
                     <TextInput placeholder='Address Title' placeholderTextColor='#AC8E71' style={NewsAddressS.txtContext}></TextInput>

@@ -26,6 +26,7 @@ import ChooseMethodPayment from './src/components/app/cart/screens/ChooseMethodP
 
 const App = () => {
   return (
+    
     <Provider store={store}>
       <MenuProvider>
         <AppNavigation />

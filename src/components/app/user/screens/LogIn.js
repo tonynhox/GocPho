@@ -15,7 +15,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import loginSlice, {
   changeStatusLogin,
-  getUserInformationFromGoogle,
+  loginGoogle,
+
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 import {useDispatch} from 'react-redux';
 
@@ -66,9 +67,11 @@ const LogIn = props => {
       const userInfo = await GoogleSignin.signIn();
       setUser(userInfo);
       console.log('User infor: ', userInfo);
+      
+      dispatch(loginGoogle(userInfo));
+      // dispatch(await changeStatusLogin(true));
+      // dispatch(await changeStatusLogin(true));
 
-      dispatch(await getUserInformationFromGoogle(userInfo));
-      dispatch(await changeStatusLogin(true));
       // console.log('User: ', user);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -105,12 +108,7 @@ const LogIn = props => {
 
   return (
     <View style={styles.container}>
-      {/* Back Arrow */}
-      <Image source={require('../../../../media/images/Arrow.png')}></Image>
-      {/* SignUP */}
-      <View style={styles.mainTitle}>
-        <Text style={styles.signUp}>Sign In</Text>
-      </View>
+
       {/* Main background image */}
       <Image
         source={require('../../../../media/images/LoginPhoneEdited.png')}

@@ -191,14 +191,6 @@ const Cart = props => {
 
   return (
     <View style={styles.container}>
-      {/* Back Arrow */}
-      <Image source={require('../../../../media/images/Arrow.png')}></Image>
-
-      {/* Cart */}
-      <View style={styles.mainTitle}>
-        <Text style={styles.cart}>Cart</Text>
-      </View>
-
       <View style={styles.selectDropdown}>
         <SelectDropdown
           data={sort}

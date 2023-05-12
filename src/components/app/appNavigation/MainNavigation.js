@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, Text } from 'react-native'
+import { Image, Text,View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CartNavigation from '../cart/navigation/CartNavigation'
@@ -29,12 +29,33 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const StackMain = createNativeStackNavigator();
 
+
+const StackFavouretite = createNativeStackNavigator();
+
+const FavoriteNavigation = () => {
+    return (
+        <StackFavouretite.Navigator
+            screenOptions={{
+                headerShadowVisible: false,
+                headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+                headerTitleAlign: 'center',
+                headerTintColor: '#FF5E00',
+            }}
+        >
+            <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{}} />
+            
+        </StackFavouretite.Navigator>
+    );
+};
+
+
+
 const Navigations = {
   Tabs: [
     { component: ShopNavigation, name: 'Shop', options: {} },
     { component: ExploreNavigation, name: 'Explore', options: {} },
     { component: CartNavigation, name: 'Cart', options: {} },
-    { component: FavoriteScreen, name: 'Favorite', options: {} },
+    { component: FavoriteNavigation, name: 'Favorite', options: {} },
     { component: AccountNavigation, name: 'Account', options: {} },
   ],
 }
@@ -75,7 +96,7 @@ const TabMain = () => {
           } else if (route.name == 'Cart') {
             if (!focused) {
               return (
-<Image source={require('../../../media/iconNavigation/cart.png')} />
+                <Image source={require('../../../media/iconNavigation/cart.png')} />
               );
             } else {
               return (
@@ -170,7 +191,7 @@ const TabMain = () => {
           else if (route.name == 'Account') {
             if (focused)
               return (
-<Text style={{ color: 'FF5E00', fontWeight: 'bold' }}>
+                <Text style={{ color: 'FF5E00', fontWeight: 'bold' }}>
                   Account
                 </Text>
               );
@@ -188,7 +209,7 @@ const TabMain = () => {
         Navigations.Tabs.map((item, index) => {
           return (
             <Stack.Screen initialParams={{ id: 20 }} key={index} name={item.name} component={item.component} options={item.options} />
-            
+
           )
         })
       }
@@ -198,10 +219,17 @@ const TabMain = () => {
 
 
 const MainNavigation = () => {
-  return(
-    <StackMain.Navigator>
+  return (
+    <StackMain.Navigator
+    screenOptions={{                headerShadowVisible: false,
+      headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+      headerTitleAlign: 'center',
+      headerTintColor: '#FF5E00',}}
+      
+    >
       <StackMain.Screen name="TabMain" component={TabMain} options={{ headerShown: false }} />
-      <StackMain.Screen name="Mango" component={Mango} options={{ headerShown: false }} />
+      <StackMain.Screen name="Mango" component={Mango} options={{headerTitle:'' }}
+       />
     </StackMain.Navigator>
 
 

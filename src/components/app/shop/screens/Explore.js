@@ -9,16 +9,18 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {useDispatch, useSelector} from 'react-redux';
-import {showItemMatch} from '../../../../redux-toolkit/selector';
-import {categoryFilterChange, searchFilterChange} from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
-import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { showItemMatch } from '../../../../redux-toolkit/selector';
+import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 
 const Explore = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const dataExplore = useSelector(showItemMatch);
   const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
@@ -27,8 +29,8 @@ const Explore = props => {
 
   useEffect(() => {
     dispatch(fetchData());
-  }, [fetchData]);
-
+  }, []);
+  
   useEffect(() => {
     dispatch(fetchCategory);
   }, [fetchCategory]);
@@ -40,30 +42,32 @@ const Explore = props => {
 
   const handleCategory = id => {
     index = dataCategory.findIndex(item => {
-     return item.id == id;
+        if (item._id === id) {
+            console.log('----------------------------------',id)
+            dispatch(categoryFilterChange(id));
+            return id;
+        }
     });
-    
-    if (index != -1) {
-      dispatch(categoryFilterChange(dataCategory[index].name));
-    }
-  };
+};
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     // const item= props;
-    const {name, image, background, id} = item;
+    const { name, images, background, _id } = item;
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('Fruit')}
+        onPress={() => {navigation.navigate('Fruit')
+        handleCategory(item._id)
+      }}
         style={Styles.card}
-        // onPress={() => navigation.navigate('Detail', {id: _id}
-        //     )}
+      // onPress={() => navigation.navigate('Detail', {id: _id}
+      //     )}
       >
         <View style={[Styles.imgCard]}>
-          <ImageBackground style={Styles.imgCardBackground} source={background}>
+          {/* <ImageBackground style={Styles.imgCardBackground} source={background}> */}
             <Image
-              style={{width: 80, height: 80, resizeMode: 'center'}}
-              source={{uri: image}}></Image>
-          </ImageBackground>
+              style={[Styles.imgCardBackground,{ width: 80, height: 80, resizeMode: 'center' }]}
+              source={{ uri: images }}></Image>
+          {/* </ImageBackground> */}
         </View>
 
         <Text numberOfLines={2} style={Styles.nameCard}>
@@ -73,21 +77,11 @@ const Explore = props => {
     );
   };
 
-  const ItemCategory = ({item}) => {
-    return (
-      <View style={{height: 30, marginTop: 10}}>
-        <Pressable onPress={() => handleCategory(item.id)}>
-          <Text style={Styles.listCategory}>{item.name}</Text>
-        </Pressable>
-      </View>
-    );
-  };
+
 
   return (
     <View style={Styles.container}>
-      <View style={Styles.title}>
-        <Text style={Styles.txtTitle}>Categories</Text>
-      </View>
+
       <View style={Styles.search}>
         <TextInput
           value={search}
@@ -103,20 +97,12 @@ const Explore = props => {
 
       <FlatList
         data={dataCategory}
-        renderItem={({item}) => <ItemCategory item={item} />}
-        keyExtractor={item => item.id}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      />
-
-      <FlatList
-        data={dataExplore}
-        numColumns={2}
+        numColumns={3}
         renderItem={renderItem} //gọi từ biến trên
-        keyExtractor={item => item.id} //số không trùng
+        keyExtractor={item => item._id} //số không trùng
         showsVerticalScrollIndicator={false}
         horizontal={false}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
       />
     </View>
   );
@@ -137,7 +123,6 @@ const Styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     lineHeight: 18,
-    width: 100,
   },
   imgCardItem: {},
 
@@ -146,16 +131,16 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
     height: 100,
+    borderRadius:60
   },
 
   imgCard: {},
   card: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
     marginHorizontal: 5,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
   },
   listCate: {},
 

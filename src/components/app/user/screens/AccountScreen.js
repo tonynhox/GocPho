@@ -6,12 +6,6 @@ const AccountScreen = (props) => {
     const { navigation } = props;
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../media/images/Arrow.png')}
-            />
-            <View style={styles.header}>
-                <Text style={styles.textHeader}>Account</Text>
-            </View>
             <View style={styles.body}>
                 <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <View style={styles.bodyAccount} >

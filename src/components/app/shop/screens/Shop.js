@@ -14,6 +14,7 @@ import React, {useEffect} from 'react';
 import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 
 const Shop = props => {
   const {navigation} = props;
@@ -30,15 +31,19 @@ const Shop = props => {
     dispatch(fetchData());
   }, [fetchData]);
 
+  
+  
   const dispatch = useDispatch();
+
 
   const renderItem = ({item}) => {
     // const item= props;
-    const {name, image, id} = item;
+    const {name, images, _id} = item;
     return (
       <TouchableOpacity
         style={Styles.card}
         onPress={() => {
+            handleCategory(_id)
             props.navigation.navigate('Explore', { screen: 'Explores' })
             setTimeout(() => {
                 props.navigation.navigate('Fruit')
@@ -57,7 +62,7 @@ const Shop = props => {
                 borderRadius: 40,
                 resizeMode: 'contain',
               }}
-              source={{uri: image}}></Image>
+              source={{uri: images}}></Image>
           </ImageBackground>
         </View>
 
@@ -69,18 +74,20 @@ const Shop = props => {
   const renderItemPopular = ({item}) => {
     // const item= props;
     // {"category": "category 1", "cost": 73, "id": "1", "image": "https://loremflickr.com/640/480/food", "name": "Awesome Rubber Chips", "quantity": 14
-    const {id, image, cost, name, quantity, category} = item;
+    const {id, images, price, name, quantity, category} = item;
+    let image= images[0].name;
+    // console.log(image)
     return (
       <Pressable onPress={() => navigation.navigate('Mango')}>
         <View style={[Styles.boxShadown, Styles.cardPopular]}>
           <View style={{margin: 10}}>
             <View style={Styles.imgPop}>
-              <Image style={{width: 80, height: 80, resizeMode:'contain'}} source={{uri:item.image}} />
+              <Image style={{width: 80, height: 80, resizeMode:'contain'}} source={{uri:image}} />
             </View>
             <View style={{height: '40%', position: 'relative'}}>
-              <Text style={Styles.txtNamePop}>{item.name}</Text>
-              <Text style={Styles.txtKg}></Text>
-              <Text style={Styles.txtPrice}>$ {item.cost}</Text>
+              <Text style={Styles.txtNamePop}>{name}</Text>
+              <Text style={Styles.txtKg}>{quantity}kg,priceg</Text>
+              <Text style={Styles.txtPrice}>$ {price}</Text>
             </View>
             <TouchableOpacity>
                 <Image
@@ -94,15 +101,21 @@ const Shop = props => {
     );
   };
 
+
+
+  const handleCategory = id => {
+    index = dataCategory.findIndex(item => {
+        if (item._id === id) {
+            console.log('----------------------------------',id)
+            dispatch(categoryFilterChange(id));
+            return id;
+        }
+    });
+};
+
   return (
     <View style={Styles.container}>
-      <View style={Styles.title}>
-        <Image
-          style={Styles.icLocation}
-          source={require('../../../../media/images/icLocation.png')}
-        />
-        <Text style={Styles.txtTitle}>Lungangen</Text>
-      </View>
+
       <View style={Styles.search}>
         <TextInput
           placeholder="Search"
@@ -125,7 +138,7 @@ const Shop = props => {
         <FlatList
           data={dataCategory}
           renderItem={renderItem} //gọi từ biến trên
-          keyExtractor={item => item.id} //số không trùng
+          keyExtractor={item => item._id} //số không trùng
           showsHorizontalScrollIndicator={false}
           horizontal={true}
         />
@@ -142,7 +155,7 @@ const Shop = props => {
         <FlatList
           data={dataPopular}
           renderItem={renderItemPopular} //gọi từ biến trên
-          keyExtractor={item => item.id} //số không trùng
+          keyExtractor={item => item._id} //số không trùng
           showsHorizontalScrollIndicator={false}
           horizontal={true}
         />

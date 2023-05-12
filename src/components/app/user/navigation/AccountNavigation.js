@@ -1,4 +1,4 @@
-import { View, Text ,Image} from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -26,13 +26,13 @@ const TopTabOrder = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-      tabBarActiveTintColor: '#F37A20',
-      tabBarInactiveTintColor: 'gray',
-      tabBarIndicatorStyle: {
-        backgroundColor: '#FF5E00',
-        width: '50%',
-      },tabBarIndicatorContainerStyle: { marginHorizontal: 40, paddingHorizontal: 80 }
-    }}
+        tabBarActiveTintColor: '#F37A20',
+        tabBarInactiveTintColor: 'gray',
+        tabBarIndicatorStyle: {
+          backgroundColor: '#FF5E00',
+          width: '50%',
+        }, tabBarIndicatorContainerStyle: { marginHorizontal: 40, paddingHorizontal: 80 }
+      }}
 
     >
       <Tab.Screen name="Ongoing" component={Ongoing} />
@@ -46,9 +46,9 @@ const stackTop = createNativeStackNavigator();
 const StackTopOrder = () => {
   return (
     <stackTop.Navigator
-      screenOptions={({ navigation, route }) => ({ 
+      screenOptions={({ navigation, route }) => ({
         headerShadowVisible: false,
-        headerTitleStyle: {  fontSize: 24, fontWeight: '700'},
+        headerTitleStyle: { fontSize: 24, fontWeight: '700' },
         headerTitleAlign: 'center',
         headerTintColor: '#FF5E00',
         // headerBackImageSource: require('../../../../media/images/icBack.png'),
@@ -56,11 +56,11 @@ const StackTopOrder = () => {
         headerLeft: (props) => (
           <HeaderBackButton
             {...props}
-             onPress={() => navigation.goBack()}
+            onPress={() => navigation.goBack()}
           >
             {/* <Image source={require('../../../../media/images/icBack.png')} style={{ width: 20, height: 20, marginLeft: 10 }} /> */}
           </HeaderBackButton>
-       ),
+        ),
       })}
     >
       <stackTop.Screen name="Orders" component={TopTabOrder} />
@@ -89,9 +89,13 @@ const ProfileNavigation = () => {
 
 const Navigations = {
   Stack: [
-    { component: Account, name: '_Account', options: {} },
-{ component: ProfileNavigation, name: 'Profile', options: {} },
-    { component: StackTopOrder, name: 'order', options: {} },
+    { component: Account, name: '_Account', options: {headerTitle: () => (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ fontSize: 24, color: '#FF5E00', fontWeight: '700' }}>Account</Text>
+      </View>
+  ),} },
+    { component: ProfileNavigation, name: 'Profile', options: {} },
+    { component: StackTopOrder, name: 'order', options: { headerShown: false } },
     { component: Address, name: 'Address', options: {} },
     { component: Payment, name: 'Payment', options: {} },
   ]
@@ -104,7 +108,12 @@ const Main = createNativeStackNavigator();
 const StackNavigation = () => {
   return (
     <Stack.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShadowVisible: false,
+        headerTitleStyle: { fontSize: 24, fontWeight: '700' },
+        headerTitleAlign: 'center',
+        headerTintColor: '#FF5E00',
+      }}
       initialRouteName="_Account"
     >
       {
