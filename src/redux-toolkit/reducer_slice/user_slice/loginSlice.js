@@ -1,20 +1,22 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice ,createAsyncThunk} from '@reduxjs/toolkit';
+import AxiosInstance from '../../../components/app/axiosClient/AxiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+export const fetchGoogle = createAsyncThunk('LoginGoogle', async (email) => {
+  const body = {
+    email: email,
+  }
+  const response = await AxiosInstance().post('/user/login-email', body);
+  return response;
+});
+
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState: {
     userInfo: {
-      idToken: null,
-      scopes: [],
-      serverAuthCode: null,
-      user: {
-        email: '',
-        familyName: '',
-        givenName: '',
-        id: '',
-        name: '',
-        photo:''
-      },
     },
     isLoggedIn: false
   },
@@ -29,8 +31,19 @@ export const loginSlice = createSlice({
       console.log("User slice: ", state.userInfo)
     },
   },
+  extraReducers: builder => {
+    builder.addCase(fetchGoogle.pending, state => {
+      state.loading = true;
+      state.error = null;
+    }),
+      builder.addCase(fetchGoogle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+        state.error = null;
+      })
+  },
 });
 
-export const {changeStatusLogin} = loginSlice.actions;
-export const {getUserInformationFromGoogle} = loginSlice.actions;
+export const { changeStatusLogin } = loginSlice.actions;
+export const { getUserInformationFromGoogle } = loginSlice.actions;
 export default loginSlice.reducer;

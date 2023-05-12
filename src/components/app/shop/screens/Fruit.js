@@ -1,45 +1,113 @@
 import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
-import React,{ useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list';
-import { useIsFocused,CommonActions,useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused, CommonActions, useNavigation } from '@react-navigation/native';
+import { showItemMatch } from '../../../../redux-toolkit/selector';
+import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
+import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+
 const Fruit = (props) => {
     const { navigation } = props;
-    const renderItemPopular = ({ item, i,index }) => {
-        // const item= props;
-        const { __id, image, price, kg } = item;
-        // console.log(i);
-        if (i == 1) {
-            return (
-                <Image style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    
-                }} source={require('../../../../media/images/saleMoring.png')} />
 
-            )
-        } else {
+    const [hover,setHover] = useState('All')
 
-            return (
-                <Pressable onPress={()=>props.navigation.navigate('Mango')} style={[Styles.boxShadown, Styles.cardPopular]}>
+    const dispatch = useDispatch();
+    const isFocused = useIsFocused();
+
+    let dataExplore = useSelector(showItemMatch);
+    const dataCategory =  useSelector(state => state.dataCategoryMainShop.data);
+    let updatedDataCategory = [{"__v": 0, "_id": "All", "images": "", "name": "All"}, ...dataCategory];
+    console.log(updatedDataCategory);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        dispatch(fetchData());
+    }, []);
+
+    // useEffect(() => {
+        
+    // }, [isFocused])
+
+    // useEffect(() => {
+    //     dispatch(fetchCategory);
+    // }, [fetchCategory]);
+
+    const handleSearch = value => {
+        setSearch(value);
+        dispatch(searchFilterChange(value));
+    };
+
+    const handleCategory = id => {
+        index = updatedDataCategory.findIndex(item => {
+            if (item._id === id) {
+                dispatch(categoryFilterChange(id));
+                return id;
+            }
+        });
+    };
+
+
+
+
+
+    const renderItemPopular = ({ item, i, index }) => {
+        const { id, images, price, quantity, name } = item;
+
+        return (
+            <Pressable onPress={() => props.navigation.navigate('Mango')} style={[Styles.boxShadown, Styles.cardPopular]}>
+                <View style={{flex:1}}>
                     <View style={{ margin: 10 }}>
                         <View style={Styles.imgPop}>
-                            <Image source={require('../../../../media/images/apple.png')} />
+                            <Image
+                                style={{ width: 80, height: 80, resizeMode: 'center' }}
+                                source={{ uri: images[0].name }} />
                         </View>
                         <View style={{ position: 'relative' }}>
-                            <Text style={Styles.txtNamePop}>Red Apple</Text>
-                            <Text style={Styles.txtKg}>1kg,priceg</Text>
-                            <Text style={Styles.txtPrice}>$ 4,99</Text>
-                            <TouchableOpacity>
-                                <Image style={Styles.imgAdd} source={require('../../../../media/images/icAdd.png')} />
-                            </TouchableOpacity>
+                            <Text style={Styles.txtNamePop}>{name}</Text>
+                            <Text style={Styles.txtKg}>{quantity}kg,priceg</Text>
+                            <Text style={Styles.txtPrice}>{price}</Text>
                         </View>
 
+                        <TouchableOpacity>
+                            <Image style={Styles.imgAdd} source={require('../../../../media/images/icAdd.png')} />
+                        </TouchableOpacity>
                     </View>
-                </Pressable>
-            );
-        }
+                </View>
+
+
+            </Pressable>
+        );
+
 
     }
+
+    const checkHover = (item) => {
+        if (item.name === hover) {
+          return { borderBottomWidth: 2, borderBottomColor: 'red' };
+        }
+      };
+      
+      const handleCategoryPress = (item) => {
+        setHover(item.name);
+        handleCategory(item._id);
+      };
+
+
+    const ItemCategory = ({ item, index }) => {
+
+        return (
+            <View style={{ height: 30, marginTop: 10, }}>
+                <Pressable
+                    
+                    style={checkHover(item)}
+                    onPress={()=>handleCategoryPress(item)}>
+                    <Text style={Styles.listCategory}>{item.name}</Text>
+                </Pressable>
+            </View>
+        );
+    };
 
     return (
         <View style={Styles.container}>
@@ -47,18 +115,30 @@ const Fruit = (props) => {
 
             <View style={Styles.search}>
                 <TextInput placeholder='Search'
+                          value={search}
+                          onChangeText={handleSearch}
                     placeholderTextColor='rgba(109, 56, 5, 0.57)'
                     style={Styles.ipSearch}>
-
                 </TextInput>
                 <Image style={Styles.imgSearch} source={require('../../../../media/images/icSearch.png')} />
-            </View>
 
+
+            </View>
+            <View style={{ height: 40 }}>
+                <FlatList
+                    style={{borderBottomWidth: 2, borderBottomColor: '#6D38050F' }}
+                    data={updatedDataCategory}
+                    renderItem={ItemCategory}
+                    keyExtractor={item => item._id}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
             <MasonryList
                 style={{ marginTop: 34 }}
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
+                data={dataExplore}
                 renderItem={renderItemPopular}//gọi từ biến trên
-                keyExtractor={Math.random}//số không trùng
+                keyExtractor={item => item._id}//số không trùng
                 showsVerticalScrollIndicator={false}
                 horizontal={false}
                 numColumns={2}
@@ -72,6 +152,13 @@ const Fruit = (props) => {
 
 export default Fruit
 const Styles = StyleSheet.create({
+    listCategory: {
+        fontSize: 20,
+        fontWeight: '400',
+        lineHeight: 24,
+        marginHorizontal: 7,
+        color: '#6D3805',
+    },
     imgAdd: {
         position: 'absolute',
         right: 0,

@@ -72,7 +72,7 @@ const FavoriteScreen = (props) => {
       <FlatList
         data={listData}
         renderItem={Item}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />

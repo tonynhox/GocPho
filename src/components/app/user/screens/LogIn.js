@@ -66,7 +66,7 @@ const LogIn = props => {
       const userInfo = await GoogleSignin.signIn();
       setUser(userInfo);
       console.log('User infor: ', userInfo);
-
+      
       dispatch(await getUserInformationFromGoogle(userInfo));
       dispatch(await changeStatusLogin(true));
       // console.log('User: ', user);
