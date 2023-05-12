@@ -76,10 +76,10 @@ const ProfileScreen = props => {
               resizeMode: 'contain',
               borderRadius: 25,
             }}
-            source={{ uri: infor.user.photo }}
+            source={{ uri: infor.user.avatar }}
           />
           <View >
-            <Text style={styles.textAccountGoogle}>{infor.result.name}</Text>
+            <Text style={styles.textAccountGoogle}>{infor.user.fullname}</Text>
             <Pressable onPress={() => props.navigation.navigate('EditProfile')} >
               <Text style={[styles.textAccountGoogle, { fontWeight: '450' }]}>Edit Profile</Text>
             </Pressable>
