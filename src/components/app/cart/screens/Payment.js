@@ -22,18 +22,24 @@ import {useEffect} from 'react';
 
 const {SlideInMenu} = renderers;
 
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
+
 const Payment = props => {
   const {navigation} = props;
   const dispatch = useDispatch();
 
   const listData = useSelector(state => state.dataAPI.data);
 
-  const sliceData = listData.slice(0,10)
+  const sliceData = listData.slice(0, 10);
 
-  const [totalCost, setTotalCost] = useState(0)
+  const [totalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
-    const newTotalCost = sliceData.reduce((total, item) => total + item.cost, 0);
+    const newTotalCost = sliceData.reduce(
+      (total, item) => total + item.cost,
+      0,
+    );
     setTotalCost(newTotalCost);
   }, [sliceData]);
 
@@ -63,12 +69,14 @@ const Payment = props => {
   // lấy dữ liệu khung giờ giao hàng
   const [time, SetTime] = useState('');
 
-  const [isPressed, setIsPressed] = useState(false);
+  const [isPressed, setIsPressed] = useState(true);
   const [isPressed1, setIsPressed1] = useState(false);
   const [isPressed2, setIsPressed2] = useState(false);
   const [isPressed3, setIsPressed3] = useState(false);
   const [isPressed4, setIsPressed4] = useState(false);
   const [isPressed5, setIsPressed5] = useState(false);
+
+  const [responseBill, setResponseBill] = useState();
 
   const changeAll = () => {
     setIsPressed(!isPressed);
@@ -78,6 +86,8 @@ const Payment = props => {
       setIsPressed3(false);
       setIsPressed4(false);
       setIsPressed5(false);
+    } else {
+      setIsPressed(true);
     }
   };
   const changeAll1 = () => {
@@ -88,6 +98,8 @@ const Payment = props => {
       setIsPressed3(false);
       setIsPressed4(false);
       setIsPressed5(false);
+    } else {
+      setIsPressed1(true);
     }
   };
   const changeAll2 = () => {
@@ -98,6 +110,8 @@ const Payment = props => {
       setIsPressed3(false);
       setIsPressed4(false);
       setIsPressed5(false);
+    } else {
+      setIsPressed2(true);
     }
   };
   const changeAll3 = () => {
@@ -108,6 +122,8 @@ const Payment = props => {
       setIsPressed2(false);
       setIsPressed4(false);
       setIsPressed5(false);
+    } else {
+      setIsPressed3(true);
     }
   };
   const changeAll4 = () => {
@@ -118,6 +134,8 @@ const Payment = props => {
       setIsPressed3(false);
       setIsPressed2(false);
       setIsPressed5(false);
+    } else {
+      setIsPressed4(true);
     }
   };
   const changeAll5 = () => {
@@ -128,6 +146,42 @@ const Payment = props => {
       setIsPressed3(false);
       setIsPressed2(false);
       setIsPressed4(false);
+    } else {
+      setIsPressed5(true);
+    }
+  };
+
+  const goOrder = async () => {
+    try {
+      const response = await fetch(
+        'https://sever-gocpho.herokuapp.com/bill/add',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user: 'aaaaabc',
+            name: 'banh beo',
+            img: 'banhbao.js',
+            price: 222222,
+            quantity: 10,
+            address: 'abc',
+            payment: 'xyz',
+          }),
+        },
+      );
+      const data = await response.json();
+      setResponseBill(data);
+      console.log('Data reponse: ', data.message);
+      if (data.message == 'success') {
+        navigation.navigate('OrderAccepted');
+      } else {
+        navigation.navigate('OrderFailed');
+      }
+    } catch (error) {
+      setResponseBill(error);
+      navigation.navigate('OrderFailed');
     }
   };
 
@@ -353,12 +407,8 @@ const Payment = props => {
         <Text style={[styles.OrderValueTitle]}>Order Sammery</Text>
         {sliceData.map((product, index) => (
           <View style={[styles.OrderValueContent]} key={index}>
-            <Text style={[styles.OrderValueContentText]}>
-              {product.name}
-            </Text>
-            <Text style={[styles.OrderValueContentText]}>
-             $ {product.cost}
-            </Text>
+            <Text style={[styles.OrderValueContentText]}>{product.name}</Text>
+            <Text style={[styles.OrderValueContentText]}>$ {product.cost}</Text>
           </View>
         ))}
 
@@ -374,6 +424,7 @@ const Payment = props => {
         onPress={() => {
           //if thafnh cong
           navigation.navigate('OrderAccepted');
+          goOrder();
         }}>
         <Text style={[styles.btnAcceptText]}>Track Order</Text>
       </Pressable>
@@ -490,7 +541,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   TickedOn: {
-    marginLeft: '40%',
+    marginLeft: '30%',
   },
   PaymentMethodBottom: {
     flexDirection: 'row',
