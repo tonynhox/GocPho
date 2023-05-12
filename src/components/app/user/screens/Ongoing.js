@@ -7,13 +7,27 @@ import {useMemo} from 'react';
 
 const Ongoing = props => {
   const {navigation} = props;
+  let idReceived = '';
+  const received = props.route.params;
+  let statusDelivery = 3
+  
 
   const billOrder = useSelector(state => state.login.userInfo.user.bills);
 
   console.log('BBBBBB: ', billOrder);
   const [idBills, setIdBills] = useState(0);
 
-  const statusDelivery = 3
+  if(received != undefined){
+    billOrder.map((bill, index) => {
+      if (bill._id == received) {
+        statusDelivery = bill.status[0].number
+        console.log("RECEIVED: ", received)
+
+      }
+    });
+  }
+
+  
 
   useEffect(() => {
     billOrder.map((bill, index) => {

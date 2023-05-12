@@ -36,7 +36,7 @@ export const loginSlice = createSlice({
             payment: 'xyz',
             status: [
               {
-                number: 1,
+                number: 2,
                 name: 'Đang chờ xử lý',
                 date: 'Thu May 11 2023 16:18:49 GMT+0000 (Coordinated Universal Time)',
                 _id: '645d1569530913651b6ae2c8',
