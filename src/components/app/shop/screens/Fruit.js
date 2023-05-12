@@ -6,13 +6,14 @@ import { useIsFocused, CommonActions, useNavigation } from '@react-navigation/na
 import { showItemMatch } from '../../../../redux-toolkit/selector';
 import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { categoryFilterChange, searchFilterChange,fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 
 const Fruit = (props) => {
     const { navigation } = props;
-
-    const [hover,setHover] = useState('All')
-
+    const idCate =useSelector(state => state.filter.category);
+    // const a= fetchCategory.filter(item => item.category === idCate);
+    
+    const [hover,setHover] = useState('')
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
 
@@ -22,8 +23,11 @@ const Fruit = (props) => {
     console.log(updatedDataCategory);
     const [search, setSearch] = useState('');
 
+
     useEffect(() => {
         dispatch(fetchData());
+        let a= dataCategory.filter(item => item._id==idCate);
+        setHover(a[0].name)
     }, []);
 
     // useEffect(() => {
@@ -53,10 +57,16 @@ const Fruit = (props) => {
 
 
     const renderItemPopular = ({ item, i, index }) => {
-        const { id, images, price, quantity, name } = item;
+        const { _id, images, price, quantity, name } = item;
 
         return (
-            <Pressable onPress={() => props.navigation.navigate('Mango')} style={[Styles.boxShadown, Styles.cardPopular]}>
+            <Pressable onPress={() => {
+                dispatch(fetchProductById(_id));
+                props.navigation.navigate('Mango')} 
+
+            }
+                style={[Styles.boxShadown, Styles.cardPopular]}
+                >
                 <View style={{flex:1}}>
                     <View style={{ margin: 10 }}>
                         <View style={Styles.imgPop}>

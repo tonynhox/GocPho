@@ -42,13 +42,14 @@ import Explore from './src/components/app/shop/screens/Explore';
 import FavoriteScreen from './src/components/app/shop/screens/FavoriteScreen';
 import Fruit from './src/components/app/shop/screens/Fruit';
 import Address from './src/components/app/user/screens/Address';
-
+import ZaloPayDemo from './src/components/app/cart/screens/ZaloPayDemo';
 const App = () => {
 
   return (
     
     <Provider store={store}>
         <AppNavigation />
+        {/* <ZaloPayDemo/> */}
     </Provider>
   );
 };

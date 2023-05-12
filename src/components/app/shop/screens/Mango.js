@@ -7,15 +7,18 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import Swiper from 'react-native-swiper';
 
 const renderItemPopular = ({ item }) => {
+
   const { __id, image, price, kg } = item;
   return (
-    <View style={{marginVertical:10}} >
+    <View style={{ marginVertical: 10 }} >
       <View style={[styles.boxShadown, styles.cardPopular]}>
         <View style={styles.imgPop}>
           <Image source={require('../../../../media/images/apple.png')} />
@@ -24,15 +27,15 @@ const renderItemPopular = ({ item }) => {
           <Text style={styles.txtNamePop}>Red Apple</Text>
           <Text style={styles.txtKg}>1kg,priceg</Text>
           <Text style={styles.txtPrice}>$ 4,99</Text>
-          
+
         </View>
 
         <TouchableOpacity>
-            <Image
-              style={styles.imgAdd}
-              source={require('../../../../media/images/icAdd.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={styles.imgAdd}
+            source={require('../../../../media/images/icAdd.png')}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -41,6 +44,10 @@ const renderItemPopular = ({ item }) => {
 const Mango = props => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+
+
+  const dataProduct = useSelector(state => state.filter.product);
+
 
   const handleAddItem = () => {
     product = {
@@ -70,31 +77,81 @@ const Mango = props => {
   };
 
   const { navigation } = props;
+
+  console.log('image nè', dataProduct.images[0].name)
+
+  const imageSline = 
+
+    <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
+      <Image
+        style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+        source={{ uri: dataProduct.images[0].name }} />
+    </View>
+  
   return (
     //minHeight : '100%'
+
     <ScrollView style={styles.container}>
+
+      {/* Slideshow */}
+      {/* <View style={{ height: 200 }}>
+        <Swiper
+          style={styles.wrapper}
+          showsButtons={true}
+          autoplayTimeout={3}
+          autoplay={true}
+          showsPagination={false}>
+          <View style={styles.slide}>
+            <Image source={require('../../../../media/images/apple.png')} />
+          </View>
+          <View style={styles.slide}>
+            <Image source={require('../../../../media/images/apple.png')} />
+          </View>
+          <View style={styles.slide}>
+            <Image
+              source={require('../../../../media/images/apple.png')}
+            />
+          </View>
+        </Swiper>
+      </View> */}
       <View>
         {/* Image Fruit */}
         <View style={styles.fruitContainer}>
-          <Image
-            style={{ width: 200, height: 200, resizeMode: 'contain' }}
-            source={{
-              uri: 'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
-            }}
-          />
+          <View style={{ height: 200 }}>
+            <Swiper
+              showsButtons={true}
+              autoplayTimeout={3}
+              autoplay={true}
+              showsPagination={false}>
+
+              {imageSline()}
+              <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
+                <Image
+
+                  style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                  source={{ uri: dataProduct.images[1].name }} />
+
+              </View>
+              <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
+                <Image
+                  style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                  source={{ uri: dataProduct.images[0].name }} />
+
+              </View>
+            </Swiper>
+          </View>
+
         </View>
 
         {/* Original Mango */}
-        <Text style={styles.name}>Original Mango</Text>
+        <Text style={styles.name}>{dataProduct.name}</Text>
 
         {/* Price */}
-        <Text style={styles.price}>$3.00/st</Text>
+        <Text style={styles.price}>${dataProduct.price}/st</Text>
 
         {/* More information */}
         <Text style={styles.information}>
-          Golden Ripe Alphonsa mangoes delivered to your house in the most
-          hygenic way ever... Best for eating plain but can also be made into
-          shakes and cakes.
+          {dataProduct.detail}
         </Text>
 
         {/* Quantity and Heart Icon */}
@@ -131,7 +188,7 @@ const Mango = props => {
 
         {/* You may also need */}
         <Text style={styles.more}>You may also need</Text>
-        <View style={{marginVertical:20}}>
+        <View style={{ marginVertical: 20 }}>
           <FlatList
             data={[1, 2, 3, 4, 5]}
             renderItem={renderItemPopular} //gọi từ biến trên
@@ -254,7 +311,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   fruitContainer: {
-    height:300,
+    // height: 300,
+    marginBottom: 80,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -264,6 +322,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    padding:16
+    padding: 16
   },
 });

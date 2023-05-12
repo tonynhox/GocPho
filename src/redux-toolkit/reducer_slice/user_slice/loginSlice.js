@@ -35,16 +35,14 @@ export const loginSlice = createSlice({
     },
     getUserInformationFromGoogle: (state, action) => {
       state.userInfo = action.payload;
-      console.log("User slice: ", state.userInfo)
     },
   },
   extraReducers: builder => {
     builder.addCase(loginGoogle.pending, state => {
-      console.log('fail rồi ba')
+      console.log('fail loginGoogle')
     }),
       builder.addCase(loginGoogle.fulfilled, (state, action) => {
         state.userInfo = action.payload;
-        console.log(action.userInfo)
         state.isLoggedIn = true;
         state.error = null;
       })

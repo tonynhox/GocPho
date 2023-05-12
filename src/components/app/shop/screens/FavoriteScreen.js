@@ -5,7 +5,9 @@ import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/ge
 
 const FavoriteScreen = (props) => {
   const { navigation } = props;
-  const listData = useSelector(state => state.dataAPI.data);
+  const user = useSelector(state => state.login.userInfo);
+
+  let listData = user.user.favorites
   useEffect(() => {
     dispatch(fetchData());
   }, [fetchData]);
@@ -35,7 +37,7 @@ const FavoriteScreen = (props) => {
         </View>
 
         {/* Cost */}
-        <Text style={styles.cost}>{item.cost * item.quantity} $</Text>
+        <Text style={styles.cost}>{item.price} $</Text>
       </View>
       // </Pressable>
     );
