@@ -15,7 +15,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import loginSlice, {
   changeStatusLogin,
-  getUserInformationFromGoogle,
+  loginGoogle,
+
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 import {useDispatch} from 'react-redux';
 
@@ -67,8 +68,10 @@ const LogIn = props => {
       setUser(userInfo);
       console.log('User infor: ', userInfo);
       
-      dispatch(await getUserInformationFromGoogle(userInfo));
-      dispatch(await changeStatusLogin(true));
+      dispatch(loginGoogle(userInfo));
+      // dispatch(await changeStatusLogin(true));
+      // dispatch(await changeStatusLogin(true));
+
       // console.log('User: ', user);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

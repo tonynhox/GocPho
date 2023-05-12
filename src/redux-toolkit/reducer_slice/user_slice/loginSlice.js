@@ -1,15 +1,22 @@
-import { createSlice ,createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AxiosInstance from '../../../components/app/axiosClient/AxiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-
-export const fetchGoogle = createAsyncThunk('LoginGoogle', async (email) => {
+export const loginGoogle = createAsyncThunk('LoginGoogle', async (result) => {
+  const email = result.user.email;
+  const photo = result.user.photo;
+  const name = result.user.name;
   const body = {
     email: email,
+    avatar: photo,
+    fullname:name
   }
-  const response = await AxiosInstance().post('/user/login-email', body);
+  const response = await AxiosInstance().post('/user/login-email  ', body);
+  console.log(response);
+
   return response;
+
 });
 
 
@@ -32,13 +39,13 @@ export const loginSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchGoogle.pending, state => {
-      state.loading = true;
-      state.error = null;
+    builder.addCase(loginGoogle.pending, state => {
+      console.log('fail rồi ba')
     }),
-      builder.addCase(fetchGoogle.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
+      builder.addCase(loginGoogle.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+        console.log(action.userInfo)
+        state.isLoggedIn = true;
         state.error = null;
       })
   },
