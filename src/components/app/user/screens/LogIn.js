@@ -66,7 +66,7 @@ const LogIn = props => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUser(userInfo);
-      console.log('User infor: ', userInfo);
+      // console.log('User infor: ', userInfo);
       
       dispatch(loginGoogle(userInfo));
       // dispatch(await changeStatusLogin(true));

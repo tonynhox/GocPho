@@ -24,28 +24,29 @@ const {SlideInMenu} = renderers;
 
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+import AxiosInstance from '../../axiosClient/AxiosInstance';
 
 const Payment = props => {
   const {navigation} = props;
   const dispatch = useDispatch();
 
-  const listData = useSelector(state => state.dataAPI.data);
-
-  const sliceData = listData.slice(0, 10);
+  const listData = useSelector(state => state.cart.data);
 
   const [totalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
-    const newTotalCost = sliceData.reduce(
-      (total, item) => total + item.cost,
+    const newTotalCost = listData.reduce(
+      (total, item) => total + item.price * item.quantity,
       0,
     );
     setTotalCost(newTotalCost);
-  }, [sliceData]);
+  }, [listData]);
 
   // useEffect(() => {
   //   dispatch(fetchData());
   // }, [fetchData]);
+
+
 
   const pickLocation = () => {
     GetLocation.getCurrentPosition({
@@ -151,6 +152,10 @@ const Payment = props => {
     }
   };
 
+  const idUser = useSelector(state => state.login.userInfo.user._id)
+  console.log("ID: ", idUser)
+
+
   const goOrder = async () => {
     try {
       const response = await fetch(
@@ -161,19 +166,19 @@ const Payment = props => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user: 'aaaaabc',
+            user: idUser,
             name: 'banh beo',
             img: 'banhbao.js',
-            price: 222222,
+            price: totalCost,
             quantity: 10,
             address: 'abc',
             payment: 'xyz',
           }),
-        },
+        }
       );
       const data = await response.json();
       setResponseBill(data);
-      console.log('Data reponse: ', data.message);
+      console.log('Data reponse: ', data);
       if (data.message == 'success') {
         navigation.navigate('OrderAccepted');
       } else {
@@ -181,6 +186,7 @@ const Payment = props => {
       }
     } catch (error) {
       setResponseBill(error);
+      console.log('Data res: ', error);
       navigation.navigate('OrderFailed');
     }
   };
@@ -405,10 +411,10 @@ const Payment = props => {
       {/* //Giá trị đơn hàng */}
       <View style={[styles.OrderValue]}>
         <Text style={[styles.OrderValueTitle]}>Order Sammery</Text>
-        {sliceData.map((product, index) => (
+        {listData.map((product, index) => (
           <View style={[styles.OrderValueContent]} key={index}>
             <Text style={[styles.OrderValueContentText]}>{product.name}</Text>
-            <Text style={[styles.OrderValueContentText]}>$ {product.cost}</Text>
+            <Text style={[styles.OrderValueContentText]}>$ {product.price * product.quantity}</Text>
           </View>
         ))}
 

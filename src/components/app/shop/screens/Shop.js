@@ -15,14 +15,18 @@ import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { addListCart } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 
 const Shop = props => {
   const {navigation} = props;
+    
+  const dispatch = useDispatch();
 
+  const listData = useSelector(state => state.login.userInfo.user.carts);
   const dataPopular = useSelector(state => state.dataAPI.data);
   const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
-  // console.log('Data Popular: ', dataPopular);
-  // console.log('Data Cateogory: ', dataCategory);
+  
+
   useEffect(() => {
     dispatch(fetchCategory());
   }, [fetchCategory]);
@@ -32,8 +36,7 @@ const Shop = props => {
   }, [fetchData]);
 
   
-  
-  const dispatch = useDispatch();
+
 
 
   const renderItem = ({item}) => {

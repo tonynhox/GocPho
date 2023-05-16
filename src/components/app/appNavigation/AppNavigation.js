@@ -11,8 +11,6 @@ const isLoggedIn = useSelector(state => state.login.isLoggedIn)
 const user = useSelector(state =>state.login.userInfo)
   return (
     <NavigationContainer>
-      {console.log("Logged: ", isLoggedIn)}
-      {console.log("User at AppNavigation: ", user)}
         {isLoggedIn ? <MainNavigation /> : <UserNavigation />}
     </NavigationContainer>
   )
