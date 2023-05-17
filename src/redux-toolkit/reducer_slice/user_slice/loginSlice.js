@@ -10,7 +10,7 @@ export const loginGoogle = createAsyncThunk('LoginGoogle', async (result) => {
   const body = {
     email: email,
     avatar: photo,
-    fullname:name
+    fullname:name,
   }
   const response = await AxiosInstance().post('/user/login-email  ', body);
   console.log(response);

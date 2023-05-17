@@ -4,12 +4,14 @@ import itemSlice from './reducer_slice/shop_slice/itemSlice';
 import loginSlice from './reducer_slice/user_slice/loginSlice';
 import getProductAPISlice from './reducer_slice/cart_slice/getProductAPISlice';
 import shopPageCategorySlice from './reducer_slice/shop_slice/shopPageCategorySlice';
+import loginUserSlice from './reducer_slice/user_slice/loginUserSlice';
 
 export const store = configureStore({
   reducer: {
     filter: filterSlice,
     item: itemSlice,
     login: loginSlice,
+    loginUser: loginUserSlice,
     dataAPI: getProductAPISlice,
     dataCategoryMainShop: shopPageCategorySlice
   },
