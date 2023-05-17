@@ -40,10 +40,8 @@ const Cart = props => {
   const dataCart = useSelector(state => state.cart.data)
   console.log("DATA CARTTT: ", dataCart)
   const dispatch = useDispatch();
-  // dispatch(addListCart(listData))
   const idUser = useSelector(state => state.login.userInfo.user._id)
   useEffect(() => {
-    console.log("WORKING")
     dispatch(fetchUserProfile(idUser));
   }, [dispatch, idUser]);
 

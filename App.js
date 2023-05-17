@@ -23,6 +23,7 @@ import {store} from './src/redux-toolkit/store';
 import {MenuProvider} from 'react-native-popup-menu';
 import Payment from './src/components/app/cart/screens/Payment';
 import ChooseMethodPayment from './src/components/app/cart/screens/ChooseMethodPayment';
+import ChooseAddress from './src/components/app/shop/screens/ChooseAddress';
 
 const App = () => {
   return (
@@ -30,7 +31,7 @@ const App = () => {
     <Provider store={store}>
       <MenuProvider>
         <AppNavigation />
-        {/* <Payment/> */}
+        {/* <ChooseAddress/> */}
       </MenuProvider>
     </Provider>
   );

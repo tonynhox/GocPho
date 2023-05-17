@@ -25,6 +25,7 @@ const {SlideInMenu} = renderers;
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import AxiosInstance from '../../axiosClient/AxiosInstance';
+import {fetchGetAddress} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
 
 const Payment = props => {
   const {navigation} = props;
@@ -41,12 +42,6 @@ const Payment = props => {
     );
     setTotalCost(newTotalCost);
   }, [listData]);
-
-  // useEffect(() => {
-  //   dispatch(fetchData());
-  // }, [fetchData]);
-
-
 
   const pickLocation = () => {
     GetLocation.getCurrentPosition({
@@ -76,8 +71,6 @@ const Payment = props => {
   const [isPressed3, setIsPressed3] = useState(false);
   const [isPressed4, setIsPressed4] = useState(false);
   const [isPressed5, setIsPressed5] = useState(false);
-
-  const [responseBill, setResponseBill] = useState();
 
   const changeAll = () => {
     setIsPressed(!isPressed);
@@ -152,9 +145,7 @@ const Payment = props => {
     }
   };
 
-  const idUser = useSelector(state => state.login.userInfo.user._id)
-  console.log("ID: ", idUser)
-
+  const idUser = useSelector(state => state.login.userInfo.user._id);
 
   const goOrder = async () => {
     try {
@@ -174,7 +165,7 @@ const Payment = props => {
             address: 'abc',
             payment: 'xyz',
           }),
-        }
+        },
       );
       const data = await response.json();
       setResponseBill(data);
@@ -191,59 +182,41 @@ const Payment = props => {
     }
   };
 
+  const dataAddress = useSelector(state => state.address.data);
+  const addressStatus = useSelector(state => state.address.status);
+  const error = useSelector(state => state.address.error);
+
+  // useEffect(() => {
+  //   if (addressStatus === 'idle') {
+  //     // Check if the address fetching is not in progress
+  //     dispatch(fetchGetAddress(idUser));
+  //   }
+  // }, [dispatch, idUser, addressStatus]);
+  useEffect(()=>{
+    dispatch(fetchGetAddress(idUser))
+  }, [dispatch, idUser])
+
   return (
     <ScrollView style={[styles.container]}>
       {/* địa chỉ giao hàng */}
-      <View style={[styles.location]}>
-        <View style={[styles.locationTop]}>
-          <Text style={[styles.locationTextRight]}>Delivery Location</Text>
-          {/* <Text style={[styles.locationTextLeft]}>Change</Text> */}
-          <Menu renderer={SlideInMenu}>
-            <MenuTrigger text="Change" />
-            <MenuOptions>
-              <MenuOption onSelect={() => pickLocation()}>
-                <Text
-                  style={{
-                    color: 'grey',
-                    fontSize: 23,
-                    fontWeight: 'bold',
-                    lineHeight: 30,
-                  }}>
-                  Get Current Location
-                </Text>
-              </MenuOption>
-              <MenuOption
-                onSelect={() => alert(`Feature is coming`)}
-                customStyles={styles.anotherLocation}>
-                <Text
-                  style={{
-                    color: 'grey',
-                    fontSize: 23,
-                    fontWeight: 'bold',
-                    lineHeight: 30,
-                  }}>
-                  Pickup Another Location
-                </Text>
-              </MenuOption>
-              {/* <MenuOption
-                onSelect={() => alert(`Not called`)}
-                disabled={true}
-                text="Disabled"
-              /> */}
-            </MenuOptions>
-          </Menu>
-        </View>
+      <Pressable onPress={() => navigation.navigate('ChooseAddress')}>
+        <View style={[styles.location]}>
+          <View style={[styles.locationTop]}>
+            <Text style={[styles.locationTextRight]}>Delivery Location</Text>
+            {/* <Text style={[styles.locationTextLeft]}>Change</Text> */}
+          </View>
 
-        <View style={[styles.locationBottom]}>
-          <Image
-            source={require('../../../../media/images/IconLocation.png')}
-            style={[styles.imgLocation]}
-          />
-          <Text style={[styles.locationTextBottom]}>
-            1234 Main Street, New York, NY 10001
-          </Text>
+          <View style={[styles.locationBottom]}>
+            <Image
+              source={require('../../../../media/images/IconLocation.png')}
+              style={[styles.imgLocation]}
+            />
+            <Text style={[styles.locationTextBottom]}>
+              1234 Main Street, New York, NY 10001
+            </Text>
+          </View>
         </View>
-      </View>
+      </Pressable>
 
       {/* Chọn Store Gần nhất */}
 
@@ -414,7 +387,9 @@ const Payment = props => {
         {listData.map((product, index) => (
           <View style={[styles.OrderValueContent]} key={index}>
             <Text style={[styles.OrderValueContentText]}>{product.name}</Text>
-            <Text style={[styles.OrderValueContentText]}>$ {product.price * product.quantity}</Text>
+            <Text style={[styles.OrderValueContentText]}>
+              $ {product.price * product.quantity}
+            </Text>
           </View>
         ))}
 

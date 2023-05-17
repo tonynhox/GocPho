@@ -8,7 +8,6 @@ export const fetchUserProfile = createAsyncThunk(
       const response = await axios.post('https://sever-gocpho.herokuapp.com/user/get-profile', {
         _id: userId,
       });
-      console.log('huy',response.data.user.carts)
       return response.data.user.carts;
     } catch (err) {
       // Handle errors gracefully by rejecting with a custom error message
@@ -91,7 +90,6 @@ const getCartSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
-        console.log("CART::::", state.data)
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,25 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// export const getBillByUser = createAsyncThunk(
-//   'user/getBillByUser',
-//   async (userId, thunkAPI) => {
-//     try {
-//       const response = await fetch('https://sever-gocpho.herokuapp.com/user/get-bill-by-user', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ user: userId })
-//       });
-//       const data = await response.json();
-//       console.log("ORDERD: ", data.bill)
-//       return data.bill;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue({ error: error.message });
-//     }
-//   }
-// );
 export const fetchBillById = createAsyncThunk(
   'bill/fetchBillById',
   async (_id, thunkAPI) => {
