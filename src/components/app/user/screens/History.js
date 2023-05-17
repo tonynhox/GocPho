@@ -1,12 +1,22 @@
-import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useState} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {changeCurrentBillId} from '../../../../redux-toolkit/reducer_slice/shop_slice/orderSlice';
+import { useCallback } from 'react';
 
 const History = props => {
   const {navigation} = props;
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
   const listOrdered = useSelector(state => state.ordered.data.bill);
@@ -26,49 +36,61 @@ const History = props => {
     navigation.navigate('Ongoing', {id});
   };
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <>
       {listOrdered != undefined ? (
-        <View style={[styles.container]}>
-          {/* Item 1 */}
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          <View style={[styles.container]}>
+            {/* Item 1 */}
 
-          {listOrdered.map((bill, index) => (
-            <Pressable key={index} onPress={() => selectOrder(bill._id)}>
-              <View style={[styles.item]}>
-                <View style={[styles.itemLeft]}>
-                  <Image
-                    source={require('../../../../media/images/IconOrder.png')}
-                    style={[styles.imgOrder]}
-                  />
-                </View>
-                <View style={[styles.itemMid]}>
-                  <Text style={styles.orderId} numberOfLines={1}>
-                    Order # {bill._id}
-                  </Text>
+            {listOrdered.map((bill, index) => (
+              <Pressable key={index} onPress={() => selectOrder(bill._id)}>
+                <View style={[styles.item]}>
+                  <View style={[styles.itemLeft]}>
+                    <Image
+                      source={require('../../../../media/images/IconOrder.png')}
+                      style={[styles.imgOrder]}
+                    />
+                  </View>
+                  <View style={[styles.itemMid]}>
+                    <Text style={styles.orderId} numberOfLines={1}>
+                      Order # {bill._id}
+                    </Text>
 
-                  {bill.status[0].number == 1 && (
-                    <Text style={styles.orderStatus}>Waiting Accept</Text>
-                  )}
-                  {bill.status[0].number == 2 && (
-                    <Text style={styles.orderStatus}>Delivery</Text>
-                  )}
-                  {bill.status[0].number == 3 && (
-                    <Text style={styles.orderStatus}>Received</Text>
-                  )}
+                    {bill.status[0].number == 1 && (
+                      <Text style={styles.orderStatus}>Waiting Accept</Text>
+                    )}
+                    {bill.status[0].number == 2 && (
+                      <Text style={styles.orderStatus}>Delivery</Text>
+                    )}
+                    {bill.status[0].number == 3 && (
+                      <Text style={styles.orderStatus}>Received</Text>
+                    )}
 
-                  <Text style={styles.orderDate}>
-                    Date: {convertDate(bill.status[0].date, index)}
-                  </Text>
+                    <Text style={styles.orderDate}>
+                      Date: {convertDate(bill.status[0].date, index)}
+                    </Text>
+                  </View>
+                  <View style={[styles.itemRight]}>
+                    <Text style={styles.orderPrice}>
+                      $ {bill.detail[0].price * bill.detail[0].quantity}
+                    </Text>
+                  </View>
                 </View>
-                <View style={[styles.itemRight]}>
-                  <Text style={styles.orderPrice}>
-                    $ {bill.detail[0].price * bill.detail[0].quantity}
-                  </Text>
-                </View>
-              </View>
-            </Pressable>
-          ))}
-        </View>
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
       ) : (
         <Text>Loading...</Text>
       )}
