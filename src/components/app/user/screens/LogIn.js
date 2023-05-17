@@ -16,10 +16,10 @@ import {
 import loginSlice, {
   changeStatusLogin,
   loginGoogle,
+  loginUsername,
 
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
-import loginUserSlice ,{changeStatusLoginUsername,loginUsername} from '../../../../redux-toolkit/reducer_slice/user_slice/loginUserSlice';
 import {useDispatch} from 'react-redux';
 
 import CountryPicker from 'react-native-country-picker-modal';
@@ -36,6 +36,7 @@ const LogIn = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
 
   const dispatch = useDispatch();
   
@@ -68,11 +69,15 @@ const LogIn = props => {
   // }, [getCurrentUser]);
 
   const signinUsername = async () => {
-    dispatch( loginUsername({username,password}));
+    try {
+      dispatch( loginUsername({username,password}));
     console.log('User: ', username);
     console.log('Password: ', password);
-    dispatch(changeStatusLoginUsername(true));
-    console.log('User: ', user);
+    dispatch(changeStatusLogin(true));
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
   const signIn = async () => {
     try {
