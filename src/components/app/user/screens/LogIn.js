@@ -16,8 +16,10 @@ import {
 import loginSlice, {
   changeStatusLogin,
   loginGoogle,
+  loginUsername,
 
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+
 import {useDispatch} from 'react-redux';
 
 import CountryPicker from 'react-native-country-picker-modal';
@@ -32,7 +34,12 @@ const LogIn = props => {
   const [countryCode, setCountryCode] = useState('VN');
   const [callingCode, setCallingCode] = useState('84');
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
+
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     GoogleSignin.configure({});
@@ -61,6 +68,17 @@ const LogIn = props => {
   //   getCurrentUser();
   // }, [getCurrentUser]);
 
+  const signinUsername = async () => {
+    try {
+      dispatch( loginUsername({username,password}));
+    console.log('User: ', username);
+    console.log('Password: ', password);
+    dispatch(changeStatusLogin(true));
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -139,6 +157,7 @@ const LogIn = props => {
           <TextInput
             placeholder="Phone Number"
             placeholderTextColor={'#AC8E71'}
+            onChangeText={text => setUsername(text)}
           />
         </View>
       </View>
@@ -148,6 +167,7 @@ const LogIn = props => {
           placeholder="Password"
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
+          onChangeText={text => setPassword(text)}
         />
 
         <Image
@@ -160,7 +180,7 @@ const LogIn = props => {
         <Text style={styles.forgotPassword}>Forgot Password</Text>
       </View>
 
-      <Pressable style={styles.btnSignUp} onPress={() => navigation.goBack()}>
+      <Pressable style={styles.btnSignUp} onPress={() => signinUsername()}>
         <Text style={styles.signUpInsideButton}>Sign In</Text>
       </Pressable>
 
