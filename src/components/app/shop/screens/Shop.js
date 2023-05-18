@@ -34,8 +34,6 @@ const Shop = props => {
   
   
   const dispatch = useDispatch();
-
-
   const renderItem = ({item}) => {
     // const item= props;
     const {name, images, _id} = item;
@@ -43,12 +41,12 @@ const Shop = props => {
       <TouchableOpacity
         style={Styles.card}
         onPress={() => {
-            handleCategory(_id)
-            props.navigation.navigate('Explore', { screen: 'Explores' })
-            setTimeout(() => {
-                props.navigation.navigate('Fruit')
+          handleCategory(_id)
+          props.navigation.navigate('Explore', { screen: 'Explores' })
+          setTimeout(() => {
+              props.navigation.navigate('Fruit')
 
-            },1)
+          },1)
         }
         }>
         <View style={[Styles.imgCard]}>
@@ -79,8 +77,7 @@ const Shop = props => {
     // console.log(image)
     return (
       <Pressable onPress={() => {
-        dispatch(fetchProductById(_id));
-        navigation.navigate('Mango')}
+        props.navigation.navigate('Mango',{id:_id})} 
       }>
         <View style={[Styles.boxShadown, Styles.cardPopular]}>
           <View style={{margin: 10}}>

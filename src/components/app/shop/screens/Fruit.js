@@ -28,13 +28,18 @@ const Fruit = (props) => {
 
 
     useEffect(() => {
-        dispatch(fetchData());
-        let a= dataCategory.filter(item => item._id==idCate);
-        setHover(a[0].name)
-        if(!isFocused) {
-            dispatch(categoryFilterChange(''))
-            dispatch(searchFilterChange(''))
+        try{
+            dispatch(fetchData());
+            let a= dataCategory.filter(item => item._id==idCate);
+            setHover(a[0].name)
+            if(!isFocused) {
+                dispatch(categoryFilterChange(''))
+                dispatch(searchFilterChange(''))
         }
+        }catch(e){
+            setHover("All")
+        }
+
     }, []);
 
     // useEffect(() => {

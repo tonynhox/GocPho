@@ -1,21 +1,19 @@
-import { StyleSheet, Text, View, Image, Pressable, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable, FlatList,TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { categoryFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 const FavoriteScreen = (props) => {
   const { navigation } = props;
   const user = useSelector(state => state.login.userInfo);
-
+  
   let listData = user.user.favorites
-
   const Item = ({ item }) => {
     return (
       <TouchableOpacity 
         style={styles.itemContainer}
         onPress={() => {
-          navigation.navigate('Mango')} 
+          navigation.navigate('Mango',{id:item.idProduct})} 
         }
         >
         {/* Image Fruit*/}
@@ -38,30 +36,38 @@ const FavoriteScreen = (props) => {
       </TouchableOpacity>
     );
   };
+  const dispatch = useDispatch();
 
 
 
   return (
-    // <View style={styles.container}>
-    //   <Image
-    //     source={require('../../../../media/images/Arrow.png')}
-    //   />
-    //   <View style={styles.header}>
-    //     <Text style={styles.textHeader}>Favorite</Text>
-    //     <Image
-    //       source={require('../../../../media/images/Group260.png')}
-    //     />
-    //   </View>
-    //   <View style={styles.textMiddle}>
-    //     <Text style={styles.textMiddle1}>Your heart is empty</Text>
-    //     <Text>Start fall in love with some good</Text>
-    //     <Text>goods</Text>
-    //   </View>
-    //   <Pressable style={styles.btnStart}>
-    //     <Text style={styles.textStart}>Start Shopping</Text>
-    //   </Pressable>
-    // </View>
+    (listData.length<1)?
+    <View style={styles.container}>
 
+      <View style={styles.header}>
+        <Image
+          source={require('../../../../media/images/Group260.png')}
+        />
+      </View>
+      <View style={styles.textMiddle}>
+        <Text style={styles.textMiddle1}>Your heart is empty</Text>
+        <Text>Start fall in love with some good</Text>
+        <Text>goods</Text>
+      </View>
+      <TouchableOpacity 
+        style={styles.btnStart}
+        onPress={() => {
+          dispatch(categoryFilterChange('All'));
+          props.navigation.navigate('Explore', { screen: 'Explores' })
+          setTimeout(() => {
+              props.navigation.navigate('Fruit')
+          },1)
+      }}
+        >
+        <Text style={styles.textStart}>Start Shopping</Text>
+      </TouchableOpacity>
+    </View>
+    :
 
 
     <View style={styles.container}>
