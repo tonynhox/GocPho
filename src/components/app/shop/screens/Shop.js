@@ -14,13 +14,13 @@ import React, {useEffect} from 'react';
 import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { categoryFilterChange, searchFilterChange,fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 
 const Shop = props => {
   const {navigation} = props;
 
-  const dataPopular = useSelector(state => state.dataAPI.data);
-  const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
+  const dataPopular = useSelector(state => state.dataAPI.data.slice(0, 6));
+  const dataCategory = useSelector(state => state.dataCategoryMainShop.data.slice(0, 6));
   // console.log('Data Popular: ', dataPopular);
   // console.log('Data Cateogory: ', dataCategory);
   useEffect(() => {
@@ -74,11 +74,14 @@ const Shop = props => {
   const renderItemPopular = ({item}) => {
     // const item= props;
     // {"category": "category 1", "cost": 73, "id": "1", "image": "https://loremflickr.com/640/480/food", "name": "Awesome Rubber Chips", "quantity": 14
-    const {id, images, price, name, quantity, category} = item;
+    const {_id, images, price, name, quantity, category} = item;
     let image= images[0].name;
     // console.log(image)
     return (
-      <Pressable onPress={() => navigation.navigate('Mango')}>
+      <Pressable onPress={() => {
+        dispatch(fetchProductById(_id));
+        navigation.navigate('Mango')}
+      }>
         <View style={[Styles.boxShadown, Styles.cardPopular]}>
           <View style={{margin: 10}}>
             <View style={Styles.imgPop}>
@@ -106,12 +109,13 @@ const Shop = props => {
   const handleCategory = id => {
     index = dataCategory.findIndex(item => {
         if (item._id === id) {
-            console.log('----------------------------------',id)
             dispatch(categoryFilterChange(id));
             return id;
         }
     });
 };
+
+
 
   return (
     <View style={Styles.container}>

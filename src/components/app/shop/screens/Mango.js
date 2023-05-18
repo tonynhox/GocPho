@@ -8,11 +8,17 @@ import {
   FlatList,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import Swiper from 'react-native-swiper';
+import { categoryFilterChange,fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { addfavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import { useIsFocused } from '@react-navigation/native';
+import { showProductDetail } from '../../../../redux-toolkit/selector';
+import { fetchFavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
 const renderItemPopular = ({ item }) => {
 
@@ -42,11 +48,41 @@ const renderItemPopular = ({ item }) => {
 };
 
 const Mango = props => {
+  const { navigation } = props;
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const id = props.route?.params?.id;
+  const [dataProduct, setDataProduct] = useState();
+  const [isFavourite, setIsfavourite] = useState(false);
+  const dataFavourites= useSelector(state => state.login.userInfo.user.favorites);
+  const idUser= useSelector(state => state.login.userInfo.user);
+  
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductById(id))
+        .then((response) => {
+          const dataDetail = response.payload;
+          setDataProduct(dataDetail);
+          if (dataFavourites.filter(item => item.idProduct === dataDetail._id).length) {
+            setIsfavourite(true);
+          } else {
+            setIsfavourite(false);
+          }
+        })
+        .catch((error) => {
+          // Handle error if needed
+        });
+    }
+  }, [dispatch, id]);
+  
+
+  const handleFavourite = ()=>{
+    console.log('=-=-=-=----------==-',dataProduct);
+    dispatch(fetchFavourite({id:idUser._id,product:dataProduct}));
+  }
+  
 
 
-  const dataProduct = useSelector(state => state.filter.product);
 
 
   const handleAddItem = () => {
@@ -76,21 +112,23 @@ const Mango = props => {
     }
   };
 
-  const { navigation } = props;
-
-  console.log('image nè', dataProduct.images[0].name)
-
-  const imageSline = 
-
-    <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
+  const sline = dataProduct?.images.map((item, index) => (
+    <View
+      key={index}
+      style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+    >
       <Image
         style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-        source={{ uri: dataProduct.images[0].name }} />
+        source={{ uri: item.name }}
+      />
     </View>
-  
-  return (
-    //minHeight : '100%'
+  ))
 
+
+  return (
+
+    //minHeight : '100%'
+(dataProduct)?
     <ScrollView style={styles.container}>
 
       {/* Slideshow */}
@@ -119,25 +157,12 @@ const Mango = props => {
         <View style={styles.fruitContainer}>
           <View style={{ height: 200 }}>
             <Swiper
-              showsButtons={true}
-              autoplayTimeout={3}
-              autoplay={true}
-              showsPagination={false}>
-
-              {imageSline()}
-              <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
-                <Image
-
-                  style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-                  source={{ uri: dataProduct.images[1].name }} />
-
-              </View>
-              <View style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}>
-                <Image
-                  style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-                  source={{ uri: dataProduct.images[0].name }} />
-
-              </View>
+              showsButtons={false}
+              autoplayTimeout={5}
+              loop={false}
+              // autoplay={true}
+              showsPagination={true}>
+              {sline}
             </Swiper>
           </View>
 
@@ -175,10 +200,17 @@ const Mango = props => {
           </View>
 
           {/* Heart Icon */}
-          <Image
-            style={styles.icon}
-            source={require('../../../../media/images/HeartIcon.png')}
-          />
+          <Pressable
+            onPress={() => {
+              handleFavourite();
+              setIsfavourite(!isFavourite)
+            }}>
+            <Image
+              style={styles.icon}
+              source={!isFavourite ? require('../../../../media/images/HeartIcon.png') : require('../../../../media/images/icHeartFull.png')}
+            />
+          </Pressable>
+
         </View>
 
         {/* Button add to Cart */}
@@ -199,7 +231,10 @@ const Mango = props => {
         </View>
 
       </View>
-    </ScrollView>
+    </ScrollView>            :
+            <View>
+                <Text style={{ fontSize: 50 }}>Đang tải dữ liệu</Text>
+            </View>
   );
 };
 

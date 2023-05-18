@@ -10,12 +10,15 @@ import { categoryFilterChange, searchFilterChange,fetchProductById } from '../..
 
 const Fruit = (props) => {
     const { navigation } = props;
-    const idCate =useSelector(state => state.filter.category);
     // const a= fetchCategory.filter(item => item.category === idCate);
     
     const [hover,setHover] = useState('')
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
+
+    const idCate = useSelector(state => state.filter.category);
+    
+
 
     let dataExplore = useSelector(showItemMatch);
     const dataCategory =  useSelector(state => state.dataCategoryMainShop.data);
@@ -28,6 +31,10 @@ const Fruit = (props) => {
         dispatch(fetchData());
         let a= dataCategory.filter(item => item._id==idCate);
         setHover(a[0].name)
+        if(!isFocused) {
+            dispatch(categoryFilterChange(''))
+            dispatch(searchFilterChange(''))
+        }
     }, []);
 
     // useEffect(() => {
@@ -61,8 +68,7 @@ const Fruit = (props) => {
 
         return (
             <Pressable onPress={() => {
-                dispatch(fetchProductById(_id));
-                props.navigation.navigate('Mango')} 
+                props.navigation.navigate('Mango',{id:_id})} 
 
             }
                 style={[Styles.boxShadown, Styles.cardPopular]}

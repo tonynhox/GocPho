@@ -42,8 +42,7 @@ const FavoriteNavigation = () => {
                 headerTintColor: '#FF5E00',
             }}
         >
-            <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{}} />
-            
+            <StackFavouretite.Screen name="Favourite" component={FavoriteScreen} options={{}} />            
         </StackFavouretite.Navigator>
     );
 };
@@ -221,7 +220,8 @@ const TabMain = () => {
 const MainNavigation = () => {
   return (
     <StackMain.Navigator
-    screenOptions={{                headerShadowVisible: false,
+    screenOptions={{                
+      headerShadowVisible: false,
       headerTitleStyle: { fontSize: 24, fontWeight: '700' },
       headerTitleAlign: 'center',
       headerTintColor: '#FF5E00',}}

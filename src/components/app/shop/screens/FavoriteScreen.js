@@ -2,25 +2,22 @@ import { StyleSheet, Text, View, Image, Pressable, FlatList } from 'react-native
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const FavoriteScreen = (props) => {
   const { navigation } = props;
   const user = useSelector(state => state.login.userInfo);
 
   let listData = user.user.favorites
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [fetchData]);
-  const dispatch = useDispatch();
-
-
-
-
 
   const Item = ({ item }) => {
     return (
-      // <Pressable onPress={()=> deleteItem(item.id)}>
-      <View style={styles.itemContainer}>
+      <TouchableOpacity 
+        style={styles.itemContainer}
+        onPress={() => {
+          navigation.navigate('Mango')} 
+        }
+        >
         {/* Image Fruit*/}
         <Image
           style={{ width: 130, height: 100, resizeMode: 'contain' }}
@@ -38,8 +35,7 @@ const FavoriteScreen = (props) => {
 
         {/* Cost */}
         <Text style={styles.cost}>{item.price} $</Text>
-      </View>
-      // </Pressable>
+      </TouchableOpacity>
     );
   };
 

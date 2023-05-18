@@ -15,7 +15,8 @@ export const filterSlice = createSlice({
     initialState: {
         search : '',
         category: '',
-        product:{},
+        searchCategory:'',
+        product:{"__v": 1, "_id": "645d078805ab96b8ffd67c02", "category": "645d3caa52c26470de5cd712", "detail": "", "images": [{"_id": "", "name": ""}], "name": "", "price": '', "quantity": ''},
     },
     reducers:{
         searchFilterChange: (state, action) =>{
@@ -26,19 +27,22 @@ export const filterSlice = createSlice({
             state.category = action.payload;
         },searchProductbyId: (state, action) =>{
             console.log(action.payload)
-            state.category = action.payload;
-        }
+            state.product = action.payload;
+        },searchCategoryChange: (state, action) =>{
+          console.log('search cate: ',action.payload)
+          state.searchCategory = action.payload;
+      }
     },extraReducers: builder => {
         builder.addCase(fetchProductById.pending, state => {
-          console.log('fail fetchProductById')
         }),
           builder.addCase(fetchProductById.fulfilled, (state, action) => {
             state.product = action.payload;
-            console.log(state);
             state.error = null;
           })
       },
 })
 export const {categoryFilterChange} = filterSlice.actions;
 export const {searchFilterChange} = filterSlice.actions;
+export const {searchProductbyId} = filterSlice.actions;
+export const {searchCategoryChange} = filterSlice.actions;
 export default filterSlice.reducer
