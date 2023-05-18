@@ -46,7 +46,7 @@ export const loginUsername = createAsyncThunk('LoginUsername', async ({ username
         console.log('Password........: ', password);
         const response = await AxiosInstance().post('/user/login-username', { username, password });
         console.log(response);
-        return response.user;
+        return response;
     } catch (error) {
         console.log(error)
         throw new Error(error.response.data.message);
@@ -78,6 +78,10 @@ export const loginSlice = createSlice({
       console.log('fail loginGoogle')
     }),
       builder.addCase(loginGoogle.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+        state.isLoggedIn = true;
+        state.error = null;
+      }),builder.addCase(loginUsername.fulfilled, (state, action) => {
         state.userInfo = action.payload;
         state.isLoggedIn = true;
         state.error = null;
