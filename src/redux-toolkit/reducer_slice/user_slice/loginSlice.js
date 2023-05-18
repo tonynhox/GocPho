@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import AxiosInstance from '../../../components/app/axiosClient/AxiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,19 +36,15 @@ export const loginGoogle = createAsyncThunk('LoginGoogle', async (result) => {
     fullname: name
   }
   const response = await AxiosInstance().post('/user/login-email  ', body);
-  console.log(response);
-
+  // console.log("RES: ", response)
   return response;
-
 });
-
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState: {
-    userInfo: {
-    },
-    isLoggedIn: false
+    userInfo: {},
+    isLoggedIn: false,
   },
 
   // {"idToken": null, "scopes": ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"], "serverAuthCode": null, "user": {"email": "trongtruth2003@gmail.com", "familyName": "Nguyễn", "givenName": "Minh Trọng", "id": "107213005690815853652", "name": "Minh Trọng Nguyễn", "photo": "https://lh3.googleusercontent.com/a/AGNmyxZ6ixM_sBrkhVRdareAUvnT0HxGn14vFUH_nZhGnQ"}

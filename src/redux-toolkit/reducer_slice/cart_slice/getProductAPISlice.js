@@ -16,21 +16,10 @@ export const getProductAPISlice = createSlice({
     data: [],
   },
   reducers: {
-    // addItem: (state, action) => {
-    //   state.buyList.push(action.payload);
-    // },
     addItem: (state, action) => {
       state.data.push(action.payload);
     },
 
-    // incrementItemQuantity(state, action) {
-    //   const itemIndex = state.buyList.findIndex(
-    //     item => item.id === action.payload.id,
-    //   );
-    //   if (itemIndex !== -1) {
-    //     state.buyList[itemIndex].quantity++;
-    //   }
-    // },
     incrementItemQuantity(state, action) {
       const itemIndex = state.data.findIndex(
         item => item.id == action.payload.id,
@@ -48,20 +37,8 @@ export const getProductAPISlice = createSlice({
         return item;
       });
       state.buyList = arr;
-      console.log('>>>>>>>>>>>>>', state);
     },
-    // decrementItemQuantity(state, action) {
-    //   const itemIndex = state.buyList.findIndex(
-    //     item => item.id === action.payload.id,
-    //   );
-    //   if (itemIndex !== -1) {
-    //     if (state.buyList[itemIndex].quantity != 0) {
-    //       state.buyList[itemIndex].quantity--;
-    //     } else {
-    //       state.buyList[itemIndex].quantity;
-    //     }
-    //   }
-    // },
+
     decrementItemQuantity(state, action) {
       const itemIndex = state.data.findIndex(
         item => item.id === action.payload.id,
@@ -118,12 +95,12 @@ export const getProductAPISlice = createSlice({
   },
 });
 
-export const {removeItemById} = getProductAPISlice.actions;
-export const {cloneIncrementItemQuantity} = getProductAPISlice.actions;
-export const {sortListByQuantity} = getProductAPISlice.actions;
-export const {sortListByName} = getProductAPISlice.actions;
-export const {sortListByTotalCost} = getProductAPISlice.actions;
-export const {decrementItemQuantity} = getProductAPISlice.actions;
-export const {incrementItemQuantity} = getProductAPISlice.actions;
-export const {addItem} = getProductAPISlice.actions;
+// export const {removeItemById} = getProductAPISlice.actions;
+// export const {cloneIncrementItemQuantity} = getProductAPISlice.actions;
+// export const {sortListByQuantity} = getProductAPISlice.actions;
+// export const {sortListByName} = getProductAPISlice.actions;
+// export const {sortListByTotalCost} = getProductAPISlice.actions;
+// export const {decrementItemQuantity} = getProductAPISlice.actions;
+// export const {incrementItemQuantity} = getProductAPISlice.actions;
+// export const {addItem} = getProductAPISlice.actions;
 export default getProductAPISlice.reducer;

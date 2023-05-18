@@ -18,6 +18,8 @@ import { categoryFilterChange, searchFilterChange,fetchProductById } from '../..
 
 const Shop = props => {
   const {navigation} = props;
+    
+  const dispatch = useDispatch();
 
   const dataPopular = useSelector(state => state.dataAPI.data.slice(0, 6));
   const dataCategory = useSelector(state => state.dataCategoryMainShop.data.slice(0, 6));
@@ -33,7 +35,6 @@ const Shop = props => {
 
   
   
-  const dispatch = useDispatch();
   const renderItem = ({item}) => {
     // const item= props;
     const {name, images, _id} = item;

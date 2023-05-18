@@ -13,52 +13,45 @@ import {
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {buyItemSlice} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {addItem} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {cloneIncrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {addItem, fetchUserProfile} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {cloneIncrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import SelectDropdown from 'react-native-select-dropdown';
-import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import {SwipeRow} from 'react-native-swipe-list-view';
-import {removeItemById} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import {removeItemById} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { addListCart } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 
 const Cart = props => {
-  const listData = useSelector(state => state.dataAPI.data);
-  console.log('data: ', listData);
-  const loading = useSelector(state => state.dataAPI.loading);
-  const error = useSelector(state => state.dataAPI.error);
+  // const listData = useSelector(state => state.login.userInfo.user.carts);
+  // const dataCart = useSelector(state => state.cart.data)
+  // console.log('dataaaaa: ', dataCart);
+
+
   const sort = ['Name', 'Total Price', 'Quantity'];
 
   const {navigation} = props;
 
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [fetchData]);
 
+  const dataCart = useSelector(state => state.cart.data)
+  console.log("DATA CARTTT: ", dataCart)
   const dispatch = useDispatch();
-
-  const addItemRedux = () => {
-    dispatch(
-      addItem({
-        id: Math.random(),
-        nameFruit: 'AppleCart',
-        image: require('../../../../media/images/AppleCart.png'),
-        cost: '2$',
-        quantity: 1,
-      }),
-    );
-  };
+  const idUser = useSelector(state => state.login.userInfo.user._id)
+  useEffect(() => {
+    dispatch(fetchUserProfile(idUser));
+  }, [dispatch, idUser]);
 
   const handleUpRedux = id => {
-    console.log('ID: ', id);
-    dispatch(incrementItemQuantity({id}));
+    console.log('IDDDD: ', id);
+    dispatch(incrementItemQuantity(id));
   };
 
   const handleDownRedux = id => {
-    dispatch(decrementItemQuantity({id}));
+    dispatch(decrementItemQuantity(id));
   };
 
   const sortListByCostRedux = () => {
@@ -98,12 +91,12 @@ const Cart = props => {
 
   const Item = ({item}) => {
     return (
-      // <Pressable onPress={()=> deleteItem(item.id)}>
+      // <Pressable onPress={()=> deleteItem(item._id)}>
       <View style={styles.itemContainer}>
         {/* Image Fruit*/}
         <Image
           style={{width: 130, height: 100, resizeMode: 'contain'}}
-          source={{uri: item.image}}
+          source={{uri: item.images[0]}}
         />
 
         {/* Name Fruit and quantity */}
@@ -112,7 +105,7 @@ const Cart = props => {
             {item.name}
           </Text>
           <View style={styles.iconContainer}>
-            <Pressable onPress={() => handleDownRedux(item.id)}>
+            <Pressable onPress={() => handleDownRedux(item._id)}>
               <Image
                 style={styles.icon}
                 source={require('../../../../media/images/MinusIcon.png')}
@@ -120,7 +113,7 @@ const Cart = props => {
             </Pressable>
 
             <Text style={styles.cost}>{item.quantity}</Text>
-            <Pressable onPress={() => handleUpRedux(item.id)}>
+            <Pressable onPress={() => handleUpRedux(item._id)}>
               <Image
                 style={styles.icon}
                 source={require('../../../../media/images/PlusIcon.png')}
@@ -130,7 +123,7 @@ const Cart = props => {
         </View>
 
         {/* Cost */}
-        <Text style={styles.cost}>{item.cost * item.quantity} $</Text>
+        <Text style={styles.cost}>{item.price * item.quantity} $</Text>
       </View>
       // </Pressable>
     );
@@ -142,7 +135,7 @@ const Cart = props => {
         <View style={styles.standaloneRowBack}>
           <Text style={styles.backTextWhite}></Text>
           {/* <Text style={styles.backTextWhite}>Delete</Text> */}
-          <Pressable onPress={() => deleteConfirm(item.id)}>
+          <Pressable onPress={() => deleteConfirm(item._id)}>
             <Image
               style={styles.iconDelete}
               source={require('../../../../media/images/ic_Delete.png')}
@@ -164,7 +157,7 @@ const Cart = props => {
                 {item.name}
               </Text>
               <View style={styles.iconContainer}>
-                <Pressable onPress={() => handleDownRedux(item.id)}>
+                <Pressable onPress={() => handleDownRedux(item._id)}>
                   <Image
                     style={styles.icon}
                     source={require('../../../../media/images/MinusIcon.png')}
@@ -172,7 +165,7 @@ const Cart = props => {
                 </Pressable>
 
                 <Text style={styles.cost}>{item.quantity}</Text>
-                <Pressable onPress={() => handleUpRedux(item.id)}>
+                <Pressable onPress={() => handleUpRedux(item._id)}>
                   <Image
                     style={styles.icon}
                     source={require('../../../../media/images/PlusIcon.png')}
@@ -182,7 +175,7 @@ const Cart = props => {
             </View>
 
             {/* Cost */}
-            <Text style={styles.cost}>{item.cost}</Text>
+            <Text style={styles.cost}>$ {item.price * item.quantity}</Text>
           </View>
         </View>
       </SwipeRow>
@@ -239,9 +232,9 @@ const Cart = props => {
 
       {/* Flatlist */}
       <FlatList
-        data={listData}
+        data={dataCart}
         renderItem={({item}) => <ItemSwipe item={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />

@@ -7,6 +7,7 @@ import Cart from '../screens/Cart';
 import Itemes from '../screens/Itemes';
 import OrderAccepted from '../screens/OrderAccepted';
 import OrderFailed from '../screens/OrderFailed';
+import ChooseAddress from '../../shop/screens/ChooseAddress';
 const Stack = createNativeStackNavigator();
 
 const Navigations = {
@@ -20,6 +21,7 @@ const Navigations = {
   } },
     { component: Payment, name: 'Payment', options: {} },
     { component: Itemes, name: 'Itemes', options: {} },
+    { component: ChooseAddress, name: 'ChooseAddress', options: {} },
     { component: OrderAccepted, name: 'OrderAccepted', options: {} },
     { component: OrderFailed, name: 'OrderFailed', options: {} },
   ]
