@@ -6,81 +6,159 @@ import {
   Image,
   Pressable,
   SafeAreaView,
-  Alert
+  Alert,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchGetAddress, fetchNewAddress} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
+import {
+  fetchChangeAddress,
+  fetchChangeStatusAddress,
+  fetchGetAddress,
+  fetchNewAddress,
+  fetchRemoveAddress,
+} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
 import prompt from 'react-native-prompt-android';
 
 const ChooseAddress = () => {
   const dispatch = useDispatch();
   const idUser = useSelector(state => state.login.userInfo.user._id);
   const dataAddress = useSelector(state => state.address.data);
-  console.log('DATA: ', dataAddress);
+  console.log('DATA:::: ', dataAddress);
 
-  const newAddress = () =>{
+  const changeAddress = idAddress => {
+    prompt(
+      'Change Address',
+      'Enter your new address for delivery',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: newAddress => changeNewAddress(idAddress, newAddress),
+        },
+      ],
+      {
+        type: 'default',
+        cancelable: false,
+        placeholder: 'Your Address',
+      },
+    );
+  };
+
+  const changeStatusAddress = (idAddress) =>{
+    dispatch(fetchChangeStatusAddress({_id:idUser, idAddress: idAddress}))
+  } 
+
+  const changeNewAddress = (idAddress, newAddress) => {
+    dispatch(
+      fetchChangeAddress({
+        _id: idUser,
+        idAddress: idAddress,
+        newAddress: newAddress,
+      }),
+    );
+  };
+  const newAddress = () => {
     prompt(
       'New Address',
       'Enter your new address for delivery',
       [
-       {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-       {text: 'OK', onPress: address => createNewAddress(address)},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: address => createNewAddress(address)},
       ],
       {
-          type: 'default',
-          cancelable: false,
-          defaultValue: 'test',
-          placeholder: 'placeholder'
-      }
-  );
-  }
+        type: 'default',
+        cancelable: false,
+        placeholder: 'Your Address',
+      },
+    );
+  };
 
-  const removeAddress = (id) =>{
+  const removeAddress = idAddress => {
     Alert.alert(
       'Remove Address',
       'Are you sure to want remove this address?', // <- this part is optional, you can pass an empty string
-      [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
+      [{text: 'OK', onPress: () => deleteAddress(idAddress)}],
       {cancelable: false},
     );
-  }
+  };
 
-  const createNewAddress = (address) =>{
+  const createNewAddress = address => {
+    dispatch(fetchNewAddress({_id: idUser, address}));
+  };
 
-    dispatch(fetchNewAddress({ _id: idUser, address }));
-  }
+  const deleteAddress = idAddress => {
+    dispatch(fetchRemoveAddress({_id: idUser, idAddress: idAddress}));
+  };
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.text2}>Address</Text>
-      {dataAddress.map(address => (
-        <Pressable style={styles.changeDefault} key={address._id} onPress={()=> console.log(address._id)} onLongPress={()=>removeAddress(address._id)}>
-          <View style={styles.hihi}>
-            <View style={styles.nameAndChange}>
-              <Text style={styles.text3} numberOfLines={2}>{address.name}</Text>
-              <Text onPress={()=> console.log("CHANGE PRESSED")} style={styles.changeButton}>Change</Text>
-            </View>
-            {/* <Text style={styles.text4}>abc</Text> */}
-          </View>
-          {address.status == 1 ?
-          <Text style={styles.text5}>Default</Text>
-          : <Text></Text>}
-        </Pressable>
-      ))}
+    <>
+      {dataAddress ? (
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          <Text style={styles.text2}>Address</Text>
+          {dataAddress.map(address => (
+            <Pressable
+              style={styles.changeDefault}
+              key={address._id}
+              onPress={() => changeStatusAddress(address._id)}
+              onLongPress={() => removeAddress(address._id)}>
+              <View style={styles.hihi}>
+                <View style={styles.nameAndChange}>
+                  <Text style={styles.text3} numberOfLines={2}>
+                    {address.name}
+                  </Text>
+                  <Text
+                    onPress={() => changeAddress(address._id)}
+                    style={styles.changeButton}>
+                    Change
+                  </Text>
+                </View>
+                {/* <Text style={styles.text4}>abc</Text> */}
+              </View>
+              {address.status == 1 ? (
+                <Text style={styles.text5}>Default</Text>
+              ) : (
+                <Text></Text>
+              )}
+            </Pressable>
+          ))}
 
-      <Pressable onPress={()=> newAddress()}>
-        <View style={styles.hehe}>
-          <Image
-            style={styles.ImageNew}
-            source={require('../../../../media/images/PlusIcon.png')}
-          />
-          <Text style={styles.text6}>New Address</Text>
-        </View>
-      </Pressable>
-    </SafeAreaView>
+          <Pressable onPress={() => newAddress()}>
+            <View style={styles.hehe}>
+              <Image
+                style={styles.ImageNew}
+                source={require('../../../../media/images/PlusIcon.png')}
+              />
+              <Text style={styles.text6}>New Address</Text>
+            </View>
+          </Pressable>
+        </ScrollView>
+      ) : (
+        <Text>Loading...</Text>
+      )}
+    </>
   );
 };
 

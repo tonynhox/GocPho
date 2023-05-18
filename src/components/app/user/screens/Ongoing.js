@@ -15,6 +15,7 @@ import {useDispatch} from 'react-redux';
 import {
   addListBills,
   changeCurrentBillId,
+  fetchAllBills,
   fetchBillById,
   fetchStatusBill,
 } from '../../../../redux-toolkit/reducer_slice/shop_slice/orderSlice';
@@ -23,6 +24,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 const Ongoing = props => {
   const {navigation} = props;
   const [refreshing, setRefreshing] = useState(false);
+
+  const role = 'admin'
 
   let statusDelivery = 3;
   const dispatch = useDispatch();
@@ -37,11 +40,19 @@ const Ongoing = props => {
     );
   }
 
-  const billOrder = useSelector(state => state.ordered.data.bill);
-
-  useEffect(() => {
-    dispatch(fetchBillById(idUser));
-  }, [idUser]);
+  let billOrder = []
+  if(role != 'admin'){
+    billOrder = useSelector(state => state.ordered.data.bill);
+    useEffect(() => {
+      dispatch(fetchBillById(idUser));
+    }, [idUser]);
+  }else{
+    billOder = useSelector(state => state.ordered.data.bill)
+    console.log("BILL ORDER ADMIN: ", billOrder)
+    useEffect(()=>{
+      dispatch(fetchAllBills())
+    },[])
+  }
 
   let idReceived = useSelector(state => state.ordered.currentBillId);
 

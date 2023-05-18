@@ -47,6 +47,20 @@ export const fetchStatusBill = createAsyncThunk(
   }
 );
 
+export const fetchAllBills = createAsyncThunk('bill/fetchAll', async () => {
+  try {
+    const response = await fetch('https://sever-gocpho.herokuapp.com/bill/get-all');
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+});
+
 const orderSlice = createSlice({
   name: 'ordered',
   initialState: {
@@ -82,6 +96,18 @@ const orderSlice = createSlice({
         // state.data.bill = action.payload
       })
       .addCase(fetchStatusBill.rejected, (state, action)=>{
+        state.status = 'failed'
+        state.error = action.payload;
+      })
+      .addCase(fetchAllBills.pending, (state, action)=>{
+        state.status = 'loading'
+      })
+      .addCase(fetchAllBills.fulfilled, (state, action) =>{
+        state.data = action.payload
+        console.log("ADMIN: ", state.data)
+        state.status = 'succeeded';
+      })
+      .addCase(fetchAllBills.rejected, (state, action)=>{
         state.status = 'failed'
         state.error = action.payload;
       })
