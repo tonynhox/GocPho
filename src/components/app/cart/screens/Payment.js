@@ -43,20 +43,6 @@ const Payment = props => {
     setTotalCost(newTotalCost);
   }, [listData]);
 
-  const pickLocation = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 60000,
-    })
-      .then(location => {
-        console.log(location);
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
-  };
-
   // lấy dũ liệu ngày giao hàng
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -181,20 +167,26 @@ const Payment = props => {
       navigation.navigate('OrderFailed');
     }
   };
-
-  const dataAddress = useSelector(state => state.address.data);
-  const addressStatus = useSelector(state => state.address.status);
   const error = useSelector(state => state.address.error);
 
-  // useEffect(() => {
-  //   if (addressStatus === 'idle') {
-  //     // Check if the address fetching is not in progress
-  //     dispatch(fetchGetAddress(idUser));
-  //   }
-  // }, [dispatch, idUser, addressStatus]);
-  useEffect(()=>{
-    dispatch(fetchGetAddress(idUser))
-  }, [dispatch, idUser])
+  useEffect(() => {
+    dispatch(fetchGetAddress(idUser));
+  }, [dispatch, idUser]);
+
+  const dataAddress = useSelector(state => state.address.data);
+  console.log('DATA ADDRESS: ', dataAddress);
+  const [location, setLocation] = useState();
+  useEffect(() => {
+    if (dataAddress == undefined) {
+      return <Text>Loading...</Text>;
+    } else if (Array.isArray(dataAddress)) {
+      dataAddress.map(address => {
+        if (address.status == 1) {
+          return setLocation(address.name);
+        }
+      });
+    }
+  }, [dataAddress]);
 
   return (
     <ScrollView style={[styles.container]}>
@@ -211,9 +203,7 @@ const Payment = props => {
               source={require('../../../../media/images/IconLocation.png')}
               style={[styles.imgLocation]}
             />
-            <Text style={[styles.locationTextBottom]}>
-              1234 Main Street, New York, NY 10001
-            </Text>
+            <Text style={[styles.locationTextBottom]}>{location}</Text>
           </View>
         </View>
       </Pressable>

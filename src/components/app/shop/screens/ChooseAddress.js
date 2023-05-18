@@ -6,11 +6,13 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  Alert
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchGetAddress} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
+import {fetchGetAddress, fetchNewAddress} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
+import prompt from 'react-native-prompt-android';
 
 const ChooseAddress = () => {
   const dispatch = useDispatch();
@@ -18,31 +20,64 @@ const ChooseAddress = () => {
   const dataAddress = useSelector(state => state.address.data);
   console.log('DATA: ', dataAddress);
 
+  const newAddress = () =>{
+    prompt(
+      'New Address',
+      'Enter your new address for delivery',
+      [
+       {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+       {text: 'OK', onPress: address => createNewAddress(address)},
+      ],
+      {
+          type: 'default',
+          cancelable: false,
+          defaultValue: 'test',
+          placeholder: 'placeholder'
+      }
+  );
+  }
+
+  const removeAddress = (id) =>{
+    Alert.alert(
+      'Remove Address',
+      'Are you sure to want remove this address?', // <- this part is optional, you can pass an empty string
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      {cancelable: false},
+    );
+  }
+
+  const createNewAddress = (address) =>{
+
+    dispatch(fetchNewAddress({ _id: idUser, address }));
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text2}>Address</Text>
       {dataAddress.map(address => (
-        <Pressable style={styles.changeDefault} key={address.id}>
+        <Pressable style={styles.changeDefault} key={address._id} onPress={()=> console.log(address._id)} onLongPress={()=>removeAddress(address._id)}>
           <View style={styles.hihi}>
             <View style={styles.nameAndChange}>
               <Text style={styles.text3} numberOfLines={2}>{address.name}</Text>
-              <Text style={styles.changeButton}>Change</Text>
+              <Text onPress={()=> console.log("CHANGE PRESSED")} style={styles.changeButton}>Change</Text>
             </View>
             {/* <Text style={styles.text4}>abc</Text> */}
           </View>
           {address.status == 1 ?
-          <Text style={styles.text5}>Mặc Định</Text>
+          <Text style={styles.text5}>Default</Text>
           : <Text></Text>}
         </Pressable>
       ))}
 
-      <Pressable>
+      <Pressable onPress={()=> newAddress()}>
         <View style={styles.hehe}>
           <Image
             style={styles.ImageNew}
             source={require('../../../../media/images/PlusIcon.png')}
           />
-          <Text style={styles.text6}>Thêm Địa Chỉ Mới</Text>
+          <Text style={styles.text6}>New Address</Text>
         </View>
       </Pressable>
     </SafeAreaView>
