@@ -16,8 +16,10 @@ import {
 import loginSlice, {
   changeStatusLogin,
   loginGoogle,
+  loginUsername,
 
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+
 import {useDispatch} from 'react-redux';
 
 import CountryPicker from 'react-native-country-picker-modal';
@@ -32,7 +34,12 @@ const LogIn = props => {
   const [countryCode, setCountryCode] = useState('VN');
   const [callingCode, setCallingCode] = useState('84');
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
+
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     GoogleSignin.configure({});
@@ -48,31 +55,23 @@ const LogIn = props => {
     getCurrentUser();
   }, []);
 
-  // const getCurrentUser = useCallback(async () => {
-  //   const currentUser = await GoogleSignin.getCurrentUser();
 
-  //   if (currentUser) {
-  //     setUser(currentUser);
-  //   }
-  // }, [setUser]);
-
-  // useEffect(() => {
-  //   GoogleSignin.configure({});
-  //   getCurrentUser();
-  // }, [getCurrentUser]);
-
+  const signinUsername = async () => {
+    try {
+      dispatch( loginUsername({username,password}));
+    console.log('User: ', username);
+    console.log('Password: ', password);
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUser(userInfo);
-      // console.log('User infor: ', userInfo);
-      
       dispatch(loginGoogle(userInfo));
-      // dispatch(await changeStatusLogin(true));
-      // dispatch(await changeStatusLogin(true));
-
-      // console.log('User: ', user);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -87,22 +86,6 @@ const LogIn = props => {
         console.log('some other error happened');
         // some other error happened
       }
-    }
-  };
-
-  const handleLogin = async () => {
-    console.log('User: ', user);
-    dispatch(getUserInformationFromGoogle(user));
-    dispatch(changeStatusLogin(true));
-  };
-
-  const signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      setUser(null);
-    } catch (error) {
-      console.log('Error:', error.message);
     }
   };
 
@@ -139,6 +122,7 @@ const LogIn = props => {
           <TextInput
             placeholder="Phone Number"
             placeholderTextColor={'#AC8E71'}
+            onChangeText={text => setUsername(text)}
           />
         </View>
       </View>
@@ -148,6 +132,7 @@ const LogIn = props => {
           placeholder="Password"
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
+          onChangeText={text => setPassword(text)}
         />
 
         <Image
@@ -160,7 +145,7 @@ const LogIn = props => {
         <Text style={styles.forgotPassword}>Forgot Password</Text>
       </View>
 
-      <Pressable style={styles.btnSignUp} onPress={() => navigation.goBack()}>
+      <Pressable style={styles.btnSignUp} onPress={() => signinUsername()}>
         <Text style={styles.signUpInsideButton}>Sign In</Text>
       </Pressable>
 

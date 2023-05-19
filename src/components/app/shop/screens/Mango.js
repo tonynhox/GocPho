@@ -7,53 +7,104 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
+  StatusBar,
+  ActivityIndicator,
+  ToastAndroid,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import Swiper from 'react-native-swiper';
+import { categoryFilterChange, fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { addfavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
+import { useIsFocused } from '@react-navigation/native';
+import { showProductDetail } from '../../../../redux-toolkit/selector';
+import { fetchFavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
-const renderItemPopular = ({ item }) => {
-  const { __id, image, price, kg } = item;
+const renderItemPopular = ({ item,navigation }) => {
+
+  const { _id, images, price, name, quantity, category } = item;
+  let image = images[0].name;
+  const handleAddItem = () => {
+    product = {
+      _id: _id, image: image, quantity: 1, price: price, name: name
+    };
+    dispatch(addItem(product));
+    ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
+
+  };
   return (
-    <View style={{marginVertical:10}} >
-      <View style={[styles.boxShadown, styles.cardPopular]}>
-        <View style={styles.imgPop}>
-          <Image source={require('../../../../media/images/apple.png')} />
-        </View>
-        <View style={{ position: 'relative' }}>
-          <Text style={styles.txtNamePop}>Red Apple</Text>
-          <Text style={styles.txtKg}>1kg,priceg</Text>
-          <Text style={styles.txtPrice}>$ 4,99</Text>
-          
-        </View>
+    <Pressable onPress={() => {
+      navigation.navigate('Mango', { id: _id })
+    }
+    }>
+      <View style={{ marginVertical: 10 }} >
+        <View style={[styles.boxShadown, styles.cardPopular]}>
+          <View style={styles.imgPop}>
+            <Image style={{ width: '90%', height: '90%', resizeMode: 'contain' }} source={{ uri: image }} />
+          </View>
+          <View style={{ position: 'relative', marginHorizontal: 10 }}>
+            <Text style={styles.txtNamePop}>{name}</Text>
+            <Text style={styles.txtKg}>{quantity}kg,priceg</Text>
+            <Text style={styles.txtPrice}>$ {price}</Text>
 
-        <TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            onPress={handleAddItem}
+          >
             <Image
               style={styles.imgAdd}
               source={require('../../../../media/images/icAdd.png')}
             />
           </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Pressable>
+
   );
 };
 
 const Mango = props => {
+  const { navigation } = props;
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const id = props.route?.params?.id;
+  const [dataProduct, setDataProduct] = useState();
+  const [isFavourite, setIsfavourite] = useState(false);
+  const dataFavourites = useSelector(state => state.login.userInfo.user.favorites);
+  const idUser = useSelector(state => state.login.userInfo.user);
+  const dataPopular = useSelector(state => state.dataAPI.data.slice(8, 18));
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductById(id))
+        .then((response) => {
+          const dataDetail = response.payload;
+          setDataProduct(dataDetail);
+          if (dataFavourites.filter(item => item.idProduct === dataDetail._id).length) {
+            setIsfavourite(true);
+          } else {
+            setIsfavourite(false);
+          }
+        })
+        .catch((error) => {
+          // Handle error if needed
+        });
+    }
+  }, [dispatch, id]);
+
+
+  const handleFavourite = () => {
+    dispatch(fetchFavourite({ id: idUser._id, product: dataProduct }));
+  }
 
   const handleAddItem = () => {
     product = {
-      category: 'fruit',
-      cost: 12,
-      id: Math.random(),
-      image:
-        'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
-      name: 'Mango',
-      quantity: quantity,
+      ...dataProduct,image: dataProduct.images[0].name,quantity:quantity
     };
     dispatch(addItem(product));
-
+    ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
     navigation.navigate('Cart', { screen: 'cart' });
   };
 
@@ -69,80 +120,107 @@ const Mango = props => {
     }
   };
 
-  const { navigation } = props;
+  const sline = dataProduct?.images.map((item, index) => (
+    <View
+      key={index}
+      style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Image
+        style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+        source={{ uri: item.name }}
+      />
+    </View>
+  ))
+
+
   return (
+
     //minHeight : '100%'
-    <ScrollView style={styles.container}>
-      <View>
-        {/* Image Fruit */}
-        <View style={styles.fruitContainer}>
-          <Image
-            style={{ width: 200, height: 200, resizeMode: 'contain' }}
-            source={{
-              uri: 'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
-            }}
-          />
-        </View>
+    (dataProduct) ?
+      <ScrollView style={styles.container}>
+        <View>
+          {/* Image Fruit */}
+          <View style={styles.fruitContainer}>
+            <View style={{ height: 200 }}>
+              <Swiper
+                showsButtons={false}
+                autoplayTimeout={5}
+                loop={false}
+                // autoplay={true}
+                showsPagination={true}>
+                {sline}
+              </Swiper>
+            </View>
 
-        {/* Original Mango */}
-        <Text style={styles.name}>Original Mango</Text>
-
-        {/* Price */}
-        <Text style={styles.price}>$3.00/st</Text>
-
-        {/* More information */}
-        <Text style={styles.information}>
-          Golden Ripe Alphonsa mangoes delivered to your house in the most
-          hygenic way ever... Best for eating plain but can also be made into
-          shakes and cakes.
-        </Text>
-
-        {/* Quantity and Heart Icon */}
-        <View style={styles.quantityContainer}>
-          {/* Minus, Heart and Plus Icon */}
-          <View style={styles.minusPlusIconContainer}>
-            <Pressable onPress={handleDown}>
-              <Image
-                onPress={() => handleDown()}
-                style={styles.icon}
-                source={require('../../../../media/images/MinusIcon.png')}
-              />
-            </Pressable>
-            <Text style={styles.price}>{quantity}</Text>
-            <Pressable onPress={() => handleUp()}>
-              <Image
-                style={styles.icon}
-                source={require('../../../../media/images/PlusIcon.png')}
-              />
-            </Pressable>
           </View>
 
-          {/* Heart Icon */}
-          <Image
-            style={styles.icon}
-            source={require('../../../../media/images/HeartIcon.png')}
-          />
+          {/* Original Mango */}
+          <Text style={styles.name}>{dataProduct.name}</Text>
+
+          {/* Price */}
+          <Text style={styles.price}>${dataProduct.price}/st</Text>
+
+          {/* More information */}
+          <Text style={styles.information}>
+            {dataProduct.detail}
+          </Text>
+
+          {/* Quantity and Heart Icon */}
+          <View style={styles.quantityContainer}>
+            {/* Minus, Heart and Plus Icon */}
+            <View style={styles.minusPlusIconContainer}>
+              <Pressable onPress={handleDown}>
+                <Image
+                  onPress={() => handleDown()}
+                  style={styles.icon}
+                  source={require('../../../../media/images/MinusIcon.png')}
+                />
+              </Pressable>
+              <Text style={styles.price}>{quantity}</Text>
+              <Pressable onPress={() => handleUp()}>
+                <Image
+                  style={styles.icon}
+                  source={require('../../../../media/images/PlusIcon.png')}
+                />
+              </Pressable>
+            </View>
+
+            {/* Heart Icon */}
+            <Pressable
+              onPress={() => {
+                handleFavourite();
+                setIsfavourite(!isFavourite)
+              }}>
+              <Image
+                style={styles.icon}
+                source={!isFavourite ? require('../../../../media/images/HeartIcon.png') : require('../../../../media/images/icHeartFull.png')}
+              />
+            </Pressable>
+
+          </View>
+
+          {/* Button add to Cart */}
+          <Pressable style={styles.btnSignUp} onPress={handleAddItem}>
+            <Text style={styles.signUpInsideButton}>Add to Cart</Text>
+          </Pressable>
+
+          {/* You may also need */}
+          <Text style={styles.more}>You may also need</Text>
+          <View style={{ marginVertical: 20 }}>
+            <FlatList
+              data={dataPopular}
+              renderItem={({ item }) => renderItemPopular({ item, navigation })} //gọi từ biến trên
+              keyExtractor={item => item._id} //số không trùng
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            />
+          </View>
+
         </View>
-
-        {/* Button add to Cart */}
-        <Pressable style={styles.btnSignUp} onPress={handleAddItem}>
-          <Text style={styles.signUpInsideButton}>Add to Cart</Text>
-        </Pressable>
-
-        {/* You may also need */}
-        <Text style={styles.more}>You may also need</Text>
-        <View style={{marginVertical:20}}>
-          <FlatList
-            data={[1, 2, 3, 4, 5]}
-            renderItem={renderItemPopular} //gọi từ biến trên
-            keyExtractor={Math.random} //số không trùng
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-          />
-        </View>
-
+      </ScrollView> :
+      <View>
+        <Text style={{ fontSize: 50 }}>Đang tải dữ liệu</Text>
       </View>
-    </ScrollView>
   );
 };
 
@@ -254,7 +332,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   fruitContainer: {
-    height:300,
+    // height: 300,
+    marginBottom: 80,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -264,6 +343,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    padding:16
+    padding: 16
   },
 });

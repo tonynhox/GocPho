@@ -8,6 +8,7 @@ export const fetchCategory = createAsyncThunk('fetchCategory', async () => {
   return response.data;
 });
 
+
 export const shopPageCategorySlice = createSlice({
   name: 'dataCategoryMainShop',
   initialState: {

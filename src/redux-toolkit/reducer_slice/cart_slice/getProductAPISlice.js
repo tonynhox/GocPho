@@ -16,66 +16,6 @@ export const getProductAPISlice = createSlice({
     data: [],
   },
   reducers: {
-    addItem: (state, action) => {
-      state.data.push(action.payload);
-    },
-
-    incrementItemQuantity(state, action) {
-      const itemIndex = state.data.findIndex(
-        item => item.id == action.payload.id,
-      );
-      if (itemIndex != -1) {
-        state.data[itemIndex].quantity++;
-      }
-    },
-
-    cloneIncrementItemQuantity(state, action) {
-      let arr = state.buyList.map(item => {
-        if (item.id == action.payload.id) {
-          return {...item, quantity: item.quantity + 1};
-        }
-        return item;
-      });
-      state.buyList = arr;
-    },
-
-    decrementItemQuantity(state, action) {
-      const itemIndex = state.data.findIndex(
-        item => item.id === action.payload.id,
-      );
-      if (itemIndex !== -1) {
-        if (state.data[itemIndex].quantity != 1) {
-          state.data[itemIndex].quantity--;
-        } else {
-          state.data[itemIndex].quantity;
-        }
-      }
-    },
-    sortListByTotalCost(state, action) {
-      state.data = state.data.sort((a, b) => {
-        return (
-          parseFloat(a.cost * a.quantity) - parseFloat(b.cost * b.quantity)
-        );
-      });
-    },
-    sortListByName(state, action) {
-      state.data = state.data.sort((a, b) => {
-        return a.name.localeCompare(b.name);
-      });
-    },
-    sortListByQuantity(state, action) {
-      state.data = state.data.sort((a, b) => {
-        return a.quantity - b.quantity;
-      });
-    },
-    removeItemById(state, action) {
-      const itemIndex = state.data.findIndex(item => {
-        return item.id == action.payload;
-      });
-
-      state.data.splice(itemIndex, 1);
-      console.log('REMOVED OBJECT NUMBER: ', itemIndex);
-    },
   },
   extraReducers: builder => {
     builder.addCase(fetchData.pending, state => {

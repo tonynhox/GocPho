@@ -21,6 +21,7 @@ export const fetchBillById = createAsyncThunk(
 export const fetchStatusBill = createAsyncThunk(
   'bill/updateStatus',
   async ( {idReceived, currentStatus, message} ) => {
+    //idbill,status,
     console.log("ID NUMBER MESSAGE: ", idReceived, " - ", currentStatus, " - ", message)
     
     const url = `https://sever-gocpho.herokuapp.com/bill/update-status/${idReceived}`;
@@ -72,6 +73,7 @@ const orderSlice = createSlice({
   },
 
   reducers: {
+    //id bill
     changeCurrentBillId: (state, action) => {
       state.currentBillId = action.payload;
       console.log("PAYLOAD ID: ", action.payload)

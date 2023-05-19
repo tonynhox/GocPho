@@ -24,7 +24,7 @@ const ProfileScreen = props => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      dispatch(await getUserInformationFromGoogle(null));
+      dispatch(getUserInformationFromGoogle(null));
     } catch (error) {
       console.log('Error:', error.message);
     }

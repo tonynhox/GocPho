@@ -13,41 +13,58 @@ import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { showItemMatch } from '../../../../redux-toolkit/selector';
-import { categoryFilterChange, searchFilterChange } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { showItemMatch,showItemMatchCategory } from '../../../../redux-toolkit/selector';
+import { categoryFilterChange, searchFilterChange ,searchCategoryChange} from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 
 const Explore = props => {
   const { navigation } = props;
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
 
-  const dataExplore = useSelector(showItemMatch);
-  const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
+  // let dataCategory;
+  // dataCategory=useSelector(state => state.dataCategoryMainShop.data)
+  const dataCategory = useSelector(showItemMatchCategory);
 
+  // const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
+
+  // console.log('hi',useSelector(state=> state.filter.category))
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    dispatch(fetchData());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchData());
+
+  // }, [fetchData]);
   
+  // useEffect(() => {
+  // }, [search.length>1]);
+  // if(search.length>0)
+  //   dispatch(categoryFilterChange(''))
+
+
+
   useEffect(() => {
-    dispatch(fetchCategory);
+    dispatch(fetchCategory());
+    dispatch(searchCategoryChange(''));
   }, [fetchCategory]);
 
   const handleSearch = value => {
     setSearch(value);
-    dispatch(searchFilterChange(value));
+    dispatch(searchCategoryChange(value));
+    console.log('hello: ',value);
   };
 
   const handleCategory = id => {
-    index = dataCategory.findIndex(item => {
+    // dispatch(categoryFilterChange(id));
+    dispatch(searchCategoryChange(''));
+    setSearch('')
+
+    dataCategory.findIndex(item => {
         if (item._id === id) {
-            console.log('----------------------------------',id)
             dispatch(categoryFilterChange(id));
             return id;
         }
     });
+    return 'All'
 };
 
   const renderItem = ({ item }) => {
@@ -55,8 +72,9 @@ const Explore = props => {
     const { name, images, background, _id } = item;
     return (
       <TouchableOpacity
-        onPress={() => {navigation.navigate('Fruit')
+        onPress={() => {
         handleCategory(item._id)
+          navigation.navigate('Fruit')
       }}
         style={Styles.card}
       // onPress={() => navigation.navigate('Detail', {id: _id}

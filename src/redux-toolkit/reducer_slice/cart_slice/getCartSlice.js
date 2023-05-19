@@ -16,6 +16,7 @@ export const fetchUserProfile = createAsyncThunk(
   }
 );
 
+
 const getCartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -24,6 +25,10 @@ const getCartSlice = createSlice({
     error: null,
   },
   reducers: {
+    addItem: (state, action) => {
+      const itemCart= state.data.find(item => item._id===action.payload._id)
+      !itemCart?state.data.push(action.payload):itemCart.quantity+=action.payload.quantity;
+    },
     incrementItemQuantity(state, action) {
       const itemIndex = state.data.findIndex(
         item => item._id == action.payload,
@@ -75,7 +80,7 @@ const getCartSlice = createSlice({
     },
     removeItemById(state, action) {
       const itemIndex = state.data.findIndex(item => {
-        return item.id == action.payload;
+        return item._id == action.payload;
       });
 
       state.data.splice(itemIndex, 1);
