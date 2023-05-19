@@ -26,26 +26,21 @@ import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/ge
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { removeItemById } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import { addListCart } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-
+import { useIsFocused } from '@react-navigation/native';
+import { updateAPICart } from '../utilities/callAddAPICart';
 const Cart = props => {
-  // const listData = useSelector(state => state.login.userInfo.user.carts);
-  // const dataCart = useSelector(state => state.cart.data)
-  // console.log('dataaaaa: ', dataCart);
 
 
   const sort = ['Name', 'Total Price', 'Quantity'];
 
   const { navigation } = props;
 
+  const isFocused = useIsFocused();
 
-  // console.log("DATA CARTTT: ", dataCart)
   const dispatch = useDispatch();
-  // const idUser = useSelector(state => state.login.userInfo.user._id)
-  // useEffect(() => {
-  //   dispatch(fetchUserProfile(idUser));
-  // }, [dispatch, idUser]);
-  const dataCart = useSelector(state => state.cart.data)
-
+  const dataCart = useSelector(state => state.cart.data);
+  const idUser = useSelector(state => state.login.userInfo.user._id);
+  console.log('id nè',idUser)
   const handleUpRedux = id => {
     console.log('IDDDD: ', id);
     dispatch(incrementItemQuantity(id));
@@ -90,6 +85,7 @@ const Cart = props => {
     );
   }
 
+  
   const Item = ({ item }) => {
     return (
       // <Pressable onPress={()=> deleteItem(item._id)}>
@@ -192,6 +188,12 @@ const Cart = props => {
 
     );
   };
+
+  //save cart 
+  useEffect(()=>{
+    updateAPICart(idUser,dataCart)
+  },[!isFocused])
+  
 
   return (
     <View style={styles.container}>

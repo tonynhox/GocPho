@@ -16,6 +16,7 @@ export const fetchUserProfile = createAsyncThunk(
   }
 );
 
+
 const getCartSlice = createSlice({
   name: 'cart',
   initialState: {
