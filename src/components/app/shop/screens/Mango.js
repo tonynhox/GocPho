@@ -25,7 +25,14 @@ const renderItemPopular = ({ item,navigation }) => {
 
   const { _id, images, price, name, quantity, category } = item;
   let image = images[0].name;
+  const handleAddItem = () => {
+    product = {
+      _id: _id, image: image, quantity: 1, price: price, name: name
+    };
+    dispatch(addItem(product));
+    ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
 
+  };
   return (
     <Pressable onPress={() => {
       navigation.navigate('Mango', { id: _id })
@@ -43,7 +50,9 @@ const renderItemPopular = ({ item,navigation }) => {
 
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleAddItem}
+          >
             <Image
               style={styles.imgAdd}
               source={require('../../../../media/images/icAdd.png')}

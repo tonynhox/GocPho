@@ -255,7 +255,6 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    implementation fileTree(dir: 'D:\\Mobile_DaNenTang\\GocPho', include: ['*.aar', '*.jar'], exclude: [])
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
