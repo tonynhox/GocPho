@@ -43,7 +43,7 @@ export const fetchStatusBill = createAsyncThunk(
     }
     const data = await response.json();
     console.log("RESPONSE: ", data)
-    return data;
+    return data.bill;
   }
 );
 
@@ -54,6 +54,7 @@ export const fetchAllBills = createAsyncThunk('bill/fetchAll', async () => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
+    console.log("DATA BILL: ", data)
     return data;
   } catch (error) {
     console.error('Error:', error);
@@ -73,6 +74,7 @@ const orderSlice = createSlice({
   reducers: {
     changeCurrentBillId: (state, action) => {
       state.currentBillId = action.payload;
+      console.log("PAYLOAD ID: ", action.payload)
     },
   },
   extraReducers: builder => {
@@ -93,7 +95,11 @@ const orderSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchStatusBill.fulfilled, (state, action) =>{
-        // state.data.bill = action.payload
+        const index = state.data.bill.findIndex(item => item._id == action.payload._id)
+        console.log("INDEX: ", index, action.payload)
+        
+        
+        state.data.bill[index] = action.payload
       })
       .addCase(fetchStatusBill.rejected, (state, action)=>{
         state.status = 'failed'
@@ -105,6 +111,11 @@ const orderSlice = createSlice({
       .addCase(fetchAllBills.fulfilled, (state, action) =>{
         state.data = action.payload
         console.log("ADMIN: ", state.data)
+        if(state.data.bill.length > 0){
+          const lastElement = state.data.bill[state.data.bill.length - 1];
+          state.currentBillId = lastElement._id
+          console.log("LAST CURRENT: ", lastElement, " - ", state.currentBillId)
+        }
         state.status = 'succeeded';
       })
       .addCase(fetchAllBills.rejected, (state, action)=>{

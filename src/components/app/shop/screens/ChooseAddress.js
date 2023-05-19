@@ -9,10 +9,11 @@ import {
   Alert,
   RefreshControl,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
   fetchChangeAddress,
   fetchChangeStatusAddress,
@@ -21,6 +22,7 @@ import {
   fetchRemoveAddress,
 } from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
 import prompt from 'react-native-prompt-android';
+import Toast from 'react-native-toast-message';
 
 const ChooseAddress = () => {
   const dispatch = useDispatch();
@@ -51,9 +53,9 @@ const ChooseAddress = () => {
     );
   };
 
-  const changeStatusAddress = (idAddress) =>{
-    dispatch(fetchChangeStatusAddress({_id:idUser, idAddress: idAddress}))
-  } 
+  const changeStatusAddress = idAddress => {
+    dispatch(fetchChangeStatusAddress({_id: idUser, idAddress: idAddress}));
+  };
 
   const changeNewAddress = (idAddress, newAddress) => {
     dispatch(
@@ -98,6 +100,28 @@ const ChooseAddress = () => {
   };
 
   const deleteAddress = idAddress => {
+    const addressIndex = dataAddress.findIndex(
+      address => address._id === idAddress,
+    );
+    console.log('INDEX:', addressIndex, 'ADDRESS:', dataAddress[addressIndex]);
+
+    if (dataAddress[addressIndex].status == 1) {
+      return Toast.show({
+        type: 'success',
+        text1: 'Are you trying to remove?',
+        text2:
+          'Address you chosen is chain by default, you need to change default to others and try again!',
+      });
+    }
+    if (dataAddress.length == 1) {
+      return Toast.show({
+        type: 'success',
+        text1: 'Are you trying to remove?',
+        text2:
+          'Address you chosen is the last address, you add more address or this address!',
+      });
+    }
+
     dispatch(fetchRemoveAddress({_id: idUser, idAddress: idAddress}));
   };
 
@@ -109,54 +133,64 @@ const ChooseAddress = () => {
       setRefreshing(false);
     }, 2000);
   }, []);
+
+  const loading = useSelector(state => state.address.status);
+  console.log('LOADING: ', loading);
   return (
     <>
-      {dataAddress ? (
-        <ScrollView
-          style={styles.container}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          <Text style={styles.text2}>Address</Text>
-          {dataAddress.map(address => (
-            <Pressable
-              style={styles.changeDefault}
-              key={address._id}
-              onPress={() => changeStatusAddress(address._id)}
-              onLongPress={() => removeAddress(address._id)}>
-              <View style={styles.hihi}>
-                <View style={styles.nameAndChange}>
-                  <Text style={styles.text3} numberOfLines={2}>
-                    {address.name}
-                  </Text>
-                  <Text
-                    onPress={() => changeAddress(address._id)}
-                    style={styles.changeButton}>
-                    Change
-                  </Text>
-                </View>
-                {/* <Text style={styles.text4}>abc</Text> */}
-              </View>
-              {address.status == 1 ? (
-                <Text style={styles.text5}>Default</Text>
-              ) : (
-                <Text></Text>
-              )}
-            </Pressable>
-          ))}
-
-          <Pressable onPress={() => newAddress()}>
-            <View style={styles.hehe}>
-              <Image
-                style={styles.ImageNew}
-                source={require('../../../../media/images/PlusIcon.png')}
-              />
-              <Text style={styles.text6}>New Address</Text>
-            </View>
-          </Pressable>
-        </ScrollView>
+      {loading == 'loading' ? (
+        <ActivityIndicator size="large" /> // Show ActivityIndicator when loading is true
       ) : (
-        <Text>Loading...</Text>
+        <>
+          {dataAddress ? (
+            <ScrollView
+              style={styles.container}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }>
+              <Text style={styles.text2}>Address</Text>
+              {dataAddress.map(address => (
+                <Pressable
+                  style={styles.changeDefault}
+                  key={address._id}
+                  onPress={() => changeStatusAddress(address._id)}
+                  onLongPress={() => removeAddress(address._id)}>
+                  <View style={styles.hihi}>
+                    <View style={styles.nameAndChange}>
+                      <Text style={styles.text3} numberOfLines={2}>
+                        {address.name}
+                      </Text>
+                      <Text
+                        onPress={() => changeAddress(address._id)}
+                        style={styles.changeButton}>
+                        Change
+                      </Text>
+                    </View>
+                    {/* <Text style={styles.text4}>abc</Text> */}
+                  </View>
+                  {address.status == 1 ? (
+                    <Text style={styles.text5}>Default</Text>
+                  ) : (
+                    <Text></Text>
+                  )}
+                </Pressable>
+              ))}
+
+              <Pressable onPress={() => newAddress()}>
+                <View style={styles.hehe}>
+                  <Image
+                    style={styles.ImageNew}
+                    source={require('../../../../media/images/PlusIcon.png')}
+                  />
+                  <Text style={styles.text6}>New Address</Text>
+                </View>
+              </Pressable>
+              <Toast numberOfLines={2} />
+            </ScrollView>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+        </>
       )}
     </>
   );

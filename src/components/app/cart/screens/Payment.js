@@ -19,7 +19,7 @@ import {renderers} from 'react-native-popup-menu';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
 import {useSelector, useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-
+import Toast from 'react-native-toast-message';
 const {SlideInMenu} = renderers;
 
 import Geolocation from '@react-native-community/geolocation';
@@ -42,6 +42,22 @@ const Payment = props => {
     );
     setTotalCost(newTotalCost);
   }, [listData]);
+
+  //address
+  const dataAddress = useSelector(state => state.address.data);
+  console.log('DATA ADDRESS: ', dataAddress);
+  const [location, setLocation] = useState();
+  useEffect(() => {
+    if (dataAddress == undefined) {
+      return <Text>Loading...</Text>;
+    } else if (Array.isArray(dataAddress)) {
+      dataAddress.map(address => {
+        if (address.status == 1) {
+          return setLocation(address.name);
+        }
+      });
+    }
+  }, [dataAddress]);
 
   // lấy dũ liệu ngày giao hàng
   const [date, setDate] = useState(new Date());
@@ -131,6 +147,25 @@ const Payment = props => {
     }
   };
 
+  //choose method payment
+  //zalopay = 1, COD = 0
+  const [paymentMethod, setPaymentMethod] = useState(0);
+  const chooseZalo = () => {
+    setPaymentMethod(1);
+    Toast.show({
+      type: 'success',
+      text1:
+        'You changed to Zalopay!',
+    })
+  };
+  const chooseCOD = () => {
+    setPaymentMethod(0);
+    Toast.show({
+      type: 'success',
+      text1: 'You changed to COD',
+    })
+  };
+
   const idUser = useSelector(state => state.login.userInfo.user._id);
 
   const goOrder = async () => {
@@ -143,18 +178,22 @@ const Payment = props => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user: idUser,
-            name: 'banh beo',
-            img: 'banhbao.js',
-            price: totalCost,
-            quantity: 10,
-            address: 'abc',
-            payment: 'xyz',
+            idUser: idUser,
+            bill: listData.map(item => ({
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              _id: item._id,
+            })),
+            address: location,
+            payment: 0,
+            totalPrice: totalCost,
+            timeDesire: date,
           }),
         },
       );
       const data = await response.json();
-      setResponseBill(data);
+      // setResponseBill(data);
       console.log('Data reponse: ', data);
       if (data.message == 'success') {
         navigation.navigate('OrderAccepted');
@@ -172,21 +211,6 @@ const Payment = props => {
   useEffect(() => {
     dispatch(fetchGetAddress(idUser));
   }, [dispatch, idUser]);
-
-  const dataAddress = useSelector(state => state.address.data);
-  console.log('DATA ADDRESS: ', dataAddress);
-  const [location, setLocation] = useState();
-  useEffect(() => {
-    if (dataAddress == undefined) {
-      return <Text>Loading...</Text>;
-    } else if (Array.isArray(dataAddress)) {
-      dataAddress.map(address => {
-        if (address.status == 1) {
-          return setLocation(address.name);
-        }
-      });
-    }
-  }, [dataAddress]);
 
   return (
     <ScrollView style={[styles.container]}>
@@ -347,28 +371,37 @@ const Payment = props => {
       {/* // Phương thức thanh toán */}
       <View style={[styles.PaymentMethod]}>
         <Text style={[styles.PaymentMethodText]}>Payment Method</Text>
-        <View style={[styles.PaymentMethodTop]}>
-          <Image
-            source={require('../../../../media/images/zalopay.png')}
-            style={[styles.imgCard1]}
-          />
-          <Text style={[styles.PaymentMethodTopText]}>ZaloPay</Text>
-          <Image
-            source={require('../../../../media/images/TickedOn.png')}
-            style={[styles.TickedOn]}
-          />
-        </View>
-        <View style={[styles.PaymentMethodBottom]}>
-          <Image
-            source={require('../../../../media/images/MethodDelivery.png')}
-            style={[styles.imgCard2]}
-          />
-          <Text style={[styles.PaymentMethodTopText]}>Cash on Delivery</Text>
-          <Image
-            source={require('../../../../media/images/TickedOn.png')}
-            style={[styles.TickedOn]}
-          />
-        </View>
+        <Pressable onPress={() => chooseZalo()}>
+          <View style={[styles.PaymentMethodTop]}>
+            <Image
+              source={require('../../../../media/images/zalopay.png')}
+              style={[styles.imgCard1]}
+            />
+            <Text style={[styles.PaymentMethodTopText]}>ZaloPay</Text>
+            {paymentMethod === 1 && (
+              <Image
+                source={require('../../../../media/images/TickedOn.png')}
+                style={[styles.TickedOn]}
+              />
+            )}
+          </View>
+        </Pressable>
+        <Pressable onPress={() => chooseCOD()}>
+          <View style={[styles.PaymentMethodBottom]}>
+            <Image
+              source={require('../../../../media/images/MethodDelivery.png')}
+              style={[styles.imgCard2]}
+            />
+            
+            <Text style={[styles.PaymentMethodTopText]}>Cash on Delivery</Text>
+            {paymentMethod === 0 && (
+            <Image
+              source={require('../../../../media/images/TickedOn.png')}
+              style={[styles.TickedOn]}
+            />
+            )}
+          </View>
+        </Pressable>
       </View>
 
       {/* //Giá trị đơn hàng */}
@@ -399,6 +432,7 @@ const Payment = props => {
         }}>
         <Text style={[styles.btnAcceptText]}>Track Order</Text>
       </Pressable>
+      <Toast position='bottom'/>
     </ScrollView>
   );
 };

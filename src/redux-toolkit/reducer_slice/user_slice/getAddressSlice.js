@@ -51,7 +51,7 @@ export const fetchRemoveAddress = createAsyncThunk(
       throw new Error('Failed to update bill status');
     }
     const data = await response.json();
-    return data.address;
+    return data.address.addresses;
   },
 );
 export const fetchChangeAddress = createAsyncThunk(
