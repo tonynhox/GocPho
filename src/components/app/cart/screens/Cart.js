@@ -8,22 +8,23 @@ import {
   FlatList,
   TouchableHighlight,
   Touchable,
-  Alert
+  Alert,
+  TouchableOpacity
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {buyItemSlice} from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
-import {addItem, fetchUserProfile} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {incrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {decrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {sortListByTotalCost} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {sortListByName} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {cloneIncrementItemQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {sortListByQuantity} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { buyItemSlice } from '../../../../redux-toolkit/reducer_slice/cart_slice/buyItemSlice';
+import { addItem, fetchUserProfile } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { incrementItemQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { decrementItemQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { sortListByTotalCost } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { sortListByName } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { cloneIncrementItemQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { sortListByQuantity } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import SelectDropdown from 'react-native-select-dropdown';
-import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
-import {SwipeRow} from 'react-native-swipe-list-view';
-import {removeItemById} from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
+import { SwipeRow } from 'react-native-swipe-list-view';
+import { removeItemById } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import { addListCart } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 
 const Cart = props => {
@@ -34,16 +35,16 @@ const Cart = props => {
 
   const sort = ['Name', 'Total Price', 'Quantity'];
 
-  const {navigation} = props;
+  const { navigation } = props;
 
 
-  const dataCart = useSelector(state => state.cart.data)
-  console.log("DATA CARTTT: ", dataCart)
+  // console.log("DATA CARTTT: ", dataCart)
   const dispatch = useDispatch();
-  const idUser = useSelector(state => state.login.userInfo.user._id)
-  useEffect(() => {
-    dispatch(fetchUserProfile(idUser));
-  }, [dispatch, idUser]);
+  // const idUser = useSelector(state => state.login.userInfo.user._id)
+  // useEffect(() => {
+  //   dispatch(fetchUserProfile(idUser));
+  // }, [dispatch, idUser]);
+  const dataCart = useSelector(state => state.cart.data)
 
   const handleUpRedux = id => {
     console.log('IDDDD: ', id);
@@ -70,7 +71,7 @@ const Cart = props => {
     dispatch(removeItemById(id));
   };
 
-  const deleteConfirm = (id) =>{
+  const deleteConfirm = (id) => {
     Alert.alert(
       'Delete?',
       'Are you sure you want to delete this item?',
@@ -89,14 +90,14 @@ const Cart = props => {
     );
   }
 
-  const Item = ({item}) => {
+  const Item = ({ item }) => {
     return (
       // <Pressable onPress={()=> deleteItem(item._id)}>
       <View style={styles.itemContainer}>
         {/* Image Fruit*/}
         <Image
-          style={{width: 130, height: 100, resizeMode: 'contain'}}
-          source={{uri: item.images[0]}}
+          style={{ width: 130, height: 100, resizeMode: 'contain' }}
+          source={{ uri: item.images[0] }}
         />
 
         {/* Name Fruit and quantity */}
@@ -129,26 +130,34 @@ const Cart = props => {
     );
   };
 
-  const ItemSwipe = ({item}) => {
+  const ItemSwipe = ({ item }) => {
     return (
+
+
       <SwipeRow rightOpenValue={-60}>
         <View style={styles.standaloneRowBack}>
           <Text style={styles.backTextWhite}></Text>
           {/* <Text style={styles.backTextWhite}>Delete</Text> */}
-          <Pressable onPress={() => deleteConfirm(item._id)}>
+          <Pressable
+            style={styles.iconDelete}
+            onPress={() => deleteConfirm(item._id)}>
             <Image
-              style={styles.iconDelete}
+              // style={styles.iconDelete}
               source={require('../../../../media/images/ic_Delete.png')}
             />
           </Pressable>
         </View>
 
-        <View style={styles.standaloneRowFront}>
+        <TouchableOpacity 
+          onPress={() => {
+            navigation.navigate('Mango', { id: item._id })}
+          }
+          style={styles.standaloneRowFront}>
           <View style={styles.itemContainer}>
             {/* Image Fruit*/}
             <Image
-              style={{width: 130, height: 100, resizeMode: 'contain'}}
-              source={{uri: item.image}}
+              style={{ width: 130, height: 100, resizeMode: 'contain' }}
+              source={{ uri: item.image }}
             />
 
             {/* Name Fruit and quantity */}
@@ -177,8 +186,10 @@ const Cart = props => {
             {/* Cost */}
             <Text style={styles.cost}>$ {item.price * item.quantity}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
+
       </SwipeRow>
+
     );
   };
 
@@ -233,7 +244,7 @@ const Cart = props => {
       {/* Flatlist */}
       <FlatList
         data={dataCart}
-        renderItem={({item}) => <ItemSwipe item={item} />}
+        renderItem={({ item }) => <ItemSwipe item={item} />}
         keyExtractor={item => item._id}
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
@@ -252,6 +263,7 @@ export default Cart;
 
 const styles = StyleSheet.create({
   iconDelete: {
+    backgroundColor: 'red', height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -263,7 +275,7 @@ const styles = StyleSheet.create({
   },
   standaloneRowBack: {
     alignItems: 'center',
-    backgroundColor: 'orange',
+    backgroundColor:'red',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -82,9 +82,12 @@ export const loginSlice = createSlice({
         state.isLoggedIn = true;
         state.error = null;
       }),builder.addCase(loginUsername.fulfilled, (state, action) => {
-        state.userInfo = action.payload;
-        state.isLoggedIn = true;
-        state.error = null;
+        if(action.payload.result){
+          state.userInfo = action.payload;
+          state.isLoggedIn = true;
+          state.error = null;
+        }
+
       }),
       builder.addCase(fetchFavourite.fulfilled, (state, action) => {
         const itemIndex = state.userInfo.user.favorites.findIndex(item => item.idProduct === action.payload.idProduct)

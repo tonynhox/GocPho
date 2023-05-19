@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList, TouchableOpacity, _Image, ImageBackground, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,49 +6,39 @@ import { useIsFocused, CommonActions, useNavigation } from '@react-navigation/na
 import { showItemMatch } from '../../../../redux-toolkit/selector';
 import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
 import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import { categoryFilterChange, searchFilterChange,fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
-
+import { categoryFilterChange, searchFilterChange, fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 const Fruit = (props) => {
     const { navigation } = props;
     // const a= fetchCategory.filter(item => item.category === idCate);
-    
-    const [hover,setHover] = useState('')
+
+    const [hover, setHover] = useState('')
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
 
     const idCate = useSelector(state => state.filter.category);
-    
-
 
     let dataExplore = useSelector(showItemMatch);
-    const dataCategory =  useSelector(state => state.dataCategoryMainShop.data);
-    let updatedDataCategory = [{"__v": 0, "_id": "All", "images": "", "name": "All"}, ...dataCategory];
+    const dataCategory = useSelector(state => state.dataCategoryMainShop.data);
+    let updatedDataCategory = [{ "__v": 0, "_id": "All", "images": "", "name": "All" }, ...dataCategory];
     console.log(updatedDataCategory);
     const [search, setSearch] = useState('');
 
 
     useEffect(() => {
-        try{
+        try {
             dispatch(fetchData());
-            let a= dataCategory.filter(item => item._id==idCate);
+            let a = dataCategory.filter(item => item._id == idCate);
             setHover(a[0].name)
-            if(!isFocused) {
+            if (!isFocused) {
                 dispatch(categoryFilterChange(''))
                 dispatch(searchFilterChange(''))
-        }
-        }catch(e){
+            }
+        } catch (e) {
             setHover("All")
         }
 
     }, []);
-
-    // useEffect(() => {
-        
-    // }, [isFocused])
-
-    // useEffect(() => {
-    //     dispatch(fetchCategory);
-    // }, [fetchCategory]);
 
     const handleSearch = value => {
         setSearch(value);
@@ -71,14 +61,24 @@ const Fruit = (props) => {
     const renderItemPopular = ({ item, i, index }) => {
         const { _id, images, price, quantity, name } = item;
 
+
+
+        const handleAddItem = () => {
+            product = {
+                _id: _id, image: images[0].name, quantity: 1, price: price, name: name
+            };
+            dispatch(addItem(product));
+            ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
+        };
         return (
             <Pressable onPress={() => {
-                props.navigation.navigate('Mango',{id:_id})} 
+                props.navigation.navigate('Mango', { id: _id })
+            }
 
             }
                 style={[Styles.boxShadown, Styles.cardPopular]}
-                >
-                <View style={{flex:1}}>
+            >
+                <View style={{ flex: 1 }}>
                     <View style={{ margin: 10 }}>
                         <View style={Styles.imgPop}>
                             <Image
@@ -91,7 +91,7 @@ const Fruit = (props) => {
                             <Text style={Styles.txtPrice}>{price}</Text>
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handleAddItem}>
                             <Image style={Styles.imgAdd} source={require('../../../../media/images/icAdd.png')} />
                         </TouchableOpacity>
                     </View>
@@ -106,14 +106,14 @@ const Fruit = (props) => {
 
     const checkHover = (item) => {
         if (item.name === hover) {
-          return { borderBottomWidth: 2, borderBottomColor: 'red' };
+            return { borderBottomWidth: 2, borderBottomColor: 'red' };
         }
-      };
-      
-      const handleCategoryPress = (item) => {
+    };
+
+    const handleCategoryPress = (item) => {
         setHover(item.name);
         handleCategory(item._id);
-      };
+    };
 
 
     const ItemCategory = ({ item, index }) => {
@@ -121,9 +121,9 @@ const Fruit = (props) => {
         return (
             <View style={{ height: 30, marginTop: 10, }}>
                 <Pressable
-                    
+
                     style={checkHover(item)}
-                    onPress={()=>handleCategoryPress(item)}>
+                    onPress={() => handleCategoryPress(item)}>
                     <Text style={Styles.listCategory}>{item.name}</Text>
                 </Pressable>
             </View>
@@ -136,8 +136,8 @@ const Fruit = (props) => {
 
             <View style={Styles.search}>
                 <TextInput placeholder='Search'
-                          value={search}
-                          onChangeText={handleSearch}
+                    value={search}
+                    onChangeText={handleSearch}
                     placeholderTextColor='rgba(109, 56, 5, 0.57)'
                     style={Styles.ipSearch}>
                 </TextInput>
@@ -147,7 +147,7 @@ const Fruit = (props) => {
             </View>
             <View style={{ height: 40 }}>
                 <FlatList
-                    style={{borderBottomWidth: 2, borderBottomColor: '#6D38050F' }}
+                    style={{ borderBottomWidth: 2, borderBottomColor: '#6D38050F' }}
                     data={updatedDataCategory}
                     renderItem={ItemCategory}
                     keyExtractor={item => item._id}

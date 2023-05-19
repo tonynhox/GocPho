@@ -9,17 +9,28 @@ import {
   TouchableOpacity,
   _Image,
   ImageBackground,
+  ToastAndroid
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {fetchCategory} from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
-import { categoryFilterChange, searchFilterChange,fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+import React, { useEffect } from 'react';
+import { fetchCategory } from '../../../../redux-toolkit/reducer_slice/shop_slice/shopPageCategorySlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchData } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { categoryFilterChange, searchFilterChange, fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
+
+import { fetchUserProfile, addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 
 const Shop = props => {
-  const {navigation} = props;
-    
+  const { navigation } = props;
   const dispatch = useDispatch();
+
+  //callapi cart
+  const idUser = useSelector(state => state.login.userInfo.user._id)
+  useEffect(() => {
+    dispatch(fetchUserProfile(idUser));
+  }, [dispatch, idUser]);
+  // ------------//
+
+
 
   const dataPopular = useSelector(state => state.dataAPI.data.slice(0, 6));
   const dataCategory = useSelector(state => state.dataCategoryMainShop.data.slice(0, 6));
@@ -33,11 +44,14 @@ const Shop = props => {
     dispatch(fetchData());
   }, [fetchData]);
 
-  
-  
-  const renderItem = ({item}) => {
+
+
+
+  const renderItem = ({ item }) => {
     // const item= props;
-    const {name, images, _id} = item;
+    const { name, images, _id } = item;
+
+
     return (
       <TouchableOpacity
         style={Styles.card}
@@ -45,9 +59,9 @@ const Shop = props => {
           handleCategory(_id)
           props.navigation.navigate('Explore', { screen: 'Explores' })
           setTimeout(() => {
-              props.navigation.navigate('Fruit')
+            props.navigation.navigate('Fruit')
 
-          },1)
+          }, 1)
         }
         }>
         <View style={[Styles.imgCard]}>
@@ -61,7 +75,7 @@ const Shop = props => {
                 borderRadius: 40,
                 resizeMode: 'contain',
               }}
-              source={{uri: images}}></Image>
+              source={{ uri: images }}></Image>
           </ImageBackground>
         </View>
 
@@ -70,32 +84,46 @@ const Shop = props => {
     );
   };
 
-  const renderItemPopular = ({item}) => {
+  const renderItemPopular = ({ item }) => {
     // const item= props;
     // {"category": "category 1", "cost": 73, "id": "1", "image": "https://loremflickr.com/640/480/food", "name": "Awesome Rubber Chips", "quantity": 14
-    const {_id, images, price, name, quantity, category} = item;
-    let image= images[0].name;
+    const { _id, images, price, name, quantity, category } = item;
+    let image = images[0].name;
     // console.log(image)
+
+    const handleAddItem = () => {
+      product = {
+        _id: _id, image: image, quantity: 1, price: price, name: name
+      };
+      dispatch(addItem(product));
+      ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
+
+    };
+
     return (
       <Pressable onPress={() => {
-        props.navigation.navigate('Mango',{id:_id})} 
+        props.navigation.navigate('Mango', { id: _id })
+      }
       }>
         <View style={[Styles.boxShadown, Styles.cardPopular]}>
-          <View style={{margin: 10}}>
+          <View style={{ margin: 10 }}>
             <View style={Styles.imgPop}>
-              <Image style={{width: 80, height: 80, resizeMode:'contain'}} source={{uri:image}} />
+              <Image style={{ width: 80, height: 80, resizeMode: 'contain' }} source={{ uri: image }} />
             </View>
-            <View style={{height: '40%', position: 'relative'}}>
+            <View style={{ height: '40%', position: 'relative' }}>
               <Text style={Styles.txtNamePop}>{name}</Text>
               <Text style={Styles.txtKg}>{quantity}kg,priceg</Text>
               <Text style={Styles.txtPrice}>$ {price}</Text>
             </View>
-            <TouchableOpacity>
-                <Image
-                  style={Styles.imgAdd}
-                  source={require('../../../../media/images/icAdd.png')}
-                />
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={
+                handleAddItem}
+            >
+              <Image
+                style={Styles.imgAdd}
+                source={require('../../../../media/images/icAdd.png')}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </Pressable>
@@ -106,12 +134,12 @@ const Shop = props => {
 
   const handleCategory = id => {
     index = dataCategory.findIndex(item => {
-        if (item._id === id) {
-            dispatch(categoryFilterChange(id));
-            return id;
-        }
+      if (item._id === id) {
+        dispatch(categoryFilterChange(id));
+        return id;
+      }
     });
-};
+  };
 
 
 
@@ -129,7 +157,7 @@ const Shop = props => {
         />
       </View>
 
-      <View style={[{marginTop: 36}, Styles.type]}>
+      <View style={[{ marginTop: 36 }, Styles.type]}>
         <Text style={Styles.txtType}>Categories</Text>
         <Pressable style={Styles.seeAll}>
           <Text style={Styles.txtSeeAll}>See All</Text>
@@ -146,14 +174,14 @@ const Shop = props => {
         />
       </View>
 
-      <View style={[{marginTop: 53.17}, Styles.type]}>
+      <View style={[{ marginTop: 53.17 }, Styles.type]}>
         <Text style={Styles.txtType}>Popular deals</Text>
         <Pressable style={Styles.seeAll}>
           <Text style={Styles.txtSeeAll}>See All</Text>
         </Pressable>
       </View>
 
-      <View style={{marginTop: 34, height: '100%'}}>
+      <View style={{ marginTop: 34, height: '100%' }}>
         <FlatList
           data={dataPopular}
           renderItem={renderItemPopular} //gọi từ biến trên
@@ -196,7 +224,7 @@ const Styles = StyleSheet.create({
   },
   imgPop: {
     height: '60%',
-    width:'100%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -205,7 +233,7 @@ const Styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 13,
     elevation: 9,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
   },
   cardPopular: {
     backgroundColor: 'white',

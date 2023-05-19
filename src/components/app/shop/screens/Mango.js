@@ -9,10 +9,11 @@ import {
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
+  ToastAndroid,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
+import { addItem } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 import Swiper from 'react-native-swiper';
 import { categoryFilterChange, fetchProductById } from '../../../../redux-toolkit/reducer_slice/shop_slice/filterSlice';
 import { addfavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
@@ -86,26 +87,15 @@ const Mango = props => {
 
 
   const handleFavourite = () => {
-    console.log('=-=-=-=----------==-', dataProduct);
     dispatch(fetchFavourite({ id: idUser._id, product: dataProduct }));
   }
 
-
-
-
-
   const handleAddItem = () => {
     product = {
-      category: 'fruit',
-      cost: 12,
-      id: Math.random(),
-      image:
-        'https://fastly.picsum.photos/id/404/300/300.jpg?hmac=NPTkeNRfEEWulE2B5Q8f0iXu0MrUG1y0s-P_w5VioZA',
-      name: 'Mango',
-      quantity: quantity,
+      ...dataProduct,image: dataProduct.images[0].name,quantity:quantity
     };
     dispatch(addItem(product));
-
+    ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
     navigation.navigate('Cart', { screen: 'cart' });
   };
 
@@ -139,28 +129,6 @@ const Mango = props => {
     //minHeight : '100%'
     (dataProduct) ?
       <ScrollView style={styles.container}>
-
-        {/* Slideshow */}
-        {/* <View style={{ height: 200 }}>
-        <Swiper
-          style={styles.wrapper}
-          showsButtons={true}
-          autoplayTimeout={3}
-          autoplay={true}
-          showsPagination={false}>
-          <View style={styles.slide}>
-            <Image source={require('../../../../media/images/apple.png')} />
-          </View>
-          <View style={styles.slide}>
-            <Image source={require('../../../../media/images/apple.png')} />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../../../media/images/apple.png')}
-            />
-          </View>
-        </Swiper>
-      </View> */}
         <View>
           {/* Image Fruit */}
           <View style={styles.fruitContainer}>
