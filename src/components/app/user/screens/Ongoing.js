@@ -32,8 +32,8 @@ const Ongoing = props => {
   const message = useSelector(state => state.ordered.data.message);
   let currentOrder = {};
   const [showPopup, setShowPopup] = useState(false);
-
-  const role = 'admin';
+  const role = useSelector(state => state.login.userInfo.user.username)
+  console.log("USERNAME: ", role)
   const screenHeight = Dimensions.get('window').height;
   const maxModalHeight = screenHeight * 0.8;
 
@@ -340,6 +340,10 @@ if (role !== 'admin') {
             )}
           </>
         )}
+        <>
+        {currentOrder ? (
+
+        
         <Modal visible={showPopup} transparent={true} animationType="slide">
           <View style={styles.containerPopup}>
             <View style={[styles.popup, {maxHeight: maxModalHeight}]}>
@@ -384,6 +388,10 @@ if (role !== 'admin') {
             </View>
           </View>
         </Modal>
+        ): (
+          <Text></Text>
+        )}
+        </>
       </>
       <Toast/>
     </ScrollView>

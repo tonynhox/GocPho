@@ -42,8 +42,6 @@ export const loginGoogle = createAsyncThunk('LoginGoogle', async (result) => {
 
 export const loginUsername = createAsyncThunk('LoginUsername', async ({ username, password }) => {
     try {
-        console.log('User.............: ', username);
-        console.log('Password........: ', password);
         const response = await AxiosInstance().post('/user/login-username', { username, password });
         console.log(response);
         return response;

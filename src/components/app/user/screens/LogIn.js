@@ -5,6 +5,7 @@ import {
   Image,
   Pressable,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 
@@ -90,6 +91,8 @@ const LogIn = props => {
   };
 
   return (
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
+         
     <View style={styles.container}>
 
       {/* Main background image */}
@@ -130,6 +133,7 @@ const LogIn = props => {
       <View style={styles.passwordContainer}>
         <TextInput
           placeholder="Password"
+          secureTextEntry
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
           onChangeText={text => setPassword(text)}
@@ -169,6 +173,8 @@ const LogIn = props => {
         </Text>
       </View>
     </View>
+    <View style={{ height: 30 }} />
+</ScrollView>
   );
 };
 

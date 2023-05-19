@@ -87,7 +87,10 @@ const orderSlice = createSlice({
       .addCase(fetchBillById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
-        // console.log('ORDER::::', state.data);
+        if(state.data.bill.length > 0){
+          const lastElement = state.data.bill[state.data.bill.length - 1];
+          state.currentBillId = lastElement._id
+        }
       })
       .addCase(fetchBillById.rejected, (state, action) => {
         state.status = 'failed';
@@ -116,7 +119,6 @@ const orderSlice = createSlice({
         if(state.data.bill.length > 0){
           const lastElement = state.data.bill[state.data.bill.length - 1];
           state.currentBillId = lastElement._id
-          console.log("LAST CURRENT: ", lastElement, " - ", state.currentBillId)
         }
         state.status = 'succeeded';
       })
