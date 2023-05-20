@@ -32,8 +32,11 @@ const Ongoing = props => {
   const message = useSelector(state => state.ordered.data.message);
   let currentOrder = {};
   const [showPopup, setShowPopup] = useState(false);
-  const role = useSelector(state => state.login.userInfo.user.username)
+  let role = useSelector(state => state.login.userInfo.user.username)
   console.log("USERNAME: ", role)
+  if(role==null){
+    role='user';
+  }
   const screenHeight = Dimensions.get('window').height;
   const maxModalHeight = screenHeight * 0.8;
 

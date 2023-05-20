@@ -50,7 +50,6 @@ const Explore = props => {
   const handleSearch = value => {
     setSearch(value);
     dispatch(searchCategoryChange(value));
-    console.log('hello: ',value);
   };
 
   const handleCategory = id => {

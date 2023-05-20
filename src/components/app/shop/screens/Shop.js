@@ -159,9 +159,13 @@ const Shop = props => {
 
       <View style={[{ marginTop: 36 }, Styles.type]}>
         <Text style={Styles.txtType}>Categories</Text>
-        <Pressable style={Styles.seeAll}>
+        <TouchableOpacity style={Styles.seeAll}
+          onPress={() => {
+            props.navigation.navigate('Explore', { screen: 'Explores' })
+        }}
+        >
           <Text style={Styles.txtSeeAll}>See All</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={Styles.listCate}>
@@ -176,9 +180,17 @@ const Shop = props => {
 
       <View style={[{ marginTop: 53.17 }, Styles.type]}>
         <Text style={Styles.txtType}>Popular deals</Text>
-        <Pressable style={Styles.seeAll}>
+        <TouchableOpacity 
+          onPress={() => {
+            dispatch(categoryFilterChange('All'));
+            props.navigation.navigate('Explore', { screen: 'Explores' })
+            setTimeout(() => {
+                props.navigation.navigate('Fruit')
+            },1)
+        }}
+          style={Styles.seeAll}>
           <Text style={Styles.txtSeeAll}>See All</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={{ marginTop: 34, height: '100%' }}>

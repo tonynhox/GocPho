@@ -8,7 +8,9 @@ const OrderAccepted = (props) => {
             <Image source={require('../../../../media/images/OrderAccepted.png')} style={[styles.imgOrderAccepted]}/>
             <Text style = {[styles.orderAccepted]}>Your Order Has Been Accepted</Text>
             <Text style = {[styles.orderToast]}>We’ve accepted your order, and we’re getting it ready.</Text>
-            <Pressable style = {[styles.btnAccept]}>
+            <Pressable 
+                onPress={()=> navigation.navigate('Account',{screen:'order'})}
+                style = {[styles.btnAccept]}>
                 <Text style = {[styles.btnAcceptText]}>Track Order</Text>
             </Pressable>
             <Pressable style = {[styles.btnCancel]}>

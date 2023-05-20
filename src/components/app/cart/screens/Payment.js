@@ -8,12 +8,6 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
 import GetLocation from 'react-native-get-location';
 import {renderers} from 'react-native-popup-menu';
 import {fetchData} from '../../../../redux-toolkit/reducer_slice/cart_slice/getProductAPISlice';
@@ -26,6 +20,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import AxiosInstance from '../../axiosClient/AxiosInstance';
 import {fetchGetAddress} from '../../../../redux-toolkit/reducer_slice/user_slice/getAddressSlice';
+import { clearCart } from '../../../../redux-toolkit/reducer_slice/cart_slice/getCartSlice';
 
 const Payment = props => {
   const {navigation} = props;
@@ -427,6 +422,7 @@ const Payment = props => {
         style={[styles.btnAccept]}
         onPress={() => {
           //if thafnh cong
+          dispatch(clearCart());
           navigation.navigate('OrderAccepted');
           goOrder();
         }}>
@@ -747,6 +743,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
+    marginBottom:25
   },
   container: {
     padding: 16,

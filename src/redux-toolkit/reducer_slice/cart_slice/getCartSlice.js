@@ -25,6 +25,9 @@ const getCartSlice = createSlice({
     error: null,
   },
   reducers: {
+    clearCart: (state, action) => {
+      state.data = []
+    },
     addItem: (state, action) => {
       const itemCart= state.data.find(item => item._id===action.payload._id)
       !itemCart?state.data.push(action.payload):itemCart.quantity+=action.payload.quantity;
@@ -111,4 +114,5 @@ export const {sortListByTotalCost} = getCartSlice.actions;
 export const {decrementItemQuantity} = getCartSlice.actions;
 export const {incrementItemQuantity} = getCartSlice.actions;
 export const {addItem} = getCartSlice.actions;
+export const {clearCart} = getCartSlice.actions;
 export default getCartSlice.reducer;

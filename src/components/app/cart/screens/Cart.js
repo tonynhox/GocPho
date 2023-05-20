@@ -40,9 +40,7 @@ const Cart = props => {
   const dispatch = useDispatch();
   const dataCart = useSelector(state => state.cart.data);
   const idUser = useSelector(state => state.login.userInfo.user._id);
-  console.log('id nè',idUser)
   const handleUpRedux = id => {
-    console.log('IDDDD: ', id);
     dispatch(incrementItemQuantity(id));
   };
 
@@ -85,7 +83,7 @@ const Cart = props => {
     );
   }
 
-  
+
   const Item = ({ item }) => {
     return (
       // <Pressable onPress={()=> deleteItem(item._id)}>
@@ -144,9 +142,10 @@ const Cart = props => {
           </Pressable>
         </View>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Mango', { id: item._id })}
+            navigation.navigate('Mango', { id: item._id })
+          }
           }
           style={styles.standaloneRowFront}>
           <View style={styles.itemContainer}>
@@ -190,10 +189,10 @@ const Cart = props => {
   };
 
   //save cart 
-  useEffect(()=>{
-    updateAPICart(idUser,dataCart)
-  },[!isFocused])
-  
+  useEffect(() => {
+    updateAPICart(idUser, dataCart)
+  }, [!isFocused])
+
 
   return (
     <View style={styles.container}>
@@ -251,12 +250,14 @@ const Cart = props => {
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />
-
-      <Pressable
-        style={styles.btnSignUp}
-        onPress={() => navigation.navigate('Payment')}>
-        <Text style={styles.signUpInsideButton}>CheckOut</Text>
-      </Pressable>
+      {
+        dataCart.length>0 ? <Pressable
+          style={styles.btnSignUp}
+          onPress={() => navigation.navigate('Payment')}>
+          <Text style={styles.signUpInsideButton}>CheckOut</Text>
+        </Pressable>
+    : <></>
+      }
     </View>
   );
 };
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
   },
   standaloneRowBack: {
     alignItems: 'center',
-    backgroundColor:'red',
+    backgroundColor: 'red',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
