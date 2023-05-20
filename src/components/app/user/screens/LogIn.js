@@ -42,6 +42,7 @@ const LogIn = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const loading = useSelector(state => state.login.isLoggedIn)
 
   useEffect(() => {
     GoogleSignin.configure({});
@@ -60,10 +61,14 @@ const LogIn = props => {
 
   const signinUsername = async () => {
     try {
-      dispatch(loginUsername({ username, password }));
+      if(username&&password){
+        setIsLoading(true)
+        dispatch(loginUsername({ username, password }));
+      }
       console.log('User: ', username);
       console.log('Password: ', password);
     } catch (error) {
+      setIsLoading(loading)
       console.log(error);
     }
   }
@@ -93,7 +98,6 @@ const LogIn = props => {
     }
   };
 
-  const loading = useSelector(state => state.login.isLoggedIn)
 
   useEffect(() => {
     setIsLoading(loading);
