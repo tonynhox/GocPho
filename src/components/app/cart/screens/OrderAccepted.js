@@ -1,20 +1,23 @@
-import { StyleSheet, Text, View, Image,Pressable} from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 
 const OrderAccepted = (props) => {
     const { navigation } = props;
     return (
         <View style={[styles.container]}>
-            <Image source={require('../../../../media/images/OrderAccepted.png')} style={[styles.imgOrderAccepted]}/>
-            <Text style = {[styles.orderAccepted]}>Your Order Has Been Accepted</Text>
-            <Text style = {[styles.orderToast]}>We’ve accepted your order, and we’re getting it ready.</Text>
-            <Pressable 
-                onPress={()=> navigation.navigate('Account',{screen:'order'})}
-                style = {[styles.btnAccept]}>
-                <Text style = {[styles.btnAcceptText]}>Track Order</Text>
+            <Image source={require('../../../../media/images/OrderAccepted.png')} style={[styles.imgOrderAccepted]} />
+            <Text style={[styles.orderAccepted]}>Your Order Has Been Accepted</Text>
+            <Text style={[styles.orderToast]}>We’ve accepted your order, and we’re getting it ready.</Text>
+            <Pressable
+                onPress={() => navigation.navigate('Account', { screen: 'order' })}
+                style={[styles.btnAccept]}>
+                <Text style={[styles.btnAcceptText]}>Track Order</Text>
             </Pressable>
-            <Pressable style = {[styles.btnCancel]}>
-                <Text style = {[styles.btnCancelText]}>Back Home</Text>
+            <Pressable
+                onPress={() => navigation.navigate('Shop')}
+
+                style={[styles.btnCancel]}>
+                <Text style={[styles.btnCancelText]}>Back Home</Text>
             </Pressable>
         </View>
     )
@@ -23,7 +26,7 @@ const OrderAccepted = (props) => {
 export default OrderAccepted
 
 const styles = StyleSheet.create({
-    btnCancelText:{
+    btnCancelText: {
         fontFamily: 'Klarna Text',
         fontWeight: "700",
         fontSize: 18,
@@ -38,9 +41,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1, 
+        borderWidth: 1,
         borderSolid: 'solid',
-        borderColor: '#FF5E00' ,
+        borderColor: '#FF5E00',
         marginTop: 20,
     },
     btnAcceptText: {
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     orderToast: {
-        paddingTop : 12,
+        paddingTop: 12,
         textAlign: 'center',
         fontFamily: 'Klarna Text',
         fontWeight: "400",
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
         height: 60,
     },
     orderAccepted: {
-        paddingTop : 60,
+        paddingTop: 60,
         textAlign: 'center',
         fontFamily: 'Klarna Text',
         fontWeight: "700",

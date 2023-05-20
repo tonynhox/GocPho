@@ -21,7 +21,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { showProductDetail } from '../../../../redux-toolkit/selector';
 import { fetchFavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
-const renderItemPopular = ({ item,navigation }) => {
+const renderItemPopular = ({ item, navigation }) => {
 
   const { _id, images, price, name, quantity, category } = item;
   let image = images[0].name;
@@ -101,7 +101,7 @@ const Mango = props => {
 
   const handleAddItem = () => {
     product = {
-      ...dataProduct,image: dataProduct.images[0].name,quantity:quantity
+      ...dataProduct, image: dataProduct.images[0].name, quantity: quantity
     };
     dispatch(addItem(product));
     ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
@@ -218,8 +218,8 @@ const Mango = props => {
 
         </View>
       </ScrollView> :
-      <View>
-        <Text style={{ fontSize: 50 }}>Đang tải dữ liệu</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size="large" color="#FF5E00"/>
       </View>
   );
 };

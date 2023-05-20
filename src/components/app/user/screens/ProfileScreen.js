@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Alert, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, Pressable, ToastAndroid } from 'react-native';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeStatusLogin } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
@@ -48,7 +48,7 @@ const ProfileScreen = props => {
       index: 0,
       routes: [{ name: 'Shop' }],
     });
-    await dispatch(changeStatusLogin(false));
+    dispatch(await changeStatusLogin(false));
   };
 
   return (
@@ -78,16 +78,26 @@ const ProfileScreen = props => {
             }}
             source={{ uri: infor.user.avatar }}
           />
-          <View >
+          <View style={{ width: '100%' }} >
             <Text style={styles.textAccountGoogle}>{infor.user.fullname}</Text>
-            <Pressable onPress={() => props.navigation.navigate('EditProfile')} >
+            <Pressable
+              style={{ width: '100%' }}
+              onPress={() => {
+                ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
+                // props.navigation.navigate('EditProfile')
+              }
+              }
+            >
               <Text style={[styles.textAccountGoogle, { fontWeight: '450' }]}>Edit Profile</Text>
             </Pressable>
           </View>
         </View>
 
         <Pressable
-          onPress={() => props.navigation.navigate('ChangePassword')}
+          onPress={() => {
+            ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
+            // props.navigation.navigate('ChangePassword')}
+          }}
           style={styles.bodyAccount}>
           <Image
             source={require('../../../../media/images/iconKey.png')}
@@ -97,7 +107,10 @@ const ProfileScreen = props => {
         </Pressable>
 
         <Pressable
-          onPress={() => props.navigation.navigate('Mycards')}
+          onPress={() => {
+            ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
+            // props.navigation.navigate('Mycards')
+          }}
           style={styles.bodyAccount}>
           <Image
             source={require('../../../../media/images/iconCard.png')}
@@ -108,31 +121,38 @@ const ProfileScreen = props => {
 
         <Text style={styles.textBody}>App Settings</Text>
 
-        <View style={styles.bodyAccount}>
+        <Pressable
+          onPress={() => {
+            ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
+          }}
+          style={styles.bodyAccount}>
           <Image
             source={require('../../../../media/images/iconNotification.png')}
             style={{ width: 20, height: 24 }}
           />
           <Text style={styles.textAccount}>Notifications</Text>
-        </View>
+      </Pressable>
 
-        <View style={styles.bodyAccount}>
-          <Image
-            source={require('../../../../media/images/iconLanguage.png')}
-            style={{ width: 24, height: 24 }}
-          />
-          <Text style={styles.textAccount}>Language</Text>
-        </View>
+      <Pressable 
+        onPress={() => {
+          ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);}}
+        style={styles.bodyAccount}>
+        <Image
+          source={require('../../../../media/images/iconLanguage.png')}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text style={styles.textAccount}>Language</Text>
+      </Pressable>
 
-        <Pressable style={styles.bodyAccount} onPress={askForLogout}>
-          <Image
-            source={require('../../../../media/images/iconLogout.png')}
-            style={{ width: 25, height: 25 }}
-          />
-          <Text style={styles.textAccount}>Logout</Text>
-        </Pressable>
-      </View>
+      <Pressable style={styles.bodyAccount} onPress={askForLogout}>
+        <Image
+          source={require('../../../../media/images/iconLogout.png')}
+          style={{ width: 25, height: 25 }}
+        />
+        <Text style={styles.textAccount}>Logout</Text>
+      </Pressable>
     </View>
+    </View >
   );
 };
 

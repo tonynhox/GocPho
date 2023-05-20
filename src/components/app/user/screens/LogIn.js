@@ -6,8 +6,9 @@ import {
   Pressable,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import {
   GoogleSignin,
@@ -21,7 +22,7 @@ import loginSlice, {
 
 } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
-import {useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CountryPicker from 'react-native-country-picker-modal';
 
@@ -30,17 +31,17 @@ GoogleSignin.configure();
 const LogIn = props => {
   const [user, setUser] = useState(null);
 
-  const {navigation} = props;
+  const { navigation } = props;
 
   const [countryCode, setCountryCode] = useState('VN');
   const [callingCode, setCallingCode] = useState('84');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     GoogleSignin.configure({});
@@ -59,21 +60,23 @@ const LogIn = props => {
 
   const signinUsername = async () => {
     try {
-      dispatch( loginUsername({username,password}));
-    console.log('User: ', username);
-    console.log('Password: ', password);
+      dispatch(loginUsername({ username, password }));
+      console.log('User: ', username);
+      console.log('Password: ', password);
     } catch (error) {
       console.log(error);
     }
-    
   }
   const signIn = async () => {
     try {
+      setIsLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setUser(userInfo);
       dispatch(loginGoogle(userInfo));
     } catch (error) {
+      setIsLoading(loading);
+
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log('user cancelled the login flow ');
@@ -90,91 +93,101 @@ const LogIn = props => {
     }
   };
 
+  const loading = useSelector(state => state.login.isLoggedIn)
+
+  useEffect(() => {
+    setIsLoading(loading);
+  }, [loading])
+
   return (
-    <ScrollView automaticallyAdjustKeyboardInsets={true}>
-         
-    <View style={styles.container}>
 
-      {/* Main background image */}
-      <Image
-        source={require('../../../../media/images/LoginPhoneEdited.png')}
-      />
-      {/* For the security */}
-      <Text style={styles.sentSMS} numberOfLines={2}>
-        Enter your phone number and password to access your account{' '}
-      </Text>
-      {/* Phone Number input */}
-      <View style={styles.passwordContainer}>
-        <View style={styles.inputPasswordConfirmPassword}>
-          <CountryPicker
-            style={{alignItems: 'center'}}
-            withFilter
-            countryCode={countryCode}
-            withFlag
-            withAlphaFilter
-            withEmoji={true}
-            withCallingCode={false}
-            withCurrencyButton={false}
-            onSelect={country => {
-              const {cca2, callingCode} = country;
-              console.log('country: ', country);
-              setCountryCode(cca2);
-              setCallingCode(callingCode);
-            }}
+    (isLoading) ?
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size="large" color="#FF5E00"/>
+      </View> :
+      <ScrollView automaticallyAdjustKeyboardInsets={true}>
+        <View style={styles.container}>
+
+          {/* Main background image */}
+          <Image
+            source={require('../../../../media/images/LoginPhoneEdited.png')}
           />
-          <TextInput
-            placeholder="Phone Number"
-            placeholderTextColor={'#AC8E71'}
-            onChangeText={text => setUsername(text)}
-          />
+          {/* For the security */}
+          <Text style={styles.sentSMS} numberOfLines={2}>
+            Enter your phone number and password to access your account{' '}
+          </Text>
+          {/* Phone Number input */}
+          <View style={styles.passwordContainer}>
+            <View style={styles.inputPasswordConfirmPassword}>
+              <CountryPicker
+                style={{ alignItems: 'center' }}
+                withFilter
+                countryCode={countryCode}
+                withFlag
+                withAlphaFilter
+                withEmoji={true}
+                withCallingCode={false}
+                withCurrencyButton={false}
+                onSelect={country => {
+                  const { cca2, callingCode } = country;
+                  console.log('country: ', country);
+                  setCountryCode(cca2);
+                  setCallingCode(callingCode);
+                }}
+              />
+              <TextInput
+                placeholder="Phone Number"
+                placeholderTextColor={'#AC8E71'}
+                onChangeText={text => setUsername(text)}
+              />
+            </View>
+          </View>
+          {/* Confirm Password input */}
+          <View style={styles.passwordContainer}>
+            <TextInput
+              placeholder="Password"
+              secureTextEntry
+              placeholderTextColor={'#AC8E71'}
+              style={styles.inputPasswordConfirmPassword}
+              onChangeText={text => setPassword(text)}
+            />
+
+            <Image
+              style={styles.iconEye}
+              source={require('../../../../media/images/IconEye.png')}
+            />
+          </View>
+          <View style={styles.forgotPasswordContainer}>
+            <View></View>
+            <Text style={styles.forgotPassword}>Forgot Password</Text>
+          </View>
+
+          <Pressable style={styles.btnSignUp} onPress={() => signinUsername()}>
+            <Text style={styles.signUpInsideButton}>Sign In</Text>
+          </Pressable>
+
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <GoogleSigninButton
+              style={{ width: 192, height: 48 }}
+              size={GoogleSigninButton.Size.Wide}
+              color={GoogleSigninButton.Color.Dark}
+              onPress={signIn}
+            />
+          </View>
+          {/* Already have an account? Login */}
+          <View style={styles.alreadyHaveAccount}>
+            <Text style={[styles.already, { color: '#7F4E1D' }]}>
+              Don't have an account?{' '}
+            </Text>
+            <Text
+              style={[styles.already, { color: '#FF5E00' }]}
+              onPress={() => navigation.navigate('SignUp')}>
+              Sign Up
+            </Text>
+          </View>
         </View>
-      </View>
-      {/* Confirm Password input */}
-      <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Password"
-          secureTextEntry
-          placeholderTextColor={'#AC8E71'}
-          style={styles.inputPasswordConfirmPassword}
-          onChangeText={text => setPassword(text)}
-        />
-
-        <Image
-          style={styles.iconEye}
-          source={require('../../../../media/images/IconEye.png')}
-        />
-      </View>
-      <View style={styles.forgotPasswordContainer}>
-        <View></View>
-        <Text style={styles.forgotPassword}>Forgot Password</Text>
-      </View>
-
-      <Pressable style={styles.btnSignUp} onPress={() => signinUsername()}>
-        <Text style={styles.signUpInsideButton}>Sign In</Text>
-      </Pressable>
-
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <GoogleSigninButton
-          style={{width: 192, height: 48}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={signIn}
-        />
-      </View>
-      {/* Already have an account? Login */}
-      <View style={styles.alreadyHaveAccount}>
-        <Text style={[styles.already, {color: '#7F4E1D'}]}>
-          Don't have an account?{' '}
-        </Text>
-        <Text
-          style={[styles.already, {color: '#FF5E00'}]}
-          onPress={() => navigation.navigate('SignUp')}>
-          Sign Up
-        </Text>
-      </View>
-    </View>
-    <View style={{ height: 30 }} />
-</ScrollView>
+        <View style={{ height: 30 }} />
+      </ScrollView>
   );
 };
 
