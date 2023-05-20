@@ -21,49 +21,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { showProductDetail } from '../../../../redux-toolkit/selector';
 import { fetchFavourite } from '../../../../redux-toolkit/reducer_slice/user_slice/loginSlice';
 
-const renderItemPopular = ({ item, navigation }) => {
 
-  const { _id, images, price, name, quantity, category } = item;
-  let image = images[0].name;
-  const handleAddItem = () => {
-    product = {
-      _id: _id, image: image, quantity: 1, price: price, name: name
-    };
-    dispatch(addItem(product));
-    ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
-
-  };
-  return (
-    <Pressable onPress={() => {
-      navigation.navigate('Mango', { id: _id })
-    }
-    }>
-      <View style={{ marginVertical: 10 }} >
-        <View style={[styles.boxShadown, styles.cardPopular]}>
-          <View style={styles.imgPop}>
-            <Image style={{ width: '90%', height: '90%', resizeMode: 'contain' }} source={{ uri: image }} />
-          </View>
-          <View style={{ position: 'relative', marginHorizontal: 10 }}>
-            <Text style={styles.txtNamePop}>{name}</Text>
-            <Text style={styles.txtKg}>{quantity}kg,priceg</Text>
-            <Text style={styles.txtPrice}>$ {price}</Text>
-
-          </View>
-
-          <TouchableOpacity
-            onPress={handleAddItem}
-          >
-            <Image
-              style={styles.imgAdd}
-              source={require('../../../../media/images/icAdd.png')}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Pressable>
-
-  );
-};
 
 const Mango = props => {
   const { navigation } = props;
@@ -74,7 +32,70 @@ const Mango = props => {
   const [isFavourite, setIsfavourite] = useState(false);
   const dataFavourites = useSelector(state => state.login.userInfo.user.favorites);
   const idUser = useSelector(state => state.login.userInfo.user);
-  const dataPopular = useSelector(state => state.dataAPI.data.slice(8, 18));
+  const dataPopular = useSelector(state => state.dataAPI.data);
+
+
+  const randomElements = useSelector(state => {
+    const shuffledArray = [...dataPopular];
+  
+    // Phương pháp Fisher-Yates (shuffle)
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+  
+    return shuffledArray.slice(0, 8); // Lấy 8 phần tử đầu tiên sau khi xáo trộn
+
+  });
+
+
+  //itemflat
+  const renderItemPopular = ({ item, navigation }) => {
+
+    const { _id, images, price, name, quantity, category } = item;
+    let image = images[0].name;
+    const handleAddItem = () => {
+      product = {
+        _id: _id, image: image, quantity: 1, price: price, name: name
+      };
+      dispatch(addItem(product));
+      ToastAndroid.show('Item added to cart successfully!', ToastAndroid.SHORT);
+  
+    };
+    return (
+      <Pressable onPress={() => {
+        setDataProduct()
+        navigation.navigate('Mango', { id: _id })
+      }
+      }>
+        <View style={{ marginVertical: 10 }} >
+          <View style={[styles.boxShadown, styles.cardPopular]}>
+            <View style={styles.imgPop}>
+              <Image style={{ width: '90%', height: '90%', resizeMode: 'contain' }} source={{ uri: image }} />
+            </View>
+            <View style={{ position: 'relative', marginHorizontal: 10 }}>
+              <Text style={styles.txtNamePop}>{name}</Text>
+              <Text style={styles.txtKg}>{quantity}kg,priceg</Text>
+              <Text style={styles.txtPrice}>$ {price}</Text>
+  
+            </View>
+  
+            <TouchableOpacity
+              onPress={handleAddItem}
+            >
+              <Image
+                style={styles.imgAdd}
+                source={require('../../../../media/images/icAdd.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Pressable>
+  
+    );
+  };
+
+
 
   useEffect(() => {
     if (id) {
@@ -208,7 +229,7 @@ const Mango = props => {
           <Text style={styles.more}>You may also need</Text>
           <View style={{ marginVertical: 20 }}>
             <FlatList
-              data={dataPopular}
+              data={randomElements}
               renderItem={({ item }) => renderItemPopular({ item, navigation })} //gọi từ biến trên
               keyExtractor={item => item._id} //số không trùng
               showsHorizontalScrollIndicator={false}
