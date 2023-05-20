@@ -32,10 +32,10 @@ const Ongoing = props => {
   const message = useSelector(state => state.ordered.data.message);
   let currentOrder = {};
   const [showPopup, setShowPopup] = useState(false);
-  let role = useSelector(state => state.login.userInfo.user.username)
-  console.log("USERNAME: ", role)
-  if(role==null){
-    role='user';
+  let role = useSelector(state => state.login.userInfo.user.username);
+  console.log('USERNAME: ', role);
+  if (role == null) {
+    role = 'user';
   }
   const screenHeight = Dimensions.get('window').height;
   const maxModalHeight = screenHeight * 0.8;
@@ -53,42 +53,31 @@ const Ongoing = props => {
     );
   }
 
-  // let billOrder = [];
-  // if (role != 'admin') {
-  //   billOrder = useSelector(state => state.ordered.data.bill);
-  //   useEffect(() => {
-  //     dispatch(fetchBillById(idUser));
-  //   }, [idUser]);
-  // } else {
-  //   billOrder = useSelector(state => state.ordered.data.bill);
-  //   console.log('BILL ORDER ADMIN: ', billOrder);
-  //   useEffect(() => {
-  //     dispatch(fetchAllBills());
-  //   }, []);
-  // }
   let billOrder = [];
-const fetchBillEffect = () => {
-  dispatch(fetchBillById(idUser));
-};
+  const fetchBillEffect = () => {
+    dispatch(fetchBillById(idUser));
+  };
 
-const fetchAllBillsEffect = () => {
-  dispatch(fetchAllBills());
-};
+  const fetchAllBillsEffect = () => {
+    dispatch(fetchAllBills());
+  };
 
-if (role !== 'admin') {
-  billOrder = useSelector(state => state.ordered.data.bill);
-  useEffect(fetchBillEffect, [idUser]);
-} else {
-  billOrder = useSelector(state => state.ordered.data.bill);
-  console.log('BILL ORDER ADMIN: ', billOrder);
-  useEffect(fetchAllBillsEffect, []);
-}
-
+  if (role !== 'admin') {
+    billOrder = useSelector(state => state.ordered.data.bill);
+    useEffect(fetchBillEffect, [idUser]);
+  } else {
+    billOrder = useSelector(state => state.ordered.data.bill);
+    console.log('BILL ORDER ADMIN: ', billOrder);
+    useEffect(fetchAllBillsEffect, []);
+  }
 
   let idReceived = useSelector(state => state.ordered.currentBillId);
   console.log('ID RECEIVED: ', idReceived);
   const changeStatusBill = num => {
-    setShowPopup(false)
+    setShowPopup(false);
+    if (role != 'admin') {
+      return;
+    }
     let currentStatus = num;
     if (currentStatus == 1) {
       currentStatus++;
@@ -96,7 +85,7 @@ if (role !== 'admin') {
         type: 'success',
         text1: 'You Accept The Order',
       });
-    }else if( currentStatus == 2){
+    } else if (currentStatus == 2) {
       currentStatus++;
       Toast.show({
         type: 'success',
@@ -107,14 +96,12 @@ if (role !== 'admin') {
   };
 
   const reviewAndConfirmBill = num => {
-    if (role == 'admin') {
-      togglePopup();
-    }
+    togglePopup();
   };
 
   const confirmOrderReceived = num => {
     if (role == 'admin') {
-      changeStatusBill(num)
+      changeStatusBill(num);
     }
   };
 
@@ -167,7 +154,6 @@ if (role !== 'admin') {
   };
 
   //popup review order
-
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -239,7 +225,7 @@ if (role !== 'admin') {
                                   Press to get
                                 </Text>
                               ) : (
-                                <Text></Text>
+                                <Text>Press to see</Text>
                               )}
                             </>
                           </View>
@@ -248,17 +234,42 @@ if (role !== 'admin') {
                     )}
                     {statusDelivery === 2 && (
                       <>
-                        <View style={[styles.item]}>
-                          <Image
-                            source={require('../../../../media/images/IconCheckOn.png')}
-                            style={[styles.imgCheckOn]}
-                          />
-                          <Image
-                            source={require('../../../../media/images/IconItem.png')}
-                            style={[styles.imgItem]}
-                          />
-                          <Text style={[styles.textItem]}>Waiting Accept</Text>
-                        </View>
+                        <Pressable onPress={reviewAndConfirmBill}>
+                          <View style={[styles.item]}>
+                            <Image
+                              source={require('../../../../media/images/IconCheckOn.png')}
+                              style={[styles.imgCheckOn]}
+                            />
+                            <Image
+                              source={require('../../../../media/images/IconItem.png')}
+                              style={[styles.imgItem]}
+                            />
+                            <View
+                              style={{
+                                flexDirection: 'column',
+                                justifyContent: 'flex-start',
+                                alignItems: 'center',
+                              }}>
+                              <Text style={[styles.textItem]}>
+                                Waiting Accept
+                              </Text>
+                              <>
+                                {role == 'admin' ? (
+                                  <Text
+                                    style={{
+                                      textDecorationLine: 'underline',
+                                      marginTop: -25,
+                                    }}>
+                                    Press to get
+                                  </Text>
+                                ) : (
+                                  <Text>Press to see</Text>
+                                )}
+                              </>
+                            </View>
+                          </View>
+                        </Pressable>
+
                         <Pressable
                           style={({pressed}) => [
                             {opacity: pressed ? 0.5 : 1.0},
@@ -300,17 +311,42 @@ if (role !== 'admin') {
                     )}
                     {statusDelivery === 3 && (
                       <>
-                        <View style={[styles.item]}>
-                          <Image
-                            source={require('../../../../media/images/IconCheckOn.png')}
-                            style={[styles.imgCheckOn]}
-                          />
-                          <Image
-                            source={require('../../../../media/images/IconItem.png')}
-                            style={[styles.imgItem]}
-                          />
-                          <Text style={[styles.textItem]}>Waiting Accept</Text>
-                        </View>
+                        <Pressable onPress={reviewAndConfirmBill}>
+                          <View style={[styles.item]}>
+                            <Image
+                              source={require('../../../../media/images/IconCheckOn.png')}
+                              style={[styles.imgCheckOn]}
+                            />
+                            <Image
+                              source={require('../../../../media/images/IconItem.png')}
+                              style={[styles.imgItem]}
+                            />
+                            <View
+                              style={{
+                                flexDirection: 'column',
+                                justifyContent: 'flex-start',
+                                alignItems: 'center',
+                              }}>
+                              <Text style={[styles.textItem]}>
+                                Waiting Accept
+                              </Text>
+                              <>
+                                {role == 'admin' ? (
+                                  <Text
+                                    style={{
+                                      textDecorationLine: 'underline',
+                                      marginTop: -25,
+                                    }}>
+                                    Press to get
+                                  </Text>
+                                ) : (
+                                  <Text>Press to see</Text>
+                                )}
+                              </>
+                            </View>
+                          </View>
+                        </Pressable>
+
                         <View style={[styles.item]}>
                           <Image
                             source={require('../../../../media/images/IconCheckOn.png')}
@@ -344,59 +380,59 @@ if (role !== 'admin') {
           </>
         )}
         <>
-        {currentOrder ? (
+          {currentOrder ? (
+            <Modal visible={showPopup} transparent={true} animationType="slide">
+              <View style={styles.containerPopup}>
+                <View style={[styles.popup, {maxHeight: maxModalHeight}]}>
+                  <Text style={styles.title}>Order #{currentOrder._id}</Text>
 
-        
-        <Modal visible={showPopup} transparent={true} animationType="slide">
-          <View style={styles.containerPopup}>
-            <View style={[styles.popup, {maxHeight: maxModalHeight}]}>
-              <Text style={styles.title}>Order #{currentOrder._id}</Text>
-
-              <ScrollView contentContainerStyle={styles.contentContainer}>
-                <View style={styles.content}>
-                  {currentOrder.bill.map(item => (
-                    <View style={styles.itemPopup} key={item._id}>
-                      <Text>Name: {item.name}</Text>
-                      <Text>Price: {item.price}</Text>
-                      <Text>Quantity: {item.quantity}</Text>
-                      <Text>Total: {item.price * item.quantity}</Text>
+                  <ScrollView contentContainerStyle={styles.contentContainer}>
+                    <View style={styles.content}>
+                      {currentOrder.bill.map(item => (
+                        <View style={styles.itemPopup} key={item._id}>
+                          <Text>Name: {item.name}</Text>
+                          <Text>Price: {item.price}</Text>
+                          <Text>Quantity: {item.quantity}</Text>
+                          <Text>Total: {item.price * item.quantity}</Text>
+                        </View>
+                      ))}
                     </View>
-                  ))}
+                  </ScrollView>
+
+                  <View style={styles.addressPopup}>
+                    <Text>Address: {currentOrder.address}</Text>
+                  </View>
+                  <View style={styles.total}>
+                    {currentOrder.payment == 1 ? (
+                      <Text>Payment: ZaloPay</Text>
+                    ) : (
+                      <Text>Payment: COD</Text>
+                    )}
+
+                    <Text>Total Price: {currentOrder.totalPrice}</Text>
+                  </View>
+
+                  <View style={styles.buttons}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={togglePopup}>
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => changeStatusBill(1)}>
+                      <Text style={styles.buttonText}>OK</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </ScrollView>
-
-              <View style={styles.addressPopup}>
-                <Text>Address: {currentOrder.address}</Text>
               </View>
-              <View style={styles.total}>
-                {currentOrder.payment == 1 ? (
-                  <Text>Payment: ZaloPay</Text>
-                ) : (
-                  <Text>Payment: COD</Text>
-                )}
-
-                <Text>Total Price: {currentOrder.totalPrice}</Text>
-              </View>
-
-              <View style={styles.buttons}>
-                <TouchableOpacity style={styles.button} onPress={togglePopup}>
-                  <Text style={styles.buttonText}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => changeStatusBill(1)}>
-                  <Text style={styles.buttonText}>OK</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-        ): (
-          <Text></Text>
-        )}
+            </Modal>
+          ) : (
+            <Text></Text>
+          )}
         </>
       </>
-      <Toast/>
+      <Toast />
     </ScrollView>
   );
 };

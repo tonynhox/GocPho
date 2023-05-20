@@ -1,160 +1,88 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Modal, StyleSheet, Dimensions} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const OrderPopup = ({order, onClose, onConfirm}) => {
-  order = {
-    _id: '6467b4c0bb4539076c4e601d',
-    idUser: '645de2e81f37e6f3e669af9d',
-    bill: [
-      {
-        name: 'huy',
-        price: 2222,
-        quantity: 9,
-        _id: '645d071305ab96b8gadfgffd67bf4',
-      },
-      {
-        name: 'huy',
-        price: 2222,
-        quantity: 9,
-        _id: '645d07130asdfasd5ab9gdfg6b8ffd67bf4',
-      },
-      {
-        name: 'trong',
-        price: 111,
-        quantity: 21,
-        _id: '645d072405ab9asfasf6b8ffd67bf6',
-      },
-      {
-        name: 'huan',
-        price: 333,
-        quantity: 11,
-        _id: '645d3ca352c2asf6470deasdf5cd710',
-      },
-      {
-        name: 'huan',
-        price: 333,
-        quantity: 11,
-        _id: '645d3ca352c26sdfasd470deasdf5cd710',
-      },
-      {
-        name: 'huan',
-        price: 333,
-        quantity: 11,
-        _id: '645d3ca352asfc26asfasf470deasdf5cd710',
-      },
-      {
-        name: 'huan',
-        price: 333,
-        quantity: 11,
-        _id: '645d3ca352c26470deasdf5cd710',
-      },
-    ],
-    address: 'abc',
-    payment: 1,
-    status: [
-      {
-        number: 1,
-        name: 'Đang xử lý',
-        date: 'Sat May 20 2023 00:41:20 GMT+0700 (Indochina Time)',
-        _id: '6467b4c0bb4539076c4e6021',
-      },
-    ],
-    timeDesire: '11/11/2222',
-    totalPrice: 11111111,
-    __v: 0,
+function MyComponent() {
+  const data = [
+    {"_id": "6466421d8c51bdc2f73c63f5", "name": "abc", "status": 0},
+    {"_id": "646642468c51bdc2f73c6401", "name": "Trong Tre, Ho Chi Minh", "status": 0},
+    {"_id": "6466437a8c51bdc2f73c640e", "name": "Cong Vien LE Thi Rieng", "status": 0},
+    {"_id": "64664c67292754182b33b3bd", "name": "abc", "status": 0},
+    {"_id": "64664ff9db794f281ac25620", "name": "test", "status": 0},
+    {"_id": "646650deccda31da786007f4", "name": "test", "status": 1},
+    {"_id": "646650f2ccda31da7860081c", "name": "testasldfjlaskdjflasdjkf", "status": 0},
+    {"_id": "646651d4f863a5659b3c5d54", "name": "testhhhhhh", "status": 0},
+    {"_id": "646652b98382e7abe1196d8b", "name": "OOOOOOOOOOOOOOOOOO", "status": 0},
+    {"_id": "646653578382e7abe1196e14", "name": "bla bla", "status": 0},
+    {"_id": "646654288382e7abe1196ea4", "name": "test", "status": 0},
+    {"_id": "646654d18382e7abe1196fcf", "name": "avc", "status": 0}
+  ];
+
+  const handleButtonClick = (id) => {
+    // Handle the button click for a specific row
+    console.log('Button clicked for ID:', id);
   };
-  const screenHeight = Dimensions.get('window').height;
-  const maxModalHeight = screenHeight * 0.8;
-
-  const {_id, bill, totalPrice} = order;
 
   return (
-    <Modal visible={true} transparent={true} animationType="slide">
-      <View style={styles.container}>
-        <View style={[styles.popup, { maxHeight: maxModalHeight }]}>
-          <Text style={styles.title}>Order #{_id}</Text>
-
-          <ScrollView contentContainerStyle={styles.contentContainer}>
-            <View style={styles.content}>
-              {bill.map((item) => (
-                <View style={styles.item} key={item._id}>
-                  <Text>Name: {item.name}</Text>
-                  <Text>Price: {item.price}</Text>
-                  <Text>Quantity: {item.quantity}</Text>
-                  <Text>Total: {item.price * item.quantity}</Text>
-                </View>
-              ))}
-            </View>
-          </ScrollView>
-
-          <View style={styles.total}>
-            <Text>Total Price: {totalPrice}</Text>
-          </View>
-
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.button} onPress={onClose}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={onConfirm}>
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
+    <View style={styles.container}>
+      {data.map(item => (
+        <View key={item._id} style={styles.rowContainer}>
+          <Text style={styles.nameText}>{item.name}</Text>
+          {item.status === 1 && <Text style={styles.defaultText}>Default</Text>}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleButtonClick(item._id)}
+          >
+            <Text style={styles.buttonText}>Change</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
+      ))}
+    </View>
   );
-};
-
-export default OrderPopup;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
+    backgroundColor: '#f5f5f5',
   },
-  popup: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-    width: '80%',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  contentContainer: {
-    flexGrow: 1,
-  },
-  content: {
-    flex: 1,
-  },
-  item: {
-    marginBottom: 10,
-  },
-  total: {
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingTop: 10,
-    marginTop: 10,
-    alignItems: 'flex-end',
-  },
-  buttons: {
+  rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 2,
+  },
+  nameText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  defaultText: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: 'red',
   },
   button: {
-    marginLeft: 10,
-    padding: 10,
-    backgroundColor: '#ccc',
-    borderRadius: 5,
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   buttonText: {
-    color: '#fff',
+    fontSize: 16,
+    color: '#ffffff',
     fontWeight: 'bold',
   },
 });
+
+export default MyComponent;

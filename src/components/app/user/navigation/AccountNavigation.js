@@ -97,7 +97,7 @@ const Navigations = {
     { component: ProfileNavigation, name: 'Profile', options: {} },
     { component: StackTopOrder, name: 'order', options: { headerShown: false } },
     { component: Address, name: 'Address', options: {} },
-    { component: Payment, name: 'Payment', options: {} },
+    // { component: Payment, name: 'Payment', options: {} },
   ]
 }
 

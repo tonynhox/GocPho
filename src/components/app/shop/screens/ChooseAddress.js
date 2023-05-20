@@ -10,6 +10,7 @@ import {
   RefreshControl,
   ScrollView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -148,33 +149,29 @@ const ChooseAddress = () => {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }>
-              <Text style={styles.text2}>Address</Text>
-              {dataAddress.map(address => (
-                <Pressable
-                  style={styles.changeDefault}
-                  key={address._id}
-                  onPress={() => changeStatusAddress(address._id)}
-                  onLongPress={() => removeAddress(address._id)}>
-                  <View style={styles.hihi}>
-                    <View style={styles.nameAndChange}>
-                      <Text style={styles.text3} numberOfLines={2}>
-                        {address.name}
-                      </Text>
-                      <Text
-                        onPress={() => changeAddress(address._id)}
-                        style={styles.changeButton}>
-                        Change
-                      </Text>
+              <View style={styles.container}>
+                {dataAddress.map(item => (
+                  <Pressable
+                    key={item._id}
+                    onPress={() => changeStatusAddress(item._id)}
+                    onLongPress={() => removeAddress(item._id)}>
+                    <View key={item._id} style={styles.rowContainer}>
+                      <View style={{flexDirection:'column'}}>
+
+                      <Text style={styles.nameText} numberOfLines={1}>{item.name}</Text>
+                      {item.status === 1 && (
+                        <Text style={styles.defaultText}>Default</Text>
+                        )}
+                        </View>
+                      <TouchableOpacity
+                        style={styles.button}
+                        >
+                        <Text style={styles.buttonText} onPress={()=> changeAddress(item._id)}>Change</Text>
+                      </TouchableOpacity>
                     </View>
-                    {/* <Text style={styles.text4}>abc</Text> */}
-                  </View>
-                  {address.status == 1 ? (
-                    <Text style={styles.text5}>Default</Text>
-                  ) : (
-                    <Text></Text>
-                  )}
-                </Pressable>
-              ))}
+                  </Pressable>
+                ))}
+              </View>
 
               <Pressable onPress={() => newAddress()}>
                 <View style={styles.hehe}>
@@ -182,7 +179,7 @@ const ChooseAddress = () => {
                     style={styles.ImageNew}
                     source={require('../../../../media/images/PlusIcon.png')}
                   />
-                  <Text style={styles.text6}>New Address</Text>
+                  <Text style={styles.text6} onPress={() => newAddress()}>New Address</Text>
                 </View>
               </Pressable>
               <Toast numberOfLines={2} />
@@ -199,77 +196,6 @@ const ChooseAddress = () => {
 export default ChooseAddress;
 
 const styles = StyleSheet.create({
-  changeDefault: {
-    borderWidth: 0.5,
-  },
-  changeButton: {
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 15,
-    color: 'red',
-
-    textDecorationLine: 'underline',
-  },
-  nameAndChange: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    padding: 10,
-  },
-  hoho: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  Imageback: {
-    with: 25,
-    height: 21,
-    marginLeft: 10,
-  },
-  text1: {
-    fontSize: 25,
-    color: 'black',
-    fontWeight: 'bold',
-    borderColor: 'grey',
-    backgroundColor: '#2D3137',
-    marginLeft: 10,
-    height: 40,
-  },
-  text2: {
-    color: 'black',
-    width: '100%',
-    height: 30,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    textAlign: 'left',
-    fontWeight: '800',
-    fontSize: 24,
-    lineHeight: 30,
-  },
-  hihi: {
-    backgroundColor: 'white',
-  },
-  text3: {
-    color: 'black',
-    fontSize: 17,
-    marginLeft: 10,
-  },
-  text4: {
-    color: 'black',
-  },
-  text5: {
-    borderWidth: 1,
-    borderColor: 'red',
-    width: 80,
-    textAlign: 'center',
-    color: 'red',
-    backgroundColor: 'white',
-    marginTop: 5,
-    marginBottom: 10,
-  },
   text6: {
     marginTop: 5,
     marginLeft: 5,
@@ -277,10 +203,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 30,
     justifyContent: 'center',
-  },
-  ImageNew: {
-    width: 21,
-    height: 21,
   },
   hehe: {
     flexDirection: 'row',
@@ -292,5 +214,47 @@ const styles = StyleSheet.create({
     height: 80,
     marginTop: 10,
     backgroundColor: '#FF5E00',
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 2,
+  },
+  nameText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  defaultText: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: 'red',
+  },
+  button: {
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
 });
