@@ -20,6 +20,7 @@ const History = props => {
   const dispatch = useDispatch();
 
   const ordered = useSelector(state => state.ordered.data.bill);
+  console.log('bill',ordered)
   let listOrdered = [];
   if (ordered != undefined) {
     listOrdered = [...ordered].reverse();

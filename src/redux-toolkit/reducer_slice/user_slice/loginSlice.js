@@ -77,7 +77,8 @@ export const loginSlice = createSlice({
     }),
       builder.addCase(loginGoogle.fulfilled, (state, action) => {
         state.userInfo = action.payload;
-        state.isLoggedIn = true;
+        state.userInfo?
+        state.isLoggedIn = true:state.isLoggedIn = false
         state.error = null;
       }),builder.addCase(loginUsername.fulfilled, (state, action) => {
         if(action.payload.result){

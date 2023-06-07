@@ -166,7 +166,7 @@ const Payment = props => {
   const goOrder = async () => {
     try {
       const response = await fetch(
-        'https://sever-gocpho.herokuapp.com/bill/add',
+        'http://161.35.101.229:3002/bill/add',
         {
           method: 'POST',
           headers: {

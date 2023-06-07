@@ -16,8 +16,8 @@ const ProfileScreen = props => {
   const clearNavigation = useNavigation()
 
   const infor = useSelector(state => state.login.userInfo);
+  const username = infor.user.username;
 
-  console.log('User nè mày: ', infor);
   const dispatch = useDispatch();
 
   const signOut = async () => {
@@ -92,11 +92,11 @@ const ProfileScreen = props => {
             </Pressable>
           </View>
         </View>
-
+        {username?
         <Pressable
           onPress={() => {
-            ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
-            // props.navigation.navigate('ChangePassword')}
+            // ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);
+            props.navigation.navigate('ChangePassword')
           }}
           style={styles.bodyAccount}>
           <Image
@@ -104,8 +104,8 @@ const ProfileScreen = props => {
             style={{ width: 24, height: 24 }}
           />
           <Text style={styles.textAccount}>Change Password</Text>
-        </Pressable>
-
+        </Pressable>:<></>
+}
         <Pressable
           onPress={() => {
             ToastAndroid.show('This feature will coming soon!', ToastAndroid.SHORT);

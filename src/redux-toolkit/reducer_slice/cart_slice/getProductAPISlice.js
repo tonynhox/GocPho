@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchData = createAsyncThunk('fetchData', async () => {
   const response = await axios.get(
-    'https://sever-gocpho.herokuapp.com/product/get-all-products',
+    'http://161.35.101.229:3002/product/get-all-products',
   );
   return response.data;
 });

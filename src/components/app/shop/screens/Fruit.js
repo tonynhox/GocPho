@@ -83,7 +83,7 @@ const Fruit = (props) => {
                         <View style={Styles.imgPop}>
                             <Image
                                 style={{ width: 80, height: 80, resizeMode: 'center' }}
-                                source={{ uri: images[0].name }} />
+                                source={{ uri: images[0]?.name }} />
                         </View>
                         <View style={{ position: 'relative' }}>
                             <Text style={Styles.txtNamePop}>{name}</Text>
