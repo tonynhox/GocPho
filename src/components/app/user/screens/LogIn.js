@@ -64,11 +64,13 @@ const LogIn = props => {
       if(username&&password){
         setIsLoading(true)
         dispatch(loginUsername({ username, password }));
+        const a= await useSelector(state => state.login.isLoggedIn);
+        if(!a)
+          setIsLoading(false);
+
       }
-      console.log('User: ', username);
-      console.log('Password: ', password);
     } catch (error) {
-      setIsLoading(loading)
+      setIsLoading(false)
       console.log(error);
     }
   }
@@ -80,7 +82,7 @@ const LogIn = props => {
       setUser(userInfo);
       dispatch(loginGoogle(userInfo));
     } catch (error) {
-      setIsLoading(loading);
+      setIsLoading(false);
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -140,7 +142,7 @@ const LogIn = props => {
                 }}
               />
               <TextInput
-                placeholder="Phone Number"
+                placeholder="Username"
                 placeholderTextColor={'#AC8E71'}
                 onChangeText={text => setUsername(text)}
               />
