@@ -13,6 +13,8 @@ const SignUp = props => {
   const {navigation} = props;
   const [countryCode, setCountryCode] = useState('VN');
   const [callingCode, setCallingCode] = useState('84');
+  const [fullname, setFullname] = useState('84');
+  const [username, setUsername] = useState('84');
   return (
     <View style={styles.container}>
 
@@ -24,7 +26,8 @@ const SignUp = props => {
       {/* Name input */}
       <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Name Surname"
+          placeholder="Username"
+          onChangeText={text => setUsername(text)}
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
         />
@@ -33,7 +36,7 @@ const SignUp = props => {
       {/* Name input */}
       <View style={styles.passwordContainer}>
         <View style={styles.inputPasswordConfirmPassword}>
-          <CountryPicker
+          {/* <CountryPicker
             style={{alignItems: 'center'}}
             withFilter
             countryCode={countryCode}
@@ -48,9 +51,10 @@ const SignUp = props => {
               setCountryCode(cca2);
               setCallingCode(callingCode);
             }}
-          />
+          /> */}
           <TextInput
-            placeholder="Phone Number"
+            placeholder="Full name"
+            onChangeText={text => setFullname(text)}
             placeholderTextColor={'#AC8E71'}
           />
         </View>
@@ -63,7 +67,7 @@ const SignUp = props => {
 
       <Pressable
         style={styles.btnSignUp}
-        onPress={() => navigation.navigate('SignPass')}>
+        onPress={() => navigation.navigate('SignPass',{user:username,name:fullname})}>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
 

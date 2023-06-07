@@ -5,11 +5,87 @@ import {
   Image,
   Pressable,
   TextInput,
+  ToastAndroid,
 } from 'react-native';
 import React from 'react';
+import { useState } from 'react';
+import { StackActions,NavigationActions } from '@react-navigation/native';
+import AxiosInstance from '../../axiosClient/AxiosInstance';
+
+
+
+// const createuser = async (username,fullname,password) => {
+//   try {
+//     const response = await fetch('https://sever-gocpho.herokuapp.com/user/register-username', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({username,fullname,password }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Request failed with status: ' + response.status);
+//     }
+
+//     const data = await response.json();
+//     console.log('changepass DATA:', data);
+//     // Process the response data or update state as needed
+//     // For example, you can return the response data from this function:
+//     return data;
+//   } catch (error) {
+//     console.log('ERROR:',error);
+//     // Handle the error as needed
+//   }
+// };
+
+const createuser = async (username,fullname,password) => {
+  try {
+    const body={
+      username,fullname,password
+    }
+      const response = await AxiosInstance().post('/user/register-username',body);
+      console.log('register response',response)
+      return true;
+  } catch (error) {
+      console.log("error: " + error);
+  }
+  return false;
+}
+
 
 const SignPass = (props) => {
   const { navigation } = props;
+
+  const [pass, setPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const name = props.route?.params?.name;
+  const user = props.route?.params?.user;
+
+  const handleLogout = async () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+  };
+  
+  
+  const createusername=()=> pass===confirmPass?
+  createuser(user,name,pass)
+    .then(data => {
+      // Handle the response data here
+      console.log('Received data:', data);
+      data?handleLogout():ToastAndroid.show('Fail create user!', ToastAndroid.SHORT);
+      
+    })
+    .catch(error => {
+      // Handle any errors that occurred during the request
+      ToastAndroid.show('Fail create user!', ToastAndroid.SHORT);
+      console.error('Error:', error);
+    }):
+    ToastAndroid.show('Fail create user!', ToastAndroid.SHORT);
+
+
   return (
     <View style={styles.container}>
 
@@ -30,6 +106,7 @@ const SignPass = (props) => {
       {/* Password input */}
       <View style={styles.passwordContainer}>
         <TextInput
+          onChangeText={text => setPass(text)}
           placeholder="Password"
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
@@ -48,6 +125,7 @@ const SignPass = (props) => {
       {/* Confirm Password input */}
       <View style={styles.passwordContainer}>
         <TextInput
+          onChangeText={text => setConfirmPass(text)}
           placeholder="Confirm Password"
           placeholderTextColor={'#AC8E71'}
           style={styles.inputPasswordConfirmPassword}
@@ -63,7 +141,8 @@ const SignPass = (props) => {
         />
       </View>
 
-      <Pressable style={styles.btnSignUp} onPress={()=> navigation.navigate("SignCode")}>
+      <Pressable style={styles.btnSignUp} onPress={()=> createusername()
+      }>
         <Text style={styles.signUpInsideButton}>Next</Text>
       </Pressable>
     </View>

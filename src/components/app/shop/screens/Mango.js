@@ -53,7 +53,7 @@ const Mango = props => {
   const renderItemPopular = ({ item, navigation }) => {
 
     const { _id, images, price, name, quantity, category } = item;
-    let image = images[0].name;
+    let image = images[0]?.name;
     const handleAddItem = () => {
       product = {
         _id: _id, image: image, quantity: 1, price: price, name: name

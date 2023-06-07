@@ -3,34 +3,29 @@ import React from 'react'
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import AxiosInstance from '../../axiosClient/AxiosInstance';
 
 
 const changepass = async (_id,oldpassword, newpassword) => {
     try {
-      const response = await fetch('https://sever-gocpho.herokuapp.com/user/change-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ _id,oldpassword, newpassword }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Request failed with status: ' + response.status);
-      }
-  
-      const data = await response.json();
-      console.log('changepass DATA:', data);
-      // Process the response data or update state as needed
-      // For example, you can return the response data from this function:
-      return data;
-    } catch (error) {
-      console.log('ERROR:',error);
-      // Handle the error as needed
-    }
-  };
+        const body = {
+            _id,oldpassword, newpassword
+        }
+        return await AxiosInstance().post('user/change-password', body);
+        // console.log("---------",response);
+        // if (!response.ok) {
+        //     throw new Error('Request failed with status: ' + response.status);
+        //   }
+      
+        //   // Process the response data or update state as needed
+        //   // For example, you can return the response data from this function:
+        // return true;
 
+    } catch (error) {
+        console.log('ERROR:',error);
+        return false;
+
+    }}
 
 
 const ChangePassword = (props) => {
