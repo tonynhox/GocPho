@@ -5,7 +5,7 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchProfile',
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://161.35.101.229:3002/user/get-profile', {
+      const response = await axios.post('http://207.154.210.95:3002/user/get-profile', {
         _id: userId,
       });
       return response.data.user.carts;

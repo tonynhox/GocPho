@@ -166,7 +166,7 @@ const Payment = props => {
   const goOrder = async () => {
     try {
       const response = await fetch(
-        'http://161.35.101.229:3002/bill/add',
+        'http://207.154.210.95:3002/bill/add',
         {
           method: 'POST',
           headers: {

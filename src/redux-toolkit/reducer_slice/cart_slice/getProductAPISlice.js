@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchData = createAsyncThunk('fetchData', async () => {
   const response = await axios.get(
-    'http://161.35.101.229:3002/product/get-all-products',
+    'http://207.154.210.95:3002/product/get-all-products',
   );
   return response.data;
 });

@@ -6,7 +6,7 @@ export const fetchBillById = createAsyncThunk(
   async (_id, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://161.35.101.229:3002/bill/get-bill-by-user/${_id}`,
+        `http://207.154.210.95:3002/bill/get-bill-by-user/${_id}`,
       );
       // console.log('RESPONSE: ', response.data);
       return response.data;
@@ -24,7 +24,7 @@ export const fetchStatusBill = createAsyncThunk(
     //idbill,status,
     console.log("ID NUMBER MESSAGE: ", idReceived, " - ", currentStatus, " - ", message)
     
-    const url = `http://161.35.101.229:3002/bill/update-status/${idReceived}`;
+    const url = `http://207.154.210.95:3002/bill/update-status/${idReceived}`;
     const body = {
       number: currentStatus,
       name: message,
@@ -50,7 +50,7 @@ export const fetchStatusBill = createAsyncThunk(
 
 export const fetchAllBills = createAsyncThunk('bill/fetchAll', async () => {
   try {
-    const response = await fetch('http://161.35.101.229:3002/bill/get-all');
+    const response = await fetch('http://207.154.210.95:3002/bill/get-all');
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

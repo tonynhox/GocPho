@@ -6,7 +6,7 @@ export const fetchGetAddress = createAsyncThunk(
   async _id => {
     console.log('ID NUMBER MESSAGE: ', _id);
 
-    const url = `http://161.35.101.229:3002/user/get-profile`;
+    const url = `http://207.154.210.95:3002/user/get-profile`;
     const body = {
       _id: _id,
     };
@@ -32,7 +32,7 @@ export const fetchRemoveAddress = createAsyncThunk(
   async ({_id, idAddress}) => {
     console.log('ID NUMBER MESSAGE: ', _id);
 
-    const url = `http://161.35.101.229:3002/user/delete-address`;
+    const url = `http://207.154.210.95:3002/user/delete-address`;
     const body = {
       _id: _id,
       idAddress: idAddress
@@ -59,7 +59,7 @@ export const fetchChangeAddress = createAsyncThunk(
   async ({_id, idAddress, newAddress}) => {
     console.log('ID NUMBER MESSAGE: ', _id, idAddress, newAddress);
 
-    const url = `http://161.35.101.229:3002/user/edit-address`;
+    const url = `http://207.154.210.95:3002/user/edit-address`;
     const body = {
       _id: _id,
       idAddress: idAddress,
@@ -88,7 +88,7 @@ export const fetchNewAddress = createAsyncThunk(
   async ({_id, address}) => {
     console.log('ID Address ', _id, " - ", address);
 
-    const url = `http://161.35.101.229:3002/user/add-address`;
+    const url = `http://207.154.210.95:3002/user/add-address`;
     const body = {
       _id: _id,
       address: address,
@@ -114,7 +114,7 @@ export const fetchChangeStatusAddress = createAsyncThunk(
   'user/changeStatusAddress',
   async ({_id, idAddress}) => {
 
-    const url = `http://161.35.101.229:3002/user/set-status-address`;
+    const url = `http://207.154.210.95:3002/user/set-status-address`;
     const body = {
       _id: _id,
       idAddress: idAddress,
