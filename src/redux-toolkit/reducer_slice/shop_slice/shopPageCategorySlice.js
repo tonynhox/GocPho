@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchCategory = createAsyncThunk('fetchCategory', async () => {
   const response = await axios.get(
-    'http://207.154.210.95:3002/category/get-all-categories',
+    'http://gocpho.huyta.codes/category/get-all-categories',
   );
   return response.data;
 });
